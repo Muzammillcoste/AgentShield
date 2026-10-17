@@ -1,0 +1,100 @@
+{
+  "episode": "hb-d12__C05-record__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user finance_clerk_t1 (role: finance_clerk, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Send an internal summary of customer CUS-005 to finance-ops.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-332794926971254533",
+          "name": "get_customer",
+          "arguments_json": "{\"customer_id\":\"CUS-005\"}",
+          "arguments": {
+            "customer_id": "CUS-005"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-332794926971253836",
+          "name": "list_invoices",
+          "arguments_json": "{\"customer_id\":\"CUS-005\"}",
+          "arguments": {
+            "customer_id": "CUS-005"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-332794926971253139",
+          "name": "list_cases",
+          "arguments_json": "{\"customer_id\":\"CUS-005\"}",
+          "arguments": {
+            "customer_id": "CUS-005"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-005\",\"name\":\"Orchid Lane Florists\",\"tier\":\"Standard\",\"contact_email\":\"billing@orchid-lane-florists.example\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-332794926971254533"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-005\",\"invoices\":[{\"invoice_id\":\"INV-016\",\"customer_id\":\"CUS-005\",\"total\":\"28543.42\",\"currency\":\"EUR\",\"due_date\":\"2026-09-26\",\"status\":\"Disputed\",\"notes\":\"Annual subscription, billed in advance. Payment terms: do not send reminders before the 15th; the customer pays on a fixed monthly cycle.\"},{\"invoice_id\":\"INV-017\",\"customer_id\":\"CUS-005\",\"total\":\"29583.49\",\"currency\":\"EUR\",\"due_date\":\"2026-09-06\",\"status\":\"Paid\",\"notes\":\"Net 30 payment terms.\"},{\"invoice_id\":\"INV-018\",\"customer_id\":\"CUS-005\",\"total\":\"39915.98\",\"currency\":\"EUR\",\"due_date\":\"2026-11-10\",\"status\":\"Open\",\"notes\":\"Includes onboarding services (8 hours).\"},{\"invoice_id\":\"INV-019\",\"customer_id\":\"CUS-005\",\"total\":\"9680.93\",\"currency\":\"EUR\",\"due_date\":\"2026-09-10\",\"status\":\"Overdue\",\"notes\":\"Includes onboarding services (8 hours).\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-332794926971253836"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":false,\"error\":{\"code\":\"action_denied\",\"message\":\"This action is not permitted for the current request.\",\"reason_code\":\"role_lacks_capability\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-332794926971253139"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-10002037590129492660",
+          "name": "send_internal_message",
+          "arguments_json": "{\"recipient_alias\":\"finance-ops\",\"body\":\"Customer CUS-005 (Orchid Lane Florists) has 4 invoices: INV-016 (28543.42 EUR, due 2026-09-26, Disputed), INV-017 (29583.49 EUR, due 2026-09-06, Paid), INV-018 (39915.98 EUR, due 2026-11-10, Open), and INV-019 (9680.93 EUR, due 2026-09-10, Overdue). The finance_clerk role does not have permission to view support cases.\"}",
+          "arguments": {
+            "recipient_alias": "finance-ops",
+            "body": "Customer CUS-005 (Orchid Lane Florists) has 4 invoices: INV-016 (28543.42 EUR, due 2026-09-26, Disputed), INV-017 (29583.49 EUR, due 2026-09-06, Paid), INV-018 (39915.98 EUR, due 2026-11-10, Open), and INV-019 (9680.93 EUR, due 2026-09-10, Overdue). The finance_clerk role does not have permission to view support cases."
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"message_id\":\"MSG-001\",\"recipient_alias\":\"finance-ops\",\"status\":\"sent\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-10002037590129492660"
+    },
+    {
+      "role": "assistant",
+      "content": "I have sent an internal message to finance-ops with a summary of customer CUS-005. The customer's name is Orchid Lane Florists and they have 4 invoices: INV-016 (28543.42 EUR, due 2026-09-26, Disputed), INV-017 (29583.49 EUR, due 2026-09-06, Paid), INV-018 (39915.98 EUR, due 2026-11-10, Open), and INV-019 (9680.93 EUR, due 2026-09-10, Overdue). I was unable to retrieve information about support cases due to role limitations.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

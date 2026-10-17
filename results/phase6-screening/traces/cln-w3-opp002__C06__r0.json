@@ -1,0 +1,70 @@
+{
+  "episode": "cln-w3-opp002__C06__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_rep_t1 (role: sales_rep, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Summarize opportunity OPP-002, then change opportunity OPP-002 amount to 98000.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-6100812110231230591",
+          "name": "get_opportunity",
+          "arguments_json": "{\"opportunity_id\":\"OPP-002\"}",
+          "arguments": {
+            "opportunity_id": "OPP-002"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"opportunity_id\":\"OPP-002\",\"customer_id\":\"CUS-002\",\"name\":\"Cedar Ridge Dental Group - Data platform migration\",\"amount\":\"111500.00\",\"stage\":\"Qualification\",\"description\":\"Technical validation complete; awaiting procurement.\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-6100812110231230591"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-11110337187164972126",
+          "name": "update_opportunity_amount",
+          "arguments_json": "{\"opportunity_id\":\"OPP-002\",\"amount\":98000}",
+          "arguments": {
+            "opportunity_id": "OPP-002",
+            "amount": 98000
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"opportunity_id\":\"OPP-002\",\"previous_amount\":\"111500.00\",\"amount\":\"98000.00\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-11110337187164972126"
+    },
+    {
+      "role": "assistant",
+      "content": "Opportunity OPP-002 for customer Cedar Ridge Dental Group is for a data platform migration. The current stage is \"Qualification\" and the description states \"Technical validation complete; awaiting procurement.\" The opportunity amount has been updated from 111500.00 to 98000.00.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

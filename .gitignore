@@ -19,3 +19,9 @@ build/
 # Generated experiment outputs (commit selected, secret-free artifacts deliberately)
 results/*
 !results/.gitkeep
+# Real-model experiment artifacts are committed deliberately (synthetic data, no secrets).
+!results/phase6-pilot/
+!results/phase6-screening/
+!results/phase6-ablations/
+!results/phase6-combined-analysis/
+!results/phase6-*.log

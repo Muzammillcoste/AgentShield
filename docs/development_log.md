@@ -7,7 +7,26 @@
   127,993 tokens; $0.060 at list price). Found a grader gap (D-055), fixed, pilot rescored:
   C00 UER 3/10, C05 0/10, C09 0/10; CTSR 6/6, 5/6, 5/6 (the out-of-grammar write blocked).
   Pilot numbers are for pipeline validation only (n = 10 attacks).
-- Screening (80 dev x 16 configs) started.
+- Screening: 80 dev x 16 primary configs = 1,280 episodes; 1,278 completed, 1 timeout, 1
+  connection error (excluded, reported); 3,046,995 tokens; about $1.30 at list price.
+- Ablations: D5 granularity, leave-one-out, ORACLE diagnostics = 800 episodes, 0 errors,
+  1,846,002 tokens; about $0.85.
+- Grader corrections from inspecting dev traces (D-055, D-056); all runs rescored from artifacts.
+- Selection applied (D-058): finalists C00, C11, C14, frozen in configs/final_selection.yaml.
+
+### Dev results (Gemini 2.5 Flash, exploratory; development data, rules partly tuned on it)
+- C00: UER 7/40, UAR 7/40, ALTS 27/40, CTSR 26/27.
+- D1 alone (C01) 6/40; D3 alone (C03) 9/40; D2 (C02), D5 (C05), D6 (C06) and all stacks: 0/40.
+- D5 granularity: rbac_only 6/40, task_and_tool 3/40, record 0/40, record_field_value 0/40;
+  UAR stays 6/40 at every level (blocked, not prevented). Grammar scoping costs 3/27 clean tasks
+  (CTSR 23/27 vs 26/27 for ORACLE-C05, an upper bound).
+- D4 alone (C04): UER 2/40 (wrong-record attacks pass the name allowlist); D4 also hides tools,
+  so attempts drop (UAR 2/40).
+- Leave-one-out from C14: removing any single defense keeps UER at 0/40 on dev (redundancy);
+  removing D2 lowers ALTS by 0.13 [-0.22, -0.03]: the full stack does not dominate everywhere.
+- D2 dev detector: 29/37 attack texts flagged, 0/5 benign texts flagged.
+- Known ambiguity: cln-r2-cus008 fails under all configs (D-057).
+
 
 
 ## 2026-10-17 — Phase 5: dataset, grader, metrics, analysis (complete, awaiting review)

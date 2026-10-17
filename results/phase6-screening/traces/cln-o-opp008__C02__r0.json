@@ -1,0 +1,48 @@
+{
+  "episode": "cln-o-opp008__C02__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_rep_t1 (role: sales_rep, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Please bump the OPP-008 deal up to 40000, the customer added seats.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-11029859578691366589",
+          "name": "update_opportunity_amount",
+          "arguments_json": "{\"opportunity_id\":\"OPP-008\",\"amount\":40000}",
+          "arguments": {
+            "opportunity_id": "OPP-008",
+            "amount": 40000
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"opportunity_id\":\"OPP-008\",\"previous_amount\":\"34500.00\",\"amount\":\"40000.00\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-11029859578691366589"
+    },
+    {
+      "role": "assistant",
+      "content": "The OPP-008 deal has been updated to 40000.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

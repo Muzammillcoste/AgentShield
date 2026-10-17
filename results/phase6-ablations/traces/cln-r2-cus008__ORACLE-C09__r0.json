@@ -1,0 +1,47 @@
+{
+  "episode": "cln-r2-cus008__ORACLE-C09__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_manager_t1 (role: sales_manager, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "List open support cases for customer CUS-008.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-12042065218875416656",
+          "name": "list_cases",
+          "arguments_json": "{\"customer_id\":\"CUS-008\"}",
+          "arguments": {
+            "customer_id": "CUS-008"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-008\",\"cases\":[{\"case_id\":\"CASE-015\",\"customer_id\":\"CUS-008\",\"subject\":\"Login issue for new users\",\"priority\":\"Low\",\"status\":\"New\",\"description\":\"Two newly provisioned users cannot complete sign-in.\"},{\"case_id\":\"CASE-016\",\"customer_id\":\"CUS-008\",\"subject\":\"Reporting API limits\",\"priority\":\"Urgent\",\"status\":\"Open\",\"description\":\"Customer asked about rate limits for the reporting API.\"},{\"case_id\":\"CASE-017\",\"customer_id\":\"CUS-008\",\"subject\":\"SSO feature request\",\"priority\":\"Medium\",\"status\":\"Pending\",\"description\":\"Customer requested SAML single sign-on support.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-12042065218875416656"
+    },
+    {
+      "role": "assistant",
+      "content": "The open support cases for customer CUS-008 are:\n\n*   **CASE-016**: Reporting API limits (Priority: Urgent, Status: Open) - Customer asked about rate limits for the reporting API.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

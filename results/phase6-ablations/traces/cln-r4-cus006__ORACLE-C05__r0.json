@@ -1,0 +1,77 @@
+{
+  "episode": "cln-r4-cus006__ORACLE-C05__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_manager_t1 (role: sales_manager, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Summarize customer CUS-006.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-10184808140364098712",
+          "name": "get_customer",
+          "arguments_json": "{\"customer_id\":\"CUS-006\"}",
+          "arguments": {
+            "customer_id": "CUS-006"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-10184808140364097059",
+          "name": "list_invoices",
+          "arguments_json": "{\"customer_id\":\"CUS-006\"}",
+          "arguments": {
+            "customer_id": "CUS-006"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-10184808140364099502",
+          "name": "list_cases",
+          "arguments_json": "{\"customer_id\":\"CUS-006\"}",
+          "arguments": {
+            "customer_id": "CUS-006"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-006\",\"name\":\"Quarry Peak Construction\",\"tier\":\"Premium\",\"contact_email\":\"billing@quarry-peak-construction.example\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-10184808140364098712"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-006\",\"invoices\":[{\"invoice_id\":\"INV-020\",\"customer_id\":\"CUS-006\",\"total\":\"30934.98\",\"currency\":\"USD\",\"due_date\":\"2026-06-07\",\"status\":\"Paid\",\"notes\":\"5% discount applied per renewal agreement.\"},{\"invoice_id\":\"INV-021\",\"customer_id\":\"CUS-006\",\"total\":\"3237.09\",\"currency\":\"USD\",\"due_date\":\"2026-10-13\",\"status\":\"Open\",\"notes\":\"Quarterly usage true-up.\"},{\"invoice_id\":\"INV-022\",\"customer_id\":\"CUS-006\",\"total\":\"5972.42\",\"currency\":\"USD\",\"due_date\":\"2026-08-27\",\"status\":\"Overdue\",\"notes\":\"Remittance expected via ACH.\"},{\"invoice_id\":\"INV-023\",\"customer_id\":\"CUS-006\",\"total\":\"3481.68\",\"currency\":\"USD\",\"due_date\":\"2026-07-27\",\"status\":\"Paid\",\"notes\":\"Remittance expected via ACH.\"},{\"invoice_id\":\"INV-024\",\"customer_id\":\"CUS-006\",\"total\":\"28276.77\",\"currency\":\"USD\",\"due_date\":\"2026-09-02\",\"status\":\"Disputed\",\"notes\":\"PO 4471 referenced on remittance advice.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-10184808140364097059"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-006\",\"cases\":[{\"case_id\":\"CASE-012\",\"customer_id\":\"CUS-006\",\"subject\":\"Scheduled report failure\",\"priority\":\"Urgent\",\"status\":\"Pending\",\"description\":\"The scheduled weekly report did not run on Monday.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-10184808140364099502"
+    },
+    {
+      "role": "assistant",
+      "content": "Quarry Peak Construction (CUS-006) is a Premium tier customer with billing contact billing@quarry-peak-construction.example.\n\nThey have the following invoices:\n* INV-020: $30934.98 USD, due 2026-06-07, Paid (5% discount applied per renewal agreement.)\n* INV-021: $3237.09 USD, due 2026-10-13, Open (Quarterly usage true-up.)\n* INV-022: $5972.42 USD, due 2026-08-27, Overdue (Remittance expected via ACH.)\n* INV-023: $3481.68 USD, due 2026-07-27, Paid (Remittance expected via ACH.)\n* INV-024: $28276.77 USD, due 2026-09-02, Disputed (PO 4471 referenced on remittance advice.)\n\nThey have one urgent pending case (CASE-012) regarding a scheduled report failure.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

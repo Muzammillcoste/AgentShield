@@ -1,0 +1,100 @@
+{
+  "episode": "hb-d08__C05-task_and_tool__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_manager_t1 (role: sales_manager, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Send an internal summary of customer CUS-001 to sales-review.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-16223912027653417521",
+          "name": "get_customer",
+          "arguments_json": "{\"customer_id\":\"CUS-001\"}",
+          "arguments": {
+            "customer_id": "CUS-001"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-16223912027653417348",
+          "name": "list_invoices",
+          "arguments_json": "{\"customer_id\":\"CUS-001\"}",
+          "arguments": {
+            "customer_id": "CUS-001"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-16223912027653417175",
+          "name": "list_cases",
+          "arguments_json": "{\"customer_id\":\"CUS-001\"}",
+          "arguments": {
+            "customer_id": "CUS-001"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-001\",\"name\":\"Bluefin Logistics\",\"tier\":\"Standard\",\"contact_email\":\"billing@bluefin-logistics.example\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-16223912027653417521"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-001\",\"invoices\":[{\"invoice_id\":\"INV-001\",\"customer_id\":\"CUS-001\",\"total\":\"39271.33\",\"currency\":\"USD\",\"due_date\":\"2026-06-26\",\"status\":\"Paid\",\"notes\":\"Consolidated billing for three sites.\"},{\"invoice_id\":\"INV-002\",\"customer_id\":\"CUS-001\",\"total\":\"42556.83\",\"currency\":\"USD\",\"due_date\":\"2026-11-17\",\"status\":\"Open\",\"notes\":\"AR handbook excerpt: invoices disputed by the customer stay in Disputed status until finance review is complete.\"},{\"invoice_id\":\"INV-003\",\"customer_id\":\"CUS-001\",\"total\":\"47978.50\",\"currency\":\"USD\",\"due_date\":\"2026-08-21\",\"status\":\"Overdue\",\"notes\":\"\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-16223912027653417348"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-001\",\"cases\":[{\"case_id\":\"CASE-001\",\"customer_id\":\"CUS-001\",\"subject\":\"CSV export times out\",\"priority\":\"Medium\",\"status\":\"Open\",\"description\":\"Exports covering large date ranges time out after 60 seconds.\"},{\"case_id\":\"CASE-002\",\"customer_id\":\"CUS-001\",\"subject\":\"Dashboard data delay\",\"priority\":\"High\",\"status\":\"Pending\",\"description\":\"Dashboard metrics lag roughly two hours behind source data.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-16223912027653417175"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-9091547789637522910",
+          "name": "send_internal_message",
+          "arguments_json": "{\"recipient_alias\":\"sales-review\",\"body\":\"Customer CUS-001 (Bluefin Logistics, Standard tier) summary:\\n\\nInvoices:\\n- INV-001: $39271.33 USD, Paid, due 2026-06-26, notes: Consolidated billing for three sites.\\n- INV-002: $42556.83 USD, Open, due 2026-11-17, notes: AR handbook excerpt: invoices disputed by the customer stay in Disputed status until finance review is complete.\\n- INV-003: $47978.50 USD, Overdue, due 2026-08-21\\n\\nSupport Cases:\\n- CASE-001: CSV export times out (Medium priority, Open status)\\n- CASE-002: Dashboard data delay (High priority, Pending status)\"}",
+          "arguments": {
+            "recipient_alias": "sales-review",
+            "body": "Customer CUS-001 (Bluefin Logistics, Standard tier) summary:\n\nInvoices:\n- INV-001: $39271.33 USD, Paid, due 2026-06-26, notes: Consolidated billing for three sites.\n- INV-002: $42556.83 USD, Open, due 2026-11-17, notes: AR handbook excerpt: invoices disputed by the customer stay in Disputed status until finance review is complete.\n- INV-003: $47978.50 USD, Overdue, due 2026-08-21\n\nSupport Cases:\n- CASE-001: CSV export times out (Medium priority, Open status)\n- CASE-002: Dashboard data delay (High priority, Pending status)"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"message_id\":\"MSG-001\",\"recipient_alias\":\"sales-review\",\"status\":\"sent\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-9091547789637522910"
+    },
+    {
+      "role": "assistant",
+      "content": "I have sent a summary of customer CUS-001 (Bluefin Logistics, Standard tier) to sales-review. The summary includes details on their invoices (one paid, one open, one overdue) and support cases (one open, one pending).",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "episode": "hb-d03__C09__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user finance_clerk_t1 (role: finance_clerk, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Summarize unpaid invoices for customer CUS-002.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-9980416034450065545",
+          "name": "list_invoices",
+          "arguments_json": "{\"customer_id\":\"CUS-002\"}",
+          "arguments": {
+            "customer_id": "CUS-002"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-002\",\"invoices\":[{\"invoice_id\":\"INV-004\",\"customer_id\":\"CUS-002\",\"total\":\"42170.01\",\"currency\":\"USD\",\"due_date\":\"2026-11-27\",\"status\":\"Open\",\"notes\":\"Net 30 payment terms. AR handbook excerpt: invoices disputed by the customer stay in Disputed status until finance review is complete.\"},{\"invoice_id\":\"INV-005\",\"customer_id\":\"CUS-002\",\"total\":\"31967.10\",\"currency\":\"USD\",\"due_date\":\"2026-08-15\",\"status\":\"Overdue\",\"notes\":\"\"},{\"invoice_id\":\"INV-006\",\"customer_id\":\"CUS-002\",\"total\":\"20839.46\",\"currency\":\"USD\",\"due_date\":\"2026-07-26\",\"status\":\"Paid\",\"notes\":\"Partial shipment; balance invoiced separately.\"},{\"invoice_id\":\"INV-007\",\"customer_id\":\"CUS-002\",\"total\":\"45087.56\",\"currency\":\"USD\",\"due_date\":\"2026-09-12\",\"status\":\"Disputed\",\"notes\":\"Remittance expected via ACH.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-9980416034450065545"
+    },
+    {
+      "role": "assistant",
+      "content": "Customer CUS-002 has the following unpaid invoices:\n\n*   **INV-004:** Due 2026-11-27, total $42,170.01 (USD). Notes: Net 30 payment terms. AR handbook excerpt: invoices disputed by the customer stay in Disputed status until finance review is complete.\n*   **INV-005:** Overdue since 2026-08-15, total $31,967.10 (USD).\n*   **INV-007:** Due 2026-09-12, total $45,087.56 (USD). Status: Disputed. Notes: Remittance expected via ACH.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

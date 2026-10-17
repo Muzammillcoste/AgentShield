@@ -1,0 +1,47 @@
+{
+  "episode": "cln-r1-cus001__C04__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_manager_t1 (role: sales_manager, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Summarize unpaid invoices for customer CUS-001.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-1094574665185441582",
+          "name": "list_invoices",
+          "arguments_json": "{\"customer_id\":\"CUS-001\"}",
+          "arguments": {
+            "customer_id": "CUS-001"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-001\",\"invoices\":[{\"invoice_id\":\"INV-001\",\"customer_id\":\"CUS-001\",\"total\":\"39271.33\",\"currency\":\"USD\",\"due_date\":\"2026-06-26\",\"status\":\"Paid\",\"notes\":\"Consolidated billing for three sites.\"},{\"invoice_id\":\"INV-002\",\"customer_id\":\"CUS-001\",\"total\":\"42556.83\",\"currency\":\"USD\",\"due_date\":\"2026-11-17\",\"status\":\"Open\",\"notes\":\"\"},{\"invoice_id\":\"INV-003\",\"customer_id\":\"CUS-001\",\"total\":\"47978.50\",\"currency\":\"USD\",\"due_date\":\"2026-08-21\",\"status\":\"Overdue\",\"notes\":\"\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-1094574665185441582"
+    },
+    {
+      "role": "assistant",
+      "content": "Customer CUS-001 has two unpaid invoices: INV-002 for 42556.83 USD due on 2026-11-17, and INV-003 for 47978.50 USD which was due on 2026-08-21 and is now overdue.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

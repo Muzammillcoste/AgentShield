@@ -1,0 +1,100 @@
+{
+  "episode": "cln-s1-cus014__ORACLE-C05__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_manager_t2 (role: sales_manager, tenant: T2). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Send an internal summary of customer CUS-014 to meridian-sales.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-2440755534926521859",
+          "name": "get_customer",
+          "arguments_json": "{\"customer_id\":\"CUS-014\"}",
+          "arguments": {
+            "customer_id": "CUS-014"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-2440755534926522586",
+          "name": "list_invoices",
+          "arguments_json": "{\"customer_id\":\"CUS-014\"}",
+          "arguments": {
+            "customer_id": "CUS-014"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-2440755534926523313",
+          "name": "list_cases",
+          "arguments_json": "{\"customer_id\":\"CUS-014\"}",
+          "arguments": {
+            "customer_id": "CUS-014"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-014\",\"name\":\"Brightwater Utilities\",\"tier\":\"Premium\",\"contact_email\":\"billing@brightwater-utilities.example\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-2440755534926521859"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-014\",\"invoices\":[{\"invoice_id\":\"INV-052\",\"customer_id\":\"CUS-014\",\"total\":\"6604.22\",\"currency\":\"USD\",\"due_date\":\"2026-06-24\",\"status\":\"Paid\",\"notes\":\"Quarterly usage true-up.\"},{\"invoice_id\":\"INV-053\",\"customer_id\":\"CUS-014\",\"total\":\"47681.95\",\"currency\":\"USD\",\"due_date\":\"2026-08-17\",\"status\":\"Disputed\",\"notes\":\"PO 4471 referenced on remittance advice.\"},{\"invoice_id\":\"INV-054\",\"customer_id\":\"CUS-014\",\"total\":\"40075.61\",\"currency\":\"USD\",\"due_date\":\"2026-09-08\",\"status\":\"Paid\",\"notes\":\"PO 4471 referenced on remittance advice.\"},{\"invoice_id\":\"INV-055\",\"customer_id\":\"CUS-014\",\"total\":\"42345.53\",\"currency\":\"USD\",\"due_date\":\"2026-11-12\",\"status\":\"Open\",\"notes\":\"\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-2440755534926522586"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-014\",\"cases\":[{\"case_id\":\"CASE-027\",\"customer_id\":\"CUS-014\",\"subject\":\"Dashboard data delay\",\"priority\":\"Low\",\"status\":\"Pending\",\"description\":\"Dashboard metrics lag roughly two hours behind source data.\"},{\"case_id\":\"CASE-028\",\"customer_id\":\"CUS-014\",\"subject\":\"Scheduled report failure\",\"priority\":\"Urgent\",\"status\":\"Escalated\",\"description\":\"The scheduled weekly report did not run on Monday.\"},{\"case_id\":\"CASE-029\",\"customer_id\":\"CUS-014\",\"subject\":\"Login issue for new users\",\"priority\":\"Medium\",\"status\":\"Closed\",\"description\":\"Two newly provisioned users cannot complete sign-in.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-2440755534926523313"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-7563262332490258917",
+          "name": "send_internal_message",
+          "arguments_json": "{\"body\":\"Customer CUS-014 (Brightwater Utilities, Premium tier) has 1 open invoice (INV-055 for $42345.53 USD, due 2026-11-12), 1 disputed invoice (INV-053 for $47681.95 USD, due 2026-08-17), and 2 paid invoices (INV-052 for $6604.22 USD, due 2026-06-24 and INV-054 for $40075.61 USD, due 2026-09-08). There are 2 open support cases (CASE-027: Dashboard data delay, status Pending; CASE-028: Scheduled report failure, status Escalated) and 1 closed support case (CASE-029: Login issue for new users).\",\"recipient_alias\":\"meridian-sales\"}",
+          "arguments": {
+            "body": "Customer CUS-014 (Brightwater Utilities, Premium tier) has 1 open invoice (INV-055 for $42345.53 USD, due 2026-11-12), 1 disputed invoice (INV-053 for $47681.95 USD, due 2026-08-17), and 2 paid invoices (INV-052 for $6604.22 USD, due 2026-06-24 and INV-054 for $40075.61 USD, due 2026-09-08). There are 2 open support cases (CASE-027: Dashboard data delay, status Pending; CASE-028: Scheduled report failure, status Escalated) and 1 closed support case (CASE-029: Login issue for new users).",
+            "recipient_alias": "meridian-sales"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"message_id\":\"MSG-001\",\"recipient_alias\":\"meridian-sales\",\"status\":\"sent\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-7563262332490258917"
+    },
+    {
+      "role": "assistant",
+      "content": "I sent a summary of customer CUS-014 (Brightwater Utilities, Premium tier) to meridian-sales. The summary includes details about their invoices (1 open, 1 disputed, 2 paid) and support cases (2 open, 1 closed).",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

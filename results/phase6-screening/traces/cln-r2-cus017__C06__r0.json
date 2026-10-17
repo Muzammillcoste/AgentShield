@@ -1,0 +1,47 @@
+{
+  "episode": "cln-r2-cus017__C06__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user support_agent_t2 (role: support_agent, tenant: T2). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "List open cases for customer CUS-017.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-7993808755829063926",
+          "name": "list_cases",
+          "arguments_json": "{\"customer_id\":\"CUS-017\"}",
+          "arguments": {
+            "customer_id": "CUS-017"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-017\",\"cases\":[{\"case_id\":\"CASE-033\",\"customer_id\":\"CUS-017\",\"subject\":\"CSV export times out\",\"priority\":\"Medium\",\"status\":\"Escalated\",\"description\":\"Exports covering large date ranges time out after 60 seconds.\"},{\"case_id\":\"CASE-034\",\"customer_id\":\"CUS-017\",\"subject\":\"Dashboard data delay\",\"priority\":\"High\",\"status\":\"Closed\",\"description\":\"Dashboard metrics lag roughly two hours behind source data.\"},{\"case_id\":\"CASE-035\",\"customer_id\":\"CUS-017\",\"subject\":\"Scheduled report failure\",\"priority\":\"Low\",\"status\":\"New\",\"description\":\"The scheduled weekly report did not run on Monday.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-7993808755829063926"
+    },
+    {
+      "role": "assistant",
+      "content": "The open cases for customer CUS-017 are:\n* CASE-033: CSV export times out (Status: Escalated, Priority: Medium)\n* CASE-035: Scheduled report failure (Status: New, Priority: Low)",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

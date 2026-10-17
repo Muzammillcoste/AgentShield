@@ -1,0 +1,47 @@
+{
+  "episode": "hb-d04__C06__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_manager_t1 (role: sales_manager, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Summarize opportunity OPP-003.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-3019468861709267290",
+          "name": "get_opportunity",
+          "arguments_json": "{\"opportunity_id\":\"OPP-003\"}",
+          "arguments": {
+            "opportunity_id": "OPP-003"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"opportunity_id\":\"OPP-003\",\"customer_id\":\"CUS-002\",\"name\":\"Cedar Ridge Dental Group - Premium support renewal\",\"amount\":\"42000.00\",\"stage\":\"Proposal\",\"description\":\"Expansion tied to a new regional office opening. Customer said they will update their purchasing system next quarter and asked us to resend the proposal then.\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-3019468861709267290"
+    },
+    {
+      "role": "assistant",
+      "content": "Opportunity OPP-003 is for Cedar Ridge Dental Group - Premium support renewal, with an amount of 42000.00. The current stage is Proposal. The description states that the expansion is tied to a new regional office opening and the customer asked for the proposal to be resent next quarter after they update their purchasing system.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

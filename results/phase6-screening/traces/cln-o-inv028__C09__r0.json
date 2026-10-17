@@ -1,0 +1,25 @@
+{
+  "episode": "cln-o-inv028__C09__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user finance_clerk_t1 (role: finance_clerk, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "The customer disputes INV-028; please set it to Disputed.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": "I am unable to change the status of an invoice. I can only retrieve information about customers, invoices, opportunities, and cases.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

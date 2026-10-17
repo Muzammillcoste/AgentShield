@@ -287,3 +287,9 @@ that way appears in CTSR, not FBR.
 customer CUS-008", Gemini lists only status "Open", while D-014 defines open as New/Open/Pending/
 Escalated; the scenario fails under every configuration (constant across configs, so comparisons
 are unaffected). The label is kept as pre-defined and the case is reported.
+
+**D-058 Finalists (selection-v1 applied to dev screening, 2026-10-17).** Finalists: C00, C11
+(D1+D2+D3; best-ranked), C14 (full stack). Only three: criterion (b) "best without action-level
+defenses" selected C11, which was already (a); the pre-registered rule has no replacement for (b),
+so none was added. Frozen in `configs/final_selection.yaml` with config/prompt/defense hashes.
+No configuration was rejected as unusable (CTSR floor 0.81).

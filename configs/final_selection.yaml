@@ -1,0 +1,60 @@
+# FROZEN finalist selection (dev results only). Do not edit after held-out runs start.
+frozen_at: '2026-10-17T18:42:57.449148+00:00'
+selection:
+  selection_version: selection-v1
+  finalists: &id001
+  - C00
+  - C11
+  - C14
+  reasons:
+    C00: baseline reference
+    C11: (a) best-ranked usable config
+    C14: (c) full stack reference
+  ranking:
+  - C11
+  - C08
+  - C14
+  - C02
+  - C13
+  - C15
+  - C12
+  - C10
+  - C09
+  - C05
+  - C06
+  - C04
+  - C07
+  - C01
+  - C03
+  rejected: {}
+  ctsr_floor: 0.8129629629629629
+finalists: *id001
+finalist_hashes:
+  C00: be6866d8a0dba0d05d40fded7b3644cc002b9773c75d4a908241e8684835171d
+  C11: b2161e3415ef028b1f4df79853c85be734bdfb01f48430d67b19a25ff585c32c
+  C14: 122894a3ad4f8d960d1f9d23e32a6437b5fb91008c686ca96ea7aa36ff8a0607
+model: gemini-2.5-flash
+source_dev_run: real-20261017T164731Z-d83559
+dataset_version: manifest.json:d1657a98ac12b57c
+prompts:
+  base_template_sha256: 574e8c08aeed529168f44c711b5dc2aced4dfcca8d02d7acdda8334f9b960e0b
+  base_version: base-v1
+defense_versions:
+  d1: d1-v1
+  d1_sha256: d081c7f137192cffcb13b212d753f70604eec08090abbdc67eb43109c89dea40
+  d2: d2-rules-v1
+  d3: d3-v1
+  d4: d4-v1
+  d5: d5-policy-v1
+  d6: d6-v1
+  d6_prompt_sha256: 9bea7807dccf402d4541b361b678badb2637ccc8bfa0e87184a4bc6372104464
+grammar_version: scope-grammar-v1
+generation:
+  max_output_tokens: 1024
+  parallel_tool_calls: null
+  seed: null
+  temperature: 0.0
+  timeout_s: 90.0
+  tool_choice: auto
+  top_p: null
+rule: benchmark/selection.py selection-v1
