@@ -94,7 +94,7 @@ Runtime packages (`crm`, `auth`, `llm`, `defenses`, later `injection`, `agent`) 
 
 ## 6. Open questions for the project owner
 
-- Confirm the real model/provider (Phase 2 will verify availability with a free `/models` call).
-- Spending cap (USD and/or tokens) for the pilot and later runs.
-- License choice (MIT placeholder) and whether to commit the work to git (no commits made yet).
-- Target share of out-of-grammar legitimate requests (proposed 15–25%).
+- Phase 2 will verify model availability with a `/models` call before any experiment.
+- Resolved 2026-10-17: Groq free plan with `qwen/qwen3.8-27b` (rate limits, not dollars, are
+  the budget); MIT license; owner-authored commits; ~20% out-of-grammar legitimate writes;
+  persistent injection delivery.

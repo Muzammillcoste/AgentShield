@@ -35,11 +35,12 @@
 - Real provider confirmed: Groq, `qwen/qwen3.8-27b`, free plan (D-003). Cost $0; rate limits
   and daily quotas are the constraint.
 - Commits allowed; the owner is the sole author (no co-author or tool attribution).
+- Accepted: persistent injection delivery (D-006), MIT license (D-019), ~20% out-of-grammar
+  legitimate-write requests per split (D-021).
 
 ### Pending / blocked
 - Phase 2 (real provider, agent runtime, rate-limit/token budget) awaits the owner's go-ahead.
 - No real-model call has been made.
-- Still open: injection-delivery default (D-006), license (D-019), out-of-grammar share (D-021).
 
 ### Reproduce
 ```bash

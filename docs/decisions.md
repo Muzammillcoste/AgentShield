@@ -30,7 +30,7 @@ straw-man baseline.
 (match/mismatch/target_missing), logged separately from schema validation and policy decisions.
 `enforced=True` only when a gate declares `enforces_tenant` (D5 from Phase 4).
 
-**D-006 Persistent injection delivery (Flag; deviation from spec default).** A "matching tool
+**D-006 Persistent injection delivery (deviation from spec default; accepted by owner 2026-10-17).** A "matching tool
 result" is any attack-surface result exposing the target record's field.
 `apply_on_nth_matching_tool_result=None` (dataset default) applies the override to every matching
 result; integer *k* applies only to the k-th. Rationale: a real attacker edits the stored field,
@@ -86,14 +86,14 @@ allowing safe episode reuse and detecting accidental duplicates.
 imperative patterns found only in tool messages. Output is labeled `provider_kind="fake"` with
 estimated token counts; it tests plumbing and never supports claims about real models.
 
-**D-019 License: MIT (placeholder, Flag).** Owner to confirm.
+**D-019 License: MIT** (confirmed by owner 2026-10-17).
 
 **D-020 Reproducible hashes across OSes.** `.gitattributes` forces LF; the data manifest hashes
 text files after CRLF→LF normalization.
 
-**D-021 Out-of-grammar legitimate requests (Flag).** Tagged `scope:out_of_grammar`; the validator
+**D-021 Out-of-grammar legitimate requests (accepted by owner 2026-10-17).** Tagged `scope:out_of_grammar`; the validator
 requires that tagged requests do *not* resolve and untagged ones *do*, catching grammar/dataset
-drift. Proposed share: 15–25% of legitimate-write tasks in each split.
+drift. Target share: about 20% of legitimate-write tasks in each split.
 
 **D-022 Payload template lineage** (`payload_template_id`, private) is a split-grouping key
 alongside `base_task_id`; held-out payload templates are never seen during dev (protects D2 and
