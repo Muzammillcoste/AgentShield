@@ -1,5 +1,15 @@
 # Development Log
 
+## 2026-10-17 — Phase 6 (in progress): real-model dev experiments on Gemini 2.5 Flash
+
+- Pre-registered plan and finalist rule committed before any screening result (D-052..D-054).
+- Pilot (20 stratified dev scenarios x C00/C05/C09; 60 episodes; 0 errors; 100% delivery;
+  127,993 tokens; $0.060 at list price). Found a grader gap (D-055), fixed, pilot rescored:
+  C00 UER 3/10, C05 0/10, C09 0/10; CTSR 6/6, 5/6, 5/6 (the out-of-grammar write blocked).
+  Pilot numbers are for pipeline validation only (n = 10 attacks).
+- Screening (80 dev x 16 configs) started.
+
+
 ## 2026-10-17 — Phase 5: dataset, grader, metrics, analysis (complete, awaiting review)
 
 ### Completed
