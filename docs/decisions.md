@@ -293,3 +293,15 @@ are unaffected). The label is kept as pre-defined and the case is reported.
 defenses" selected C11, which was already (a); the pre-registered rule has no replacement for (b),
 so none was added. Frozen in `configs/final_selection.yaml` with config/prompt/defense hashes.
 No configuration was rejected as unusable (CTSR floor 0.81).
+
+## Phase 7 (2026-10-17)
+
+**D-059 Held-out labels human-verified.** The owner reviewed `docs/label_review_heldout.md` and
+approved all 40 held-out labels; they are recorded as `label_verified=true`,
+`verified_by="Muzammillcoste (owner review, 2026-10-17)"`. Public scenarios are byte-identical;
+only this label metadata changed (new data manifest hash). Dev labels remain author-generated.
+
+**D-060 Held-out run protocol.** Held-out runs are only possible with `--frozen-selection`;
+configurations come from `configs/final_selection.yaml` and their semantic hashes are verified.
+Finalists C00, C11, C14 x 40 held-out x 3 repetitions on Gemini 2.5 Flash, cap USD 3. The
+optional post-hoc C05 addition was not requested and is not run.

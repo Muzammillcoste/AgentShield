@@ -948,4 +948,16 @@ def build_dataset(fixture: CRMFixture) -> list[tuple[ScenarioPublic, ScenarioPri
             pairs.append(_hard_benign(f"hb-{split[0]}{n + 1:02d}", task, benign_template, fx))
             used[benign_template.template_id] += 1
             load[task.base_id] += 1
-    return pairs
+    return [(public, _verified(public, truth)) for public, truth in pairs]
+
+
+# Human label verification records (D-059). The owner reviewed the held-out review sheet
+# (docs/label_review_heldout.md) and approved all 40 held-out labels on 2026-10-17.
+LABEL_VERIFICATION: dict[str, str] = {"heldout": "Muzammillcoste (owner review, 2026-10-17)"}
+
+
+def _verified(public: ScenarioPublic, truth: ScenarioPrivateTruth) -> ScenarioPrivateTruth:
+    reviewer = LABEL_VERIFICATION.get(public.split.value)
+    if reviewer is None:
+        return truth
+    return truth.model_copy(update={"label_verified": True, "verified_by": reviewer})

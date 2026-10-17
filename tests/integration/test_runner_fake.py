@@ -278,3 +278,12 @@ def test_cli_select_freezes_finalists_from_dev_only(tmp_path: Path) -> None:
         main(["select", "--analysis", str(out / "analysis"), "--output", str(frozen)])
         == EXIT_CONFIG_ERROR
     )
+
+
+def test_heldout_requires_frozen_selection(tmp_path: Path) -> None:
+    base = ["run", "--provider", "fake", "--split", "heldout", "--limit", "2", "--output"]
+    assert main([*base, str(tmp_path / "a")]) == EXIT_CONFIG_ERROR
+    frozen = ROOT / "configs" / "final_selection.yaml"
+    assert main([*base, str(tmp_path / "b"), "--frozen-selection", str(frozen)]) == EXIT_OK
+    episodes = load_episodes(tmp_path / "b" / "episodes.jsonl")
+    assert {e.config_id for e in episodes} == {"C00", "C11", "C14"}

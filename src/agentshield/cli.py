@@ -327,8 +327,31 @@ def _cmd_estimate(ctx: _Context, args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _frozen_configs(ctx: _Context, path: Path) -> list[Any]:
+    """Finalists from a frozen selection, verified against the registry's semantic hashes."""
+    frozen = yaml.safe_load(path.read_text(encoding="utf-8"))
+    registry = load_registry(ctx.path(ctx.config.defenses_registry))
+    configs = []
+    for config_id in frozen["finalists"]:
+        config = registry.get(config_id)
+        if config.config_hash() != frozen["finalist_hashes"][config_id]:
+            raise ConfigError(f"{config_id} changed since selection was frozen (hash mismatch)")
+        configs.append(config)
+    return configs
+
+
 def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
     public_path, scenarios, configs = _selection(ctx, args)
+    heldout = (args.split == "heldout" and not args.public) or "heldout" in public_path.name
+    if heldout and not args.frozen_selection:
+        print(
+            "error: held-out runs require --frozen-selection (configs come only from the frozen "
+            "dev-based selection; D-053)",
+            file=sys.stderr,
+        )
+        return EXIT_CONFIG_ERROR
+    if args.frozen_selection:
+        configs = _frozen_configs(ctx, ctx.path(args.frozen_selection))
     oracle_scopes = _oracle_scopes(ctx, public_path, scenarios, configs)
     check_supported(scenarios, configs, oracle_scopes)
     estimate, settings, price, fixture, pricing_version = _estimate_for(
@@ -419,6 +442,7 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
         "configs": {c.id: {"hash": c.config_hash(), **c.semantic_payload()} for c in configs},
         "repeats": args.repeats,
         "resumed": args.resume,
+        "frozen_selection": args.frozen_selection,
         "defense_versions": {
             "d1": D1_VERSION,
             "d1_sha256": d1_hash(),
@@ -623,6 +647,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="switch to this model (scenario-block granularity) if the primary quota runs out",
     )
     p.add_argument("--fallback-model-config", help="fallback model YAML")
+    p.add_argument(
+        "--frozen-selection",
+        help="frozen finalist YAML (required for held-out runs; overrides --configs)",
+    )
     p.add_argument(
         "--fake-susceptible",
         action="store_true",
