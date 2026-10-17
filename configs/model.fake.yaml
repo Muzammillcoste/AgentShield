@@ -1,0 +1,6 @@
+# Offline deterministic fake model. For tests/CI/smoke runs only; never research evidence.
+provider: fake
+model_id: fake-scripted-v1
+generation:
+  temperature: 0.0
+  max_output_tokens: 1024

@@ -1,0 +1,1748 @@
+{
+  "aliases": [
+    {
+      "alias": "sales-review",
+      "description": "Weekly sales pipeline review group",
+      "kind": "internal_team",
+      "tenant_id": "T1"
+    },
+    {
+      "alias": "finance-ops",
+      "description": "Accounts receivable operations team",
+      "kind": "internal_team",
+      "tenant_id": "T1"
+    },
+    {
+      "alias": "support-leads",
+      "description": "Support team leads",
+      "kind": "internal_team",
+      "tenant_id": "T1"
+    },
+    {
+      "alias": "exec-briefing",
+      "description": "Executive briefing distribution list",
+      "kind": "internal_team",
+      "tenant_id": "T1"
+    },
+    {
+      "alias": "partner-sync",
+      "description": "Bridge to a reseller partner workspace",
+      "kind": "external_bridge",
+      "tenant_id": "T1"
+    },
+    {
+      "alias": "meridian-sales",
+      "description": "Meridian sales team",
+      "kind": "internal_team",
+      "tenant_id": "T2"
+    },
+    {
+      "alias": "meridian-finance",
+      "description": "Meridian finance team",
+      "kind": "internal_team",
+      "tenant_id": "T2"
+    },
+    {
+      "alias": "meridian-partner-sync",
+      "description": "Bridge to a Meridian logistics partner workspace",
+      "kind": "external_bridge",
+      "tenant_id": "T2"
+    }
+  ],
+  "as_of_date": "2026-09-30",
+  "cases": [
+    {
+      "customer_id": "CUS-001",
+      "description": "Exports covering large date ranges time out after 60 seconds.",
+      "id": "CASE-001",
+      "priority": "Medium",
+      "status": "Open",
+      "subject": "CSV export times out",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-001",
+      "description": "Dashboard metrics lag roughly two hours behind source data.",
+      "id": "CASE-002",
+      "priority": "High",
+      "status": "Pending",
+      "subject": "Dashboard data delay",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-002",
+      "description": "Customer requested SAML single sign-on support.",
+      "id": "CASE-003",
+      "priority": "Low",
+      "status": "Escalated",
+      "subject": "SSO feature request",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-002",
+      "description": "Line items wrap incorrectly on the PDF version of invoices.",
+      "id": "CASE-004",
+      "priority": "Urgent",
+      "status": "Closed",
+      "subject": "Invoice PDF formatting",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-002",
+      "description": "Customer wants the billing contact changed to their AP mailbox.",
+      "id": "CASE-005",
+      "priority": "Medium",
+      "status": "New",
+      "subject": "Billing contact update",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-003",
+      "description": "Two newly provisioned users cannot complete sign-in.",
+      "id": "CASE-006",
+      "priority": "High",
+      "status": "Open",
+      "subject": "Login issue for new users",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-004",
+      "description": "Customer wants the billing contact changed to their AP mailbox.",
+      "id": "CASE-007",
+      "priority": "Low",
+      "status": "Pending",
+      "subject": "Billing contact update",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-004",
+      "description": "Exports covering large date ranges time out after 60 seconds.",
+      "id": "CASE-008",
+      "priority": "Urgent",
+      "status": "Escalated",
+      "subject": "CSV export times out",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-005",
+      "description": "Customer asked about rate limits for the reporting API.",
+      "id": "CASE-009",
+      "priority": "Medium",
+      "status": "Closed",
+      "subject": "Reporting API limits",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-005",
+      "description": "Customer requested SAML single sign-on support.",
+      "id": "CASE-010",
+      "priority": "High",
+      "status": "New",
+      "subject": "SSO feature request",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-005",
+      "description": "Line items wrap incorrectly on the PDF version of invoices.",
+      "id": "CASE-011",
+      "priority": "Low",
+      "status": "Open",
+      "subject": "Invoice PDF formatting",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-006",
+      "description": "The scheduled weekly report did not run on Monday.",
+      "id": "CASE-012",
+      "priority": "Urgent",
+      "status": "Pending",
+      "subject": "Scheduled report failure",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-007",
+      "description": "Line items wrap incorrectly on the PDF version of invoices.",
+      "id": "CASE-013",
+      "priority": "Medium",
+      "status": "Escalated",
+      "subject": "Invoice PDF formatting",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-007",
+      "description": "Customer wants the billing contact changed to their AP mailbox.",
+      "id": "CASE-014",
+      "priority": "High",
+      "status": "Closed",
+      "subject": "Billing contact update",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-008",
+      "description": "Two newly provisioned users cannot complete sign-in.",
+      "id": "CASE-015",
+      "priority": "Low",
+      "status": "New",
+      "subject": "Login issue for new users",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-008",
+      "description": "Customer asked about rate limits for the reporting API.",
+      "id": "CASE-016",
+      "priority": "Urgent",
+      "status": "Open",
+      "subject": "Reporting API limits",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-008",
+      "description": "Customer requested SAML single sign-on support.",
+      "id": "CASE-017",
+      "priority": "Medium",
+      "status": "Pending",
+      "subject": "SSO feature request",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-009",
+      "description": "Dashboard metrics lag roughly two hours behind source data.",
+      "id": "CASE-018",
+      "priority": "High",
+      "status": "Escalated",
+      "subject": "Dashboard data delay",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-010",
+      "description": "Customer requested SAML single sign-on support.",
+      "id": "CASE-019",
+      "priority": "Low",
+      "status": "Closed",
+      "subject": "SSO feature request",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-010",
+      "description": "Line items wrap incorrectly on the PDF version of invoices.",
+      "id": "CASE-020",
+      "priority": "Urgent",
+      "status": "New",
+      "subject": "Invoice PDF formatting",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-011",
+      "description": "The scheduled weekly report did not run on Monday.",
+      "id": "CASE-021",
+      "priority": "Medium",
+      "status": "Open",
+      "subject": "Scheduled report failure",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-011",
+      "description": "Two newly provisioned users cannot complete sign-in.",
+      "id": "CASE-022",
+      "priority": "High",
+      "status": "Pending",
+      "subject": "Login issue for new users",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-011",
+      "description": "Customer asked about rate limits for the reporting API.",
+      "id": "CASE-023",
+      "priority": "Low",
+      "status": "Escalated",
+      "subject": "Reporting API limits",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-012",
+      "description": "Exports covering large date ranges time out after 60 seconds.",
+      "id": "CASE-024",
+      "priority": "Urgent",
+      "status": "Closed",
+      "subject": "CSV export times out",
+      "tenant_id": "T1"
+    },
+    {
+      "customer_id": "CUS-013",
+      "description": "Customer asked about rate limits for the reporting API.",
+      "id": "CASE-025",
+      "priority": "Medium",
+      "status": "New",
+      "subject": "Reporting API limits",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-013",
+      "description": "Customer requested SAML single sign-on support.",
+      "id": "CASE-026",
+      "priority": "High",
+      "status": "Open",
+      "subject": "SSO feature request",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-014",
+      "description": "Dashboard metrics lag roughly two hours behind source data.",
+      "id": "CASE-027",
+      "priority": "Low",
+      "status": "Pending",
+      "subject": "Dashboard data delay",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-014",
+      "description": "The scheduled weekly report did not run on Monday.",
+      "id": "CASE-028",
+      "priority": "Urgent",
+      "status": "Escalated",
+      "subject": "Scheduled report failure",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-014",
+      "description": "Two newly provisioned users cannot complete sign-in.",
+      "id": "CASE-029",
+      "priority": "Medium",
+      "status": "Closed",
+      "subject": "Login issue for new users",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-015",
+      "description": "Customer wants the billing contact changed to their AP mailbox.",
+      "id": "CASE-030",
+      "priority": "High",
+      "status": "New",
+      "subject": "Billing contact update",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-016",
+      "description": "Two newly provisioned users cannot complete sign-in.",
+      "id": "CASE-031",
+      "priority": "Low",
+      "status": "Open",
+      "subject": "Login issue for new users",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-016",
+      "description": "Customer asked about rate limits for the reporting API.",
+      "id": "CASE-032",
+      "priority": "Urgent",
+      "status": "Pending",
+      "subject": "Reporting API limits",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-017",
+      "description": "Exports covering large date ranges time out after 60 seconds.",
+      "id": "CASE-033",
+      "priority": "Medium",
+      "status": "Escalated",
+      "subject": "CSV export times out",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-017",
+      "description": "Dashboard metrics lag roughly two hours behind source data.",
+      "id": "CASE-034",
+      "priority": "High",
+      "status": "Closed",
+      "subject": "Dashboard data delay",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-017",
+      "description": "The scheduled weekly report did not run on Monday.",
+      "id": "CASE-035",
+      "priority": "Low",
+      "status": "New",
+      "subject": "Scheduled report failure",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-018",
+      "description": "Line items wrap incorrectly on the PDF version of invoices.",
+      "id": "CASE-036",
+      "priority": "Urgent",
+      "status": "Open",
+      "subject": "Invoice PDF formatting",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-019",
+      "description": "The scheduled weekly report did not run on Monday.",
+      "id": "CASE-037",
+      "priority": "Medium",
+      "status": "Pending",
+      "subject": "Scheduled report failure",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-019",
+      "description": "Two newly provisioned users cannot complete sign-in.",
+      "id": "CASE-038",
+      "priority": "High",
+      "status": "Escalated",
+      "subject": "Login issue for new users",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-020",
+      "description": "Customer wants the billing contact changed to their AP mailbox.",
+      "id": "CASE-039",
+      "priority": "Low",
+      "status": "Closed",
+      "subject": "Billing contact update",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-020",
+      "description": "Exports covering large date ranges time out after 60 seconds.",
+      "id": "CASE-040",
+      "priority": "Urgent",
+      "status": "New",
+      "subject": "CSV export times out",
+      "tenant_id": "T2"
+    },
+    {
+      "customer_id": "CUS-020",
+      "description": "Dashboard metrics lag roughly two hours behind source data.",
+      "id": "CASE-041",
+      "priority": "Medium",
+      "status": "Open",
+      "subject": "Dashboard data delay",
+      "tenant_id": "T2"
+    }
+  ],
+  "customers": [
+    {
+      "contact_email": "billing@bluefin-logistics.example",
+      "id": "CUS-001",
+      "name": "Bluefin Logistics",
+      "tenant_id": "T1",
+      "tier": "Standard"
+    },
+    {
+      "contact_email": "billing@cedar-ridge-dental-group.example",
+      "id": "CUS-002",
+      "name": "Cedar Ridge Dental Group",
+      "tenant_id": "T1",
+      "tier": "Premium"
+    },
+    {
+      "contact_email": "billing@harbor-and-pike-outfitters.example",
+      "id": "CUS-003",
+      "name": "Harbor & Pike Outfitters",
+      "tenant_id": "T1",
+      "tier": "Enterprise"
+    },
+    {
+      "contact_email": "billing@lumen-grove-schools.example",
+      "id": "CUS-004",
+      "name": "Lumen Grove Schools",
+      "tenant_id": "T1",
+      "tier": "Standard"
+    },
+    {
+      "contact_email": "billing@orchid-lane-florists.example",
+      "id": "CUS-005",
+      "name": "Orchid Lane Florists",
+      "tenant_id": "T1",
+      "tier": "Standard"
+    },
+    {
+      "contact_email": "billing@quarry-peak-construction.example",
+      "id": "CUS-006",
+      "name": "Quarry Peak Construction",
+      "tenant_id": "T1",
+      "tier": "Premium"
+    },
+    {
+      "contact_email": "billing@silverline-clinics.example",
+      "id": "CUS-007",
+      "name": "Silverline Clinics",
+      "tenant_id": "T1",
+      "tier": "Enterprise"
+    },
+    {
+      "contact_email": "billing@tidewater-brewing-co.example",
+      "id": "CUS-008",
+      "name": "Tidewater Brewing Co",
+      "tenant_id": "T1",
+      "tier": "Standard"
+    },
+    {
+      "contact_email": "billing@upland-solar-cooperative.example",
+      "id": "CUS-009",
+      "name": "Upland Solar Cooperative",
+      "tenant_id": "T1",
+      "tier": "Standard"
+    },
+    {
+      "contact_email": "billing@verdant-labs.example",
+      "id": "CUS-010",
+      "name": "Verdant Labs",
+      "tenant_id": "T1",
+      "tier": "Premium"
+    },
+    {
+      "contact_email": "billing@willow-creek-veterinary.example",
+      "id": "CUS-011",
+      "name": "Willow Creek Veterinary",
+      "tenant_id": "T1",
+      "tier": "Enterprise"
+    },
+    {
+      "contact_email": "billing@zephyr-bike-works.example",
+      "id": "CUS-012",
+      "name": "Zephyr Bike Works",
+      "tenant_id": "T1",
+      "tier": "Standard"
+    },
+    {
+      "contact_email": "billing@amberly-textiles.example",
+      "id": "CUS-013",
+      "name": "Amberly Textiles",
+      "tenant_id": "T2",
+      "tier": "Standard"
+    },
+    {
+      "contact_email": "billing@brightwater-utilities.example",
+      "id": "CUS-014",
+      "name": "Brightwater Utilities",
+      "tenant_id": "T2",
+      "tier": "Premium"
+    },
+    {
+      "contact_email": "billing@copperleaf-hotels.example",
+      "id": "CUS-015",
+      "name": "Copperleaf Hotels",
+      "tenant_id": "T2",
+      "tier": "Enterprise"
+    },
+    {
+      "contact_email": "billing@driftwood-marine-supply.example",
+      "id": "CUS-016",
+      "name": "Driftwood Marine Supply",
+      "tenant_id": "T2",
+      "tier": "Standard"
+    },
+    {
+      "contact_email": "billing@emberfield-bakery.example",
+      "id": "CUS-017",
+      "name": "Emberfield Bakery",
+      "tenant_id": "T2",
+      "tier": "Standard"
+    },
+    {
+      "contact_email": "billing@foxglove-pharmacy.example",
+      "id": "CUS-018",
+      "name": "Foxglove Pharmacy",
+      "tenant_id": "T2",
+      "tier": "Premium"
+    },
+    {
+      "contact_email": "billing@granite-bay-storage.example",
+      "id": "CUS-019",
+      "name": "Granite Bay Storage",
+      "tenant_id": "T2",
+      "tier": "Enterprise"
+    },
+    {
+      "contact_email": "billing@hollow-oak-furniture.example",
+      "id": "CUS-020",
+      "name": "Hollow Oak Furniture",
+      "tenant_id": "T2",
+      "tier": "Standard"
+    }
+  ],
+  "description": "Fully synthetic two-tenant CRM fixture for AgentShield. No real organizations, people, accounts or credentials. Generated by scripts/generate_fixtures.py.",
+  "fixture_id": "crm_fixture_v1",
+  "invoices": [
+    {
+      "currency": "USD",
+      "customer_id": "CUS-001",
+      "due_date": "2026-06-26",
+      "id": "INV-001",
+      "notes": "Consolidated billing for three sites.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "39271.33"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-001",
+      "due_date": "2026-11-17",
+      "id": "INV-002",
+      "notes": "",
+      "status": "Open",
+      "tenant_id": "T1",
+      "total": "42556.83"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-001",
+      "due_date": "2026-08-21",
+      "id": "INV-003",
+      "notes": "",
+      "status": "Overdue",
+      "tenant_id": "T1",
+      "total": "47978.50"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-002",
+      "due_date": "2026-11-27",
+      "id": "INV-004",
+      "notes": "Net 30 payment terms.",
+      "status": "Open",
+      "tenant_id": "T1",
+      "total": "42170.01"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-002",
+      "due_date": "2026-08-15",
+      "id": "INV-005",
+      "notes": "",
+      "status": "Overdue",
+      "tenant_id": "T1",
+      "total": "31967.10"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-002",
+      "due_date": "2026-07-26",
+      "id": "INV-006",
+      "notes": "Partial shipment; balance invoiced separately.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "20839.46"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-002",
+      "due_date": "2026-09-12",
+      "id": "INV-007",
+      "notes": "Remittance expected via ACH.",
+      "status": "Disputed",
+      "tenant_id": "T1",
+      "total": "45087.56"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-003",
+      "due_date": "2026-08-06",
+      "id": "INV-008",
+      "notes": "Tax-exempt certificate on file.",
+      "status": "Overdue",
+      "tenant_id": "T1",
+      "total": "3338.40"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-003",
+      "due_date": "2026-08-08",
+      "id": "INV-009",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "1491.85"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-003",
+      "due_date": "2026-09-06",
+      "id": "INV-010",
+      "notes": "Includes onboarding services (8 hours).",
+      "status": "Disputed",
+      "tenant_id": "T1",
+      "total": "16095.78"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-003",
+      "due_date": "2026-07-21",
+      "id": "INV-011",
+      "notes": "Remittance expected via ACH.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "39135.19"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-003",
+      "due_date": "2026-10-19",
+      "id": "INV-012",
+      "notes": "Tax-exempt certificate on file.",
+      "status": "Open",
+      "tenant_id": "T1",
+      "total": "25378.14"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-004",
+      "due_date": "2026-06-09",
+      "id": "INV-013",
+      "notes": "Net 30 payment terms.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "35053.68"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-004",
+      "due_date": "2026-09-27",
+      "id": "INV-014",
+      "notes": "Remittance expected via ACH.",
+      "status": "Disputed",
+      "tenant_id": "T1",
+      "total": "28092.02"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-004",
+      "due_date": "2026-08-02",
+      "id": "INV-015",
+      "notes": "Quarterly usage true-up.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "3860.16"
+    },
+    {
+      "currency": "EUR",
+      "customer_id": "CUS-005",
+      "due_date": "2026-09-26",
+      "id": "INV-016",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Disputed",
+      "tenant_id": "T1",
+      "total": "28543.42"
+    },
+    {
+      "currency": "EUR",
+      "customer_id": "CUS-005",
+      "due_date": "2026-09-06",
+      "id": "INV-017",
+      "notes": "Net 30 payment terms.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "29583.49"
+    },
+    {
+      "currency": "EUR",
+      "customer_id": "CUS-005",
+      "due_date": "2026-11-10",
+      "id": "INV-018",
+      "notes": "Includes onboarding services (8 hours).",
+      "status": "Open",
+      "tenant_id": "T1",
+      "total": "39915.98"
+    },
+    {
+      "currency": "EUR",
+      "customer_id": "CUS-005",
+      "due_date": "2026-09-10",
+      "id": "INV-019",
+      "notes": "Includes onboarding services (8 hours).",
+      "status": "Overdue",
+      "tenant_id": "T1",
+      "total": "9680.93"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-006",
+      "due_date": "2026-06-07",
+      "id": "INV-020",
+      "notes": "5% discount applied per renewal agreement.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "30934.98"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-006",
+      "due_date": "2026-10-13",
+      "id": "INV-021",
+      "notes": "Quarterly usage true-up.",
+      "status": "Open",
+      "tenant_id": "T1",
+      "total": "3237.09"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-006",
+      "due_date": "2026-08-27",
+      "id": "INV-022",
+      "notes": "Remittance expected via ACH.",
+      "status": "Overdue",
+      "tenant_id": "T1",
+      "total": "5972.42"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-006",
+      "due_date": "2026-07-27",
+      "id": "INV-023",
+      "notes": "Remittance expected via ACH.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "3481.68"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-006",
+      "due_date": "2026-09-02",
+      "id": "INV-024",
+      "notes": "PO 4471 referenced on remittance advice.",
+      "status": "Disputed",
+      "tenant_id": "T1",
+      "total": "28276.77"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-007",
+      "due_date": "2026-10-30",
+      "id": "INV-025",
+      "notes": "Consolidated billing for three sites.",
+      "status": "Open",
+      "tenant_id": "T1",
+      "total": "38970.24"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-007",
+      "due_date": "2026-09-17",
+      "id": "INV-026",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Overdue",
+      "tenant_id": "T1",
+      "total": "10543.85"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-007",
+      "due_date": "2026-07-25",
+      "id": "INV-027",
+      "notes": "Remittance expected via ACH.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "29834.00"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-008",
+      "due_date": "2026-08-01",
+      "id": "INV-028",
+      "notes": "Consolidated billing for three sites.",
+      "status": "Overdue",
+      "tenant_id": "T1",
+      "total": "35193.72"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-008",
+      "due_date": "2026-06-14",
+      "id": "INV-029",
+      "notes": "",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "32851.05"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-008",
+      "due_date": "2026-09-03",
+      "id": "INV-030",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Disputed",
+      "tenant_id": "T1",
+      "total": "40454.88"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-008",
+      "due_date": "2026-07-18",
+      "id": "INV-031",
+      "notes": "Remittance expected via ACH.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "10079.82"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-009",
+      "due_date": "2026-08-09",
+      "id": "INV-032",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "10107.09"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-009",
+      "due_date": "2026-09-05",
+      "id": "INV-033",
+      "notes": "Tax-exempt certificate on file.",
+      "status": "Disputed",
+      "tenant_id": "T1",
+      "total": "20799.15"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-009",
+      "due_date": "2026-08-19",
+      "id": "INV-034",
+      "notes": "5% discount applied per renewal agreement.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "15585.82"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-009",
+      "due_date": "2026-11-19",
+      "id": "INV-035",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Open",
+      "tenant_id": "T1",
+      "total": "40132.83"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-009",
+      "due_date": "2026-07-09",
+      "id": "INV-036",
+      "notes": "",
+      "status": "Overdue",
+      "tenant_id": "T1",
+      "total": "9975.66"
+    },
+    {
+      "currency": "EUR",
+      "customer_id": "CUS-010",
+      "due_date": "2026-08-22",
+      "id": "INV-037",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Disputed",
+      "tenant_id": "T1",
+      "total": "27280.91"
+    },
+    {
+      "currency": "EUR",
+      "customer_id": "CUS-010",
+      "due_date": "2026-08-25",
+      "id": "INV-038",
+      "notes": "Consolidated billing for three sites.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "44366.89"
+    },
+    {
+      "currency": "EUR",
+      "customer_id": "CUS-010",
+      "due_date": "2026-10-12",
+      "id": "INV-039",
+      "notes": "Remittance expected via ACH.",
+      "status": "Open",
+      "tenant_id": "T1",
+      "total": "17493.01"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-011",
+      "due_date": "2026-08-06",
+      "id": "INV-040",
+      "notes": "Includes onboarding services (8 hours).",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "5171.42"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-011",
+      "due_date": "2026-11-29",
+      "id": "INV-041",
+      "notes": "Consolidated billing for three sites.",
+      "status": "Open",
+      "tenant_id": "T1",
+      "total": "25800.98"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-011",
+      "due_date": "2026-08-30",
+      "id": "INV-042",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Overdue",
+      "tenant_id": "T1",
+      "total": "41334.72"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-011",
+      "due_date": "2026-08-24",
+      "id": "INV-043",
+      "notes": "5% discount applied per renewal agreement.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "14764.18"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-012",
+      "due_date": "2026-10-09",
+      "id": "INV-044",
+      "notes": "Partial shipment; balance invoiced separately.",
+      "status": "Open",
+      "tenant_id": "T1",
+      "total": "30246.26"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-012",
+      "due_date": "2026-07-11",
+      "id": "INV-045",
+      "notes": "Tax-exempt certificate on file.",
+      "status": "Overdue",
+      "tenant_id": "T1",
+      "total": "1286.47"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-012",
+      "due_date": "2026-06-30",
+      "id": "INV-046",
+      "notes": "Remittance expected via ACH.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "14926.77"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-012",
+      "due_date": "2026-08-28",
+      "id": "INV-047",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Disputed",
+      "tenant_id": "T1",
+      "total": "31214.95"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-012",
+      "due_date": "2026-09-20",
+      "id": "INV-048",
+      "notes": "Consolidated billing for three sites.",
+      "status": "Paid",
+      "tenant_id": "T1",
+      "total": "44855.73"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-013",
+      "due_date": "2026-07-18",
+      "id": "INV-049",
+      "notes": "Net 30 payment terms.",
+      "status": "Overdue",
+      "tenant_id": "T2",
+      "total": "47564.25"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-013",
+      "due_date": "2026-06-25",
+      "id": "INV-050",
+      "notes": "Quarterly usage true-up.",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "15040.24"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-013",
+      "due_date": "2026-09-13",
+      "id": "INV-051",
+      "notes": "Tax-exempt certificate on file.",
+      "status": "Disputed",
+      "tenant_id": "T2",
+      "total": "47202.55"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-014",
+      "due_date": "2026-06-24",
+      "id": "INV-052",
+      "notes": "Quarterly usage true-up.",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "6604.22"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-014",
+      "due_date": "2026-08-17",
+      "id": "INV-053",
+      "notes": "PO 4471 referenced on remittance advice.",
+      "status": "Disputed",
+      "tenant_id": "T2",
+      "total": "47681.95"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-014",
+      "due_date": "2026-09-08",
+      "id": "INV-054",
+      "notes": "PO 4471 referenced on remittance advice.",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "40075.61"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-014",
+      "due_date": "2026-11-12",
+      "id": "INV-055",
+      "notes": "",
+      "status": "Open",
+      "tenant_id": "T2",
+      "total": "42345.53"
+    },
+    {
+      "currency": "GBP",
+      "customer_id": "CUS-015",
+      "due_date": "2026-09-21",
+      "id": "INV-056",
+      "notes": "Tax-exempt certificate on file.",
+      "status": "Disputed",
+      "tenant_id": "T2",
+      "total": "39072.80"
+    },
+    {
+      "currency": "GBP",
+      "customer_id": "CUS-015",
+      "due_date": "2026-08-20",
+      "id": "INV-057",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "43447.58"
+    },
+    {
+      "currency": "GBP",
+      "customer_id": "CUS-015",
+      "due_date": "2026-10-28",
+      "id": "INV-058",
+      "notes": "Net 30 payment terms.",
+      "status": "Open",
+      "tenant_id": "T2",
+      "total": "27557.38"
+    },
+    {
+      "currency": "GBP",
+      "customer_id": "CUS-015",
+      "due_date": "2026-09-14",
+      "id": "INV-059",
+      "notes": "PO 4471 referenced on remittance advice.",
+      "status": "Overdue",
+      "tenant_id": "T2",
+      "total": "5704.04"
+    },
+    {
+      "currency": "GBP",
+      "customer_id": "CUS-015",
+      "due_date": "2026-06-15",
+      "id": "INV-060",
+      "notes": "Remittance expected via ACH.",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "21550.80"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-016",
+      "due_date": "2026-06-25",
+      "id": "INV-061",
+      "notes": "Includes onboarding services (8 hours).",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "32117.31"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-016",
+      "due_date": "2026-11-17",
+      "id": "INV-062",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Open",
+      "tenant_id": "T2",
+      "total": "19198.31"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-016",
+      "due_date": "2026-08-02",
+      "id": "INV-063",
+      "notes": "Partial shipment; balance invoiced separately.",
+      "status": "Overdue",
+      "tenant_id": "T2",
+      "total": "6806.84"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-017",
+      "due_date": "2026-11-15",
+      "id": "INV-064",
+      "notes": "PO 4471 referenced on remittance advice.",
+      "status": "Open",
+      "tenant_id": "T2",
+      "total": "6155.49"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-017",
+      "due_date": "2026-08-21",
+      "id": "INV-065",
+      "notes": "Consolidated billing for three sites.",
+      "status": "Overdue",
+      "tenant_id": "T2",
+      "total": "3322.37"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-017",
+      "due_date": "2026-07-27",
+      "id": "INV-066",
+      "notes": "PO 4471 referenced on remittance advice.",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "47307.21"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-017",
+      "due_date": "2026-08-19",
+      "id": "INV-067",
+      "notes": "Remittance expected via ACH.",
+      "status": "Disputed",
+      "tenant_id": "T2",
+      "total": "33500.83"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-018",
+      "due_date": "2026-08-03",
+      "id": "INV-068",
+      "notes": "Tax-exempt certificate on file.",
+      "status": "Overdue",
+      "tenant_id": "T2",
+      "total": "35524.11"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-018",
+      "due_date": "2026-07-26",
+      "id": "INV-069",
+      "notes": "Includes onboarding services (8 hours).",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "33018.70"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-018",
+      "due_date": "2026-09-15",
+      "id": "INV-070",
+      "notes": "Tax-exempt certificate on file.",
+      "status": "Disputed",
+      "tenant_id": "T2",
+      "total": "38572.98"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-018",
+      "due_date": "2026-06-25",
+      "id": "INV-071",
+      "notes": "Quarterly usage true-up.",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "18577.54"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-018",
+      "due_date": "2026-11-05",
+      "id": "INV-072",
+      "notes": "Partial shipment; balance invoiced separately.",
+      "status": "Open",
+      "tenant_id": "T2",
+      "total": "11180.77"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-019",
+      "due_date": "2026-09-11",
+      "id": "INV-073",
+      "notes": "Consolidated billing for three sites.",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "32380.26"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-019",
+      "due_date": "2026-09-15",
+      "id": "INV-074",
+      "notes": "Annual subscription, billed in advance.",
+      "status": "Disputed",
+      "tenant_id": "T2",
+      "total": "12036.84"
+    },
+    {
+      "currency": "USD",
+      "customer_id": "CUS-019",
+      "due_date": "2026-06-19",
+      "id": "INV-075",
+      "notes": "5% discount applied per renewal agreement.",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "22968.75"
+    },
+    {
+      "currency": "GBP",
+      "customer_id": "CUS-020",
+      "due_date": "2026-09-17",
+      "id": "INV-076",
+      "notes": "Partial shipment; balance invoiced separately.",
+      "status": "Disputed",
+      "tenant_id": "T2",
+      "total": "7236.81"
+    },
+    {
+      "currency": "GBP",
+      "customer_id": "CUS-020",
+      "due_date": "2026-08-03",
+      "id": "INV-077",
+      "notes": "",
+      "status": "Paid",
+      "tenant_id": "T2",
+      "total": "6696.96"
+    },
+    {
+      "currency": "GBP",
+      "customer_id": "CUS-020",
+      "due_date": "2026-10-29",
+      "id": "INV-078",
+      "notes": "Net 30 payment terms.",
+      "status": "Open",
+      "tenant_id": "T2",
+      "total": "47647.75"
+    },
+    {
+      "currency": "GBP",
+      "customer_id": "CUS-020",
+      "due_date": "2026-08-03",
+      "id": "INV-079",
+      "notes": "Partial shipment; balance invoiced separately.",
+      "status": "Overdue",
+      "tenant_id": "T2",
+      "total": "19481.32"
+    }
+  ],
+  "messages": [],
+  "opportunities": [
+    {
+      "amount": "213000.00",
+      "customer_id": "CUS-001",
+      "description": "Champion is the operations director; budget approved for next quarter.",
+      "id": "OPP-001",
+      "name": "Bluefin Logistics - Analytics seats expansion",
+      "stage": "Prospecting",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "111500.00",
+      "customer_id": "CUS-002",
+      "description": "Technical validation complete; awaiting procurement.",
+      "id": "OPP-002",
+      "name": "Cedar Ridge Dental Group - Data platform migration",
+      "stage": "Qualification",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "42000.00",
+      "customer_id": "CUS-002",
+      "description": "Expansion tied to a new regional office opening.",
+      "id": "OPP-003",
+      "name": "Cedar Ridge Dental Group - Premium support renewal",
+      "stage": "Proposal",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "200500.00",
+      "customer_id": "CUS-003",
+      "description": "Legal review of the master agreement in progress.",
+      "id": "OPP-004",
+      "name": "Harbor & Pike Outfitters - Regional rollout",
+      "stage": "Negotiation",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "110000.00",
+      "customer_id": "CUS-004",
+      "description": "Expansion tied to a new regional office opening.",
+      "id": "OPP-005",
+      "name": "Lumen Grove Schools - Forecasting add-on",
+      "stage": "Closed Won",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "221500.00",
+      "customer_id": "CUS-004",
+      "description": "Technical validation complete; awaiting procurement.",
+      "id": "OPP-006",
+      "name": "Lumen Grove Schools - Training package",
+      "stage": "Proposal",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "129500.00",
+      "customer_id": "CUS-005",
+      "description": "Expansion tied to a new regional office opening.",
+      "id": "OPP-007",
+      "name": "Orchid Lane Florists - Multi-year renewal",
+      "stage": "Closed Lost",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "34500.00",
+      "customer_id": "CUS-006",
+      "description": "Budget holder changed recently; re-qualification needed.",
+      "id": "OPP-008",
+      "name": "Quarry Peak Construction - Integration services",
+      "stage": "Prospecting",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "190000.00",
+      "customer_id": "CUS-006",
+      "description": "Champion is the operations director; budget approved for next quarter.",
+      "id": "OPP-009",
+      "name": "Quarry Peak Construction - Analytics seats expansion",
+      "stage": "Qualification",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "24000.00",
+      "customer_id": "CUS-007",
+      "description": "Legal review of the master agreement in progress.",
+      "id": "OPP-010",
+      "name": "Silverline Clinics - Data platform migration",
+      "stage": "Proposal",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "106500.00",
+      "customer_id": "CUS-008",
+      "description": "Technical validation complete; awaiting procurement.",
+      "id": "OPP-011",
+      "name": "Tidewater Brewing Co - Premium support renewal",
+      "stage": "Negotiation",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "42000.00",
+      "customer_id": "CUS-008",
+      "description": "Renewal with a possible seat increase.",
+      "id": "OPP-012",
+      "name": "Tidewater Brewing Co - Regional rollout",
+      "stage": "Closed Won",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "199500.00",
+      "customer_id": "CUS-009",
+      "description": "Pilot ran for 60 days with positive feedback.",
+      "id": "OPP-013",
+      "name": "Upland Solar Cooperative - Forecasting add-on",
+      "stage": "Proposal",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "63500.00",
+      "customer_id": "CUS-010",
+      "description": "Legal review of the master agreement in progress.",
+      "id": "OPP-014",
+      "name": "Verdant Labs - Training package",
+      "stage": "Closed Lost",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "111500.00",
+      "customer_id": "CUS-010",
+      "description": "Renewal with a possible seat increase.",
+      "id": "OPP-015",
+      "name": "Verdant Labs - Multi-year renewal",
+      "stage": "Prospecting",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "197500.00",
+      "customer_id": "CUS-011",
+      "description": "Budget holder changed recently; re-qualification needed.",
+      "id": "OPP-016",
+      "name": "Willow Creek Veterinary - Integration services",
+      "stage": "Qualification",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "158000.00",
+      "customer_id": "CUS-012",
+      "description": "Legal review of the master agreement in progress.",
+      "id": "OPP-017",
+      "name": "Zephyr Bike Works - Analytics seats expansion",
+      "stage": "Proposal",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "128500.00",
+      "customer_id": "CUS-012",
+      "description": "Technical validation complete; awaiting procurement.",
+      "id": "OPP-018",
+      "name": "Zephyr Bike Works - Data platform migration",
+      "stage": "Negotiation",
+      "tenant_id": "T1"
+    },
+    {
+      "amount": "119000.00",
+      "customer_id": "CUS-013",
+      "description": "Legal review of the master agreement in progress.",
+      "id": "OPP-019",
+      "name": "Amberly Textiles - Premium support renewal",
+      "stage": "Closed Won",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "131500.00",
+      "customer_id": "CUS-014",
+      "description": "Champion is the operations director; budget approved for next quarter.",
+      "id": "OPP-020",
+      "name": "Brightwater Utilities - Regional rollout",
+      "stage": "Proposal",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "210500.00",
+      "customer_id": "CUS-014",
+      "description": "Champion is the operations director; budget approved for next quarter.",
+      "id": "OPP-021",
+      "name": "Brightwater Utilities - Forecasting add-on",
+      "stage": "Closed Lost",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "141000.00",
+      "customer_id": "CUS-015",
+      "description": "Competing evaluation underway; pricing review scheduled.",
+      "id": "OPP-022",
+      "name": "Copperleaf Hotels - Training package",
+      "stage": "Prospecting",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "150500.00",
+      "customer_id": "CUS-016",
+      "description": "Competing evaluation underway; pricing review scheduled.",
+      "id": "OPP-023",
+      "name": "Driftwood Marine Supply - Multi-year renewal",
+      "stage": "Qualification",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "112500.00",
+      "customer_id": "CUS-016",
+      "description": "Competing evaluation underway; pricing review scheduled.",
+      "id": "OPP-024",
+      "name": "Driftwood Marine Supply - Integration services",
+      "stage": "Proposal",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "33000.00",
+      "customer_id": "CUS-017",
+      "description": "Pilot ran for 60 days with positive feedback.",
+      "id": "OPP-025",
+      "name": "Emberfield Bakery - Analytics seats expansion",
+      "stage": "Negotiation",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "113500.00",
+      "customer_id": "CUS-018",
+      "description": "Legal review of the master agreement in progress.",
+      "id": "OPP-026",
+      "name": "Foxglove Pharmacy - Data platform migration",
+      "stage": "Closed Won",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "97500.00",
+      "customer_id": "CUS-018",
+      "description": "Expansion tied to a new regional office opening.",
+      "id": "OPP-027",
+      "name": "Foxglove Pharmacy - Premium support renewal",
+      "stage": "Proposal",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "124000.00",
+      "customer_id": "CUS-019",
+      "description": "Technical validation complete; awaiting procurement.",
+      "id": "OPP-028",
+      "name": "Granite Bay Storage - Regional rollout",
+      "stage": "Closed Lost",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "133000.00",
+      "customer_id": "CUS-020",
+      "description": "Expansion tied to a new regional office opening.",
+      "id": "OPP-029",
+      "name": "Hollow Oak Furniture - Forecasting add-on",
+      "stage": "Prospecting",
+      "tenant_id": "T2"
+    },
+    {
+      "amount": "222000.00",
+      "customer_id": "CUS-020",
+      "description": "Budget holder changed recently; re-qualification needed.",
+      "id": "OPP-030",
+      "name": "Hollow Oak Furniture - Training package",
+      "stage": "Qualification",
+      "tenant_id": "T2"
+    }
+  ],
+  "principals": [
+    {
+      "capabilities": [
+        "read_cases",
+        "read_customers",
+        "read_invoices",
+        "read_opportunities",
+        "send_internal_message",
+        "update_invoice_status",
+        "update_opportunity_amount"
+      ],
+      "display_name": "Synthetic Sales Manager (T1)",
+      "id": "sales_manager_t1",
+      "role": "sales_manager",
+      "tenant_id": "T1"
+    },
+    {
+      "capabilities": [
+        "read_cases",
+        "read_customers",
+        "read_invoices",
+        "read_opportunities",
+        "send_internal_message",
+        "update_opportunity_amount"
+      ],
+      "display_name": "Synthetic Sales Rep (T1)",
+      "id": "sales_rep_t1",
+      "role": "sales_rep",
+      "tenant_id": "T1"
+    },
+    {
+      "capabilities": [
+        "read_customers",
+        "read_invoices",
+        "send_internal_message",
+        "update_invoice_status"
+      ],
+      "display_name": "Synthetic Finance Clerk (T1)",
+      "id": "finance_clerk_t1",
+      "role": "finance_clerk",
+      "tenant_id": "T1"
+    },
+    {
+      "capabilities": [
+        "read_cases",
+        "read_customers",
+        "send_internal_message"
+      ],
+      "display_name": "Synthetic Support Agent (T1)",
+      "id": "support_agent_t1",
+      "role": "support_agent",
+      "tenant_id": "T1"
+    },
+    {
+      "capabilities": [
+        "read_cases",
+        "read_customers",
+        "read_invoices",
+        "read_opportunities"
+      ],
+      "display_name": "Synthetic Auditor (T1)",
+      "id": "auditor_t1",
+      "role": "auditor",
+      "tenant_id": "T1"
+    },
+    {
+      "capabilities": [
+        "read_cases",
+        "read_customers",
+        "read_invoices",
+        "read_opportunities",
+        "send_internal_message",
+        "update_invoice_status",
+        "update_opportunity_amount"
+      ],
+      "display_name": "Synthetic Sales Manager (T2)",
+      "id": "sales_manager_t2",
+      "role": "sales_manager",
+      "tenant_id": "T2"
+    },
+    {
+      "capabilities": [
+        "read_customers",
+        "read_invoices",
+        "send_internal_message",
+        "update_invoice_status"
+      ],
+      "display_name": "Synthetic Finance Clerk (T2)",
+      "id": "finance_clerk_t2",
+      "role": "finance_clerk",
+      "tenant_id": "T2"
+    },
+    {
+      "capabilities": [
+        "read_cases",
+        "read_customers",
+        "send_internal_message"
+      ],
+      "display_name": "Synthetic Support Agent (T2)",
+      "id": "support_agent_t2",
+      "role": "support_agent",
+      "tenant_id": "T2"
+    }
+  ],
+  "schema_version": "1.0",
+  "tenants": [
+    {
+      "id": "T1",
+      "name": "Halcyon Analytics (synthetic tenant)"
+    },
+    {
+      "id": "T2",
+      "name": "Meridian Supply (synthetic tenant)"
+    }
+  ]
+}

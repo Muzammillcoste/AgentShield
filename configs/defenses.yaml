@@ -1,0 +1,32 @@
+# Defense registry. The 16 primary configurations are an exploratory screening set
+# (not a balanced factorial design). Leave-one-out, D5-granularity, bitmask (M00-M63)
+# and ORACLE UPPER BOUND diagnostic configs are derived in code (defenses/registry.py).
+schema_version: "1.0"
+
+defaults:
+  d2_mode: quarantine              # off | flag | quarantine
+  d5_granularity: record_field_value
+  d6_settings:
+    provider: same_as_agent
+    temperature: 0.0
+    max_output_tokens: 256
+    timeout_s: 30
+    shadow_after_deny: false       # true = also query D6 after a D5 deny (logging only)
+
+primary:
+  - {id: C00, defenses: [],                           description: "Baseline D0: minimal instructions, schema validation only"}
+  - {id: C01, defenses: [D1],                         description: "Security system instruction"}
+  - {id: C02, defenses: [D2],                         description: "Tool-output inspection"}
+  - {id: C03, defenses: [D3],                         description: "Provenance / trust marking"}
+  - {id: C04, defenses: [D4],                         description: "Task-scoped tool allowlist"}
+  - {id: C05, defenses: [D5],                         description: "Deterministic policy gateway"}
+  - {id: C06, defenses: [D6],                         description: "Independent action verifier"}
+  - {id: C07, defenses: [D1, D3],                     description: "Prompt-level: instruction + provenance"}
+  - {id: C08, defenses: [D2, D3],                     description: "Tool-output level: inspection + provenance"}
+  - {id: C09, defenses: [D4, D5],                     description: "Action level: allowlist + policy"}
+  - {id: C10, defenses: [D3, D6],                     description: "Provenance + verifier"}
+  - {id: C11, defenses: [D1, D2, D3],                 description: "All prompt/tool-output defenses"}
+  - {id: C12, defenses: [D1, D4, D5],                 description: "Instruction + action level"}
+  - {id: C13, defenses: [D2, D4, D5],                 description: "Inspection + action level"}
+  - {id: C14, defenses: [D1, D2, D3, D4, D5, D6],     description: "Full stack"}
+  - {id: C15, defenses: [D1, D3, D4, D5, D6],         description: "Full stack without D2"}

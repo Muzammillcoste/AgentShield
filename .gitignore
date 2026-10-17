@@ -1,0 +1,21 @@
+.sf
+.env
+
+# Python / tooling
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Secrets (never commit real credentials)
+.env.*
+!.env.example
+
+# Generated experiment outputs (commit selected, secret-free artifacts deliberately)
+results/*
+!results/.gitkeep

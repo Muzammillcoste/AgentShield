@@ -1,0 +1,13 @@
+{
+  "agentshield_version": "0.1.0",
+  "files": {
+    "fixtures/crm_fixture_v1.json": "eea83bad21b9c6e8f52f89da02dd7d5ba0cb9d901d519714c2fcb8a6bc7dabb6",
+    "private/examples_truth.jsonl": "30e0561785b76c58969d79c47fb4ef0ef62b35f09d895e3a9d1dbf3140b860a2",
+    "public/examples.jsonl": "96af64af134072f5af40cb456ab0cb25e22530fb9b839e109b13ad4171bbccb1"
+  },
+  "fixture_hash": "c2c04f1f7a7935c79b4402f08097d0f3032e40f400dc35f14373964d1f591bda",
+  "fixture_id": "crm_fixture_v1",
+  "frozen_splits": [],
+  "grammar_version": "scope-grammar-v1",
+  "schema_version": "1.0"
+}

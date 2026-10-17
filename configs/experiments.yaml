@@ -1,0 +1,30 @@
+# Experiment plans (executed from Phase 6). Paid plans require explicit approval and budget.
+schema_version: "1.0"
+plans:
+  offline_smoke:
+    provider: fake
+    split: dev
+    configs: [C00, C05, C09]
+    limit: 8
+    repeats: 1
+  pilot:
+    provider: real
+    split: dev
+    configs: [C00, C05, C09]
+    limit: 20
+    repeats: 1
+    requires_approval: true
+  dev_screening:
+    provider: real
+    split: dev
+    configs: [C00, C01, C02, C03, C04, C05, C06, C07, C08, C09, C10, C11, C12, C13, C14, C15]
+    scenario_subset: stratified_30   # fixed, stratified dev subset defined in Phase 5
+    repeats: 1
+    requires_approval: true
+  heldout_final:
+    provider: real
+    split: heldout
+    configs: []                      # up to four finalists, frozen from dev results only
+    repeats: 3
+    requires_approval: true
+    requires_frozen_selection: true

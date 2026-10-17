@@ -1,0 +1,12 @@
+# Model pricing is never invented by AgentShield. Copy to pricing.yaml and fill in prices
+# from the provider's official pricing page, recording the source URL and retrieval date.
+# If no price is configured for a model, cost is reported as "unknown" and only token
+# budgets can be enforced.
+version: "pricing-template"
+source: "FILL IN: official provider pricing URL"
+retrieved_on: null
+currency: USD
+models: {}
+#  <exact-model-id>:
+#    input_usd_per_mtok: <number>
+#    output_usd_per_mtok: <number>

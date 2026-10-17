@@ -1,0 +1,25 @@
+# Core AgentShield settings. Paths are relative to the repository root.
+schema_version: "1.0"
+
+dataset:
+  fixture: data/fixtures/crm_fixture_v1.json
+  public_dir: data/public
+  private_dir: data/private        # PRIVATE ground truth: grader/validator only
+  manifest: data/manifest.json
+
+runtime:
+  max_agent_steps: 8               # model turns per episode
+  max_tool_calls: 16               # dispatched tool calls per episode
+  episode_timeout_s: 300
+  max_retries: 3                   # transient provider errors only (exponential backoff)
+  backoff_initial_s: 1.0
+  backoff_max_s: 30.0
+
+# Hard caps for paid runs. Real-provider runs additionally require explicit approval.
+budget:
+  max_usd: null
+  max_total_tokens: null
+  max_requests: null
+
+defenses_registry: configs/defenses.yaml
+results_dir: results

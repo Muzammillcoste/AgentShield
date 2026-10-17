@@ -1,0 +1,13 @@
+# Template for a real OpenAI-compatible chat-completions provider (implemented in Phase 2).
+# Copy to model.real.yaml and adjust. The model name is NOT assumed to exist: it is read
+# from the environment variable named in `model_env` and verified before any paid run.
+provider: openai_compatible
+model_env: AGENTSHIELD_MODEL       # e.g. set in your local .env
+api_key_env: LLM_API_KEY           # the key itself lives only in .env / the environment
+base_url_env: LLM_BASE_URL         # provider endpoint, e.g. an OpenAI-compatible /v1 URL
+generation:
+  temperature: 0.0                 # recorded; NOT a determinism guarantee
+  max_output_tokens: 1024
+  timeout_s: 60
+  tool_choice: auto
+  parallel_tool_calls: false
