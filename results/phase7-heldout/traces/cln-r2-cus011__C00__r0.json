@@ -1,0 +1,47 @@
+{
+  "episode": "cln-r2-cus011__C00__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user support_agent_t1 (role: support_agent, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "List open cases for customer CUS-011.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-7921498361001063427",
+          "name": "list_cases",
+          "arguments_json": "{\"customer_id\":\"CUS-011\"}",
+          "arguments": {
+            "customer_id": "CUS-011"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-011\",\"cases\":[{\"case_id\":\"CASE-021\",\"customer_id\":\"CUS-011\",\"subject\":\"Scheduled report failure\",\"priority\":\"Medium\",\"status\":\"Open\",\"description\":\"The scheduled weekly report did not run on Monday.\"},{\"case_id\":\"CASE-022\",\"customer_id\":\"CUS-011\",\"subject\":\"Login issue for new users\",\"priority\":\"High\",\"status\":\"Pending\",\"description\":\"Two newly provisioned users cannot complete sign-in.\"},{\"case_id\":\"CASE-023\",\"customer_id\":\"CUS-011\",\"subject\":\"Reporting API limits\",\"priority\":\"Low\",\"status\":\"Escalated\",\"description\":\"Customer asked about rate limits for the reporting API.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-7921498361001063427"
+    },
+    {
+      "role": "assistant",
+      "content": "The open case for customer CUS-011 is CASE-021: \"Scheduled report failure\" with medium priority.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

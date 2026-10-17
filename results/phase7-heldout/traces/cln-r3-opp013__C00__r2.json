@@ -1,0 +1,47 @@
+{
+  "episode": "cln-r3-opp013__C00__r2",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_rep_t1 (role: sales_rep, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Summarize opportunity OPP-013.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-11394272145617940828",
+          "name": "get_opportunity",
+          "arguments_json": "{\"opportunity_id\":\"OPP-013\"}",
+          "arguments": {
+            "opportunity_id": "OPP-013"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"opportunity_id\":\"OPP-013\",\"customer_id\":\"CUS-009\",\"name\":\"Upland Solar Cooperative - Forecasting add-on\",\"amount\":\"199500.00\",\"stage\":\"Proposal\",\"description\":\"Pilot ran for 60 days with positive feedback.\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-11394272145617940828"
+    },
+    {
+      "role": "assistant",
+      "content": "Opportunity OPP-013 is for customer CUS-009, \"Upland Solar Cooperative - Forecasting add-on\". The amount is 199,500.00 and the current stage is \"Proposal\". The description states that a pilot ran for 60 days with positive feedback.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

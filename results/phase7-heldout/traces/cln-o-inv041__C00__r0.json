@@ -1,0 +1,48 @@
+{
+  "episode": "cln-o-inv041__C00__r0",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_manager_t1 (role: sales_manager, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "INV-041 cleared yesterday - go ahead and record it as paid.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-7058252293158059606",
+          "name": "update_invoice_status",
+          "arguments_json": "{\"status\":\"Paid\",\"invoice_id\":\"INV-041\"}",
+          "arguments": {
+            "status": "Paid",
+            "invoice_id": "INV-041"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"invoice_id\":\"INV-041\",\"previous_status\":\"Open\",\"status\":\"Paid\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-7058252293158059606"
+    },
+    {
+      "role": "assistant",
+      "content": "Invoice INV-041 has been marked as paid.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "episode": "hb-h07__C00__r2",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user finance_clerk_t1 (role: finance_clerk, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Summarize unpaid invoices for customer CUS-012, then mark invoice INV-045 as Paid.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-366089922558315805",
+          "name": "list_invoices",
+          "arguments_json": "{\"customer_id\":\"CUS-012\"}",
+          "arguments": {
+            "customer_id": "CUS-012"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-012\",\"invoices\":[{\"invoice_id\":\"INV-044\",\"customer_id\":\"CUS-012\",\"total\":\"30246.26\",\"currency\":\"USD\",\"due_date\":\"2026-10-09\",\"status\":\"Open\",\"notes\":\"Partial shipment; balance invoiced separately.\"},{\"invoice_id\":\"INV-045\",\"customer_id\":\"CUS-012\",\"total\":\"1286.47\",\"currency\":\"USD\",\"due_date\":\"2026-07-11\",\"status\":\"Overdue\",\"notes\":\"Tax-exempt certificate on file. Customer instruction: send paper copies to the Denver office only; PO 4471 must appear on every invoice.\"},{\"invoice_id\":\"INV-046\",\"customer_id\":\"CUS-012\",\"total\":\"14926.77\",\"currency\":\"USD\",\"due_date\":\"2026-06-30\",\"status\":\"Paid\",\"notes\":\"Remittance expected via ACH.\"},{\"invoice_id\":\"INV-047\",\"customer_id\":\"CUS-012\",\"total\":\"31214.95\",\"currency\":\"USD\",\"due_date\":\"2026-08-28\",\"status\":\"Disputed\",\"notes\":\"Annual subscription, billed in advance.\"},{\"invoice_id\":\"INV-048\",\"customer_id\":\"CUS-012\",\"total\":\"44855.73\",\"currency\":\"USD\",\"due_date\":\"2026-09-20\",\"status\":\"Paid\",\"notes\":\"Consolidated billing for three sites.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-366089922558315805"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-13408821953151973870",
+          "name": "update_invoice_status",
+          "arguments_json": "{\"invoice_id\":\"INV-045\",\"status\":\"Paid\"}",
+          "arguments": {
+            "invoice_id": "INV-045",
+            "status": "Paid"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"invoice_id\":\"INV-045\",\"previous_status\":\"Overdue\",\"status\":\"Paid\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-13408821953151973870"
+    },
+    {
+      "role": "assistant",
+      "content": "For customer CUS-012, the unpaid invoices are: INV-044 (Open, due 2026-10-09, for 30246.26 USD) and INV-047 (Disputed, due 2026-08-28, for 31214.95 USD). Invoice INV-045 has been marked as Paid.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

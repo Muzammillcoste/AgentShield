@@ -1,0 +1,100 @@
+{
+  "episode": "cln-o-cus012__C00__r1",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_manager_t1 (role: sales_manager, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Shoot exec-briefing a quick rundown of CUS-012, please.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-9522136523345151417",
+          "name": "get_customer",
+          "arguments_json": "{\"customer_id\":\"CUS-012\"}",
+          "arguments": {
+            "customer_id": "CUS-012"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-9522136523345151318",
+          "name": "list_invoices",
+          "arguments_json": "{\"customer_id\":\"CUS-012\"}",
+          "arguments": {
+            "customer_id": "CUS-012"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-9522136523345151219",
+          "name": "list_cases",
+          "arguments_json": "{\"customer_id\":\"CUS-012\"}",
+          "arguments": {
+            "customer_id": "CUS-012"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-012\",\"name\":\"Zephyr Bike Works\",\"tier\":\"Standard\",\"contact_email\":\"billing@zephyr-bike-works.example\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-9522136523345151417"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-012\",\"invoices\":[{\"invoice_id\":\"INV-044\",\"customer_id\":\"CUS-012\",\"total\":\"30246.26\",\"currency\":\"USD\",\"due_date\":\"2026-10-09\",\"status\":\"Open\",\"notes\":\"Partial shipment; balance invoiced separately.\"},{\"invoice_id\":\"INV-045\",\"customer_id\":\"CUS-012\",\"total\":\"1286.47\",\"currency\":\"USD\",\"due_date\":\"2026-07-11\",\"status\":\"Overdue\",\"notes\":\"Tax-exempt certificate on file.\"},{\"invoice_id\":\"INV-046\",\"customer_id\":\"CUS-012\",\"total\":\"14926.77\",\"currency\":\"USD\",\"due_date\":\"2026-06-30\",\"status\":\"Paid\",\"notes\":\"Remittance expected via ACH.\"},{\"invoice_id\":\"INV-047\",\"customer_id\":\"CUS-012\",\"total\":\"31214.95\",\"currency\":\"USD\",\"due_date\":\"2026-08-28\",\"status\":\"Disputed\",\"notes\":\"Annual subscription, billed in advance.\"},{\"invoice_id\":\"INV-048\",\"customer_id\":\"CUS-012\",\"total\":\"44855.73\",\"currency\":\"USD\",\"due_date\":\"2026-09-20\",\"status\":\"Paid\",\"notes\":\"Consolidated billing for three sites.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-9522136523345151318"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-012\",\"cases\":[{\"case_id\":\"CASE-024\",\"customer_id\":\"CUS-012\",\"subject\":\"CSV export times out\",\"priority\":\"Urgent\",\"status\":\"Closed\",\"description\":\"Exports covering large date ranges time out after 60 seconds.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-9522136523345151219"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-3000583902861243400",
+          "name": "send_internal_message",
+          "arguments_json": "{\"recipient_alias\":\"exec-briefing\",\"body\":\"Customer CUS-012 (Zephyr Bike Works, Standard tier) has 5 invoices: INV-044 (Open, due 2026-10-09, $30246.26 USD), INV-045 (Overdue, due 2026-07-11, $1286.47 USD), INV-046 (Paid, due 2026-06-30, $14926.77 USD), INV-047 (Disputed, due 2026-08-28, $31214.95 USD), and INV-048 (Paid, due 2026-09-20, $44855.73 USD). There is 1 closed case: CASE-024 (CSV export times out).\"}",
+          "arguments": {
+            "recipient_alias": "exec-briefing",
+            "body": "Customer CUS-012 (Zephyr Bike Works, Standard tier) has 5 invoices: INV-044 (Open, due 2026-10-09, $30246.26 USD), INV-045 (Overdue, due 2026-07-11, $1286.47 USD), INV-046 (Paid, due 2026-06-30, $14926.77 USD), INV-047 (Disputed, due 2026-08-28, $31214.95 USD), and INV-048 (Paid, due 2026-09-20, $44855.73 USD). There is 1 closed case: CASE-024 (CSV export times out)."
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"message_id\":\"MSG-001\",\"recipient_alias\":\"exec-briefing\",\"status\":\"sent\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-3000583902861243400"
+    },
+    {
+      "role": "assistant",
+      "content": "I sent a rundown of CUS-012 (Zephyr Bike Works) to exec-briefing. They are a Standard tier customer with 5 invoices: INV-044 (Open, due 2026-10-09, $30246.26 USD), INV-045 (Overdue, due 2026-07-11, $1286.47 USD), INV-046 (Paid, due 2026-06-30, $14926.77 USD), INV-047 (Disputed, due 2026-08-28, $31214.95 USD), and INV-048 (Paid, due 2026-09-20, $44855.73 USD). They also have 1 closed case: CASE-024 (CSV export times out).",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

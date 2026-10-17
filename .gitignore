@@ -25,3 +25,5 @@ results/*
 !results/phase6-ablations/
 !results/phase6-combined-analysis/
 !results/phase6-*.log
+!results/phase7-heldout/
+!results/phase7-*.log

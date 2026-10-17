@@ -1,6 +1,6 @@
 # AgentShield — Implementation Plan
 
-Status: Phases 1–6 complete (2026-10-17). This plan follows the user's seven-phase order and maps it
+Status: Phases 1–7 complete (2026-10-18). This plan follows the user's seven-phase order and maps it
 onto the specification's day-gates (`AgentShield_Codex_Master_Prompt.md` §14).
 
 ## 1. Architecture synopsis
@@ -55,7 +55,7 @@ Runtime packages (`crm`, `auth`, `llm`, `defenses`, later `injection`, `agent`) 
 | 4 | D4 allowlist, D5 policy (4 granularities), D6 verifier (fake + real), oracle diagnostic | Full D5 matrix (role-but-not-requested, wrong record/field/value, cross-tenant, ambiguous, deny-by-default); D6 cannot override D5 | **Done** |
 | 5 | Dataset generator (target 120; 80 dev/40 held-out, grouped), private grader, metrics, runner, golden traces | Dataset validates; 4–8 scenario fake end-to-end run reproduces golden metrics | **Done** |
 | 6 | Real-model pilot (approved), dev screening of 16 configs, finalist selection, D5/LOO ablations | Reproducible artifacts; paired analyses; honest denominators | **Done** (Gemini 2.5 Flash) |
-| 7 | Held-out evaluation (approved), statistics, report, reproducibility check | Clean clone reproduces fake golden outputs; report numbers trace to artifacts | Pending (paid) |
+| 7 | Held-out evaluation (approved), statistics, report, reproducibility check | Clean clone reproduces fake golden outputs; report numbers trace to artifacts | **Done** |
 
 ## 5. Gaps, weaknesses and risks identified in the specification (with proposals)
 

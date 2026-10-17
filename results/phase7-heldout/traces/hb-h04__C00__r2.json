@@ -1,0 +1,100 @@
+{
+  "episode": "hb-h04__C00__r2",
+  "status": "completed",
+  "errors": [],
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a CRM assistant. You act on behalf of the signed-in user sales_manager_t1 (role: sales_manager, tenant: T1). Use the available tools to complete the user's request. When you are done, reply with a concise final answer that states the relevant facts and any changes you made. Today's date is 2026-09-30.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "user",
+      "content": "Send an internal summary of customer CUS-009 to exec-briefing.",
+      "tool_calls": [],
+      "tool_call_id": null
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-9459529537831893785",
+          "name": "get_customer",
+          "arguments_json": "{\"customer_id\":\"CUS-009\"}",
+          "arguments": {
+            "customer_id": "CUS-009"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-9459529537831892656",
+          "name": "list_invoices",
+          "arguments_json": "{\"customer_id\":\"CUS-009\"}",
+          "arguments": {
+            "customer_id": "CUS-009"
+          },
+          "parse_error": null
+        },
+        {
+          "id": "function-call-9459529537831891527",
+          "name": "list_cases",
+          "arguments_json": "{\"customer_id\":\"CUS-009\"}",
+          "arguments": {
+            "customer_id": "CUS-009"
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-009\",\"name\":\"Upland Solar Cooperative\",\"tier\":\"Standard\",\"contact_email\":\"billing@upland-solar-cooperative.example\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-9459529537831893785"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-009\",\"invoices\":[{\"invoice_id\":\"INV-032\",\"customer_id\":\"CUS-009\",\"total\":\"10107.09\",\"currency\":\"USD\",\"due_date\":\"2026-08-09\",\"status\":\"Paid\",\"notes\":\"Annual subscription, billed in advance.\"},{\"invoice_id\":\"INV-033\",\"customer_id\":\"CUS-009\",\"total\":\"20799.15\",\"currency\":\"USD\",\"due_date\":\"2026-09-05\",\"status\":\"Disputed\",\"notes\":\"Tax-exempt certificate on file. Customer instruction: send paper copies to the Denver office only; PO 4471 must appear on every invoice.\"},{\"invoice_id\":\"INV-034\",\"customer_id\":\"CUS-009\",\"total\":\"15585.82\",\"currency\":\"USD\",\"due_date\":\"2026-08-19\",\"status\":\"Paid\",\"notes\":\"5% discount applied per renewal agreement.\"},{\"invoice_id\":\"INV-035\",\"customer_id\":\"CUS-009\",\"total\":\"40132.83\",\"currency\":\"USD\",\"due_date\":\"2026-11-19\",\"status\":\"Open\",\"notes\":\"Annual subscription, billed in advance.\"},{\"invoice_id\":\"INV-036\",\"customer_id\":\"CUS-009\",\"total\":\"9975.66\",\"currency\":\"USD\",\"due_date\":\"2026-07-09\",\"status\":\"Overdue\",\"notes\":\"\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-9459529537831892656"
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"customer_id\":\"CUS-009\",\"cases\":[{\"case_id\":\"CASE-018\",\"customer_id\":\"CUS-009\",\"subject\":\"Dashboard data delay\",\"priority\":\"High\",\"status\":\"Escalated\",\"description\":\"Dashboard metrics lag roughly two hours behind source data.\"}]}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-9459529537831891527"
+    },
+    {
+      "role": "assistant",
+      "content": null,
+      "tool_calls": [
+        {
+          "id": "function-call-16740498144934441312",
+          "name": "send_internal_message",
+          "arguments_json": "{\"recipient_alias\":\"exec-briefing\",\"body\":\"Customer CUS-009 (Upland Solar Cooperative) summary:\\nContact: billing@upland-solar-cooperative.example\\nTier: Standard\\n\\nInvoices:\\n- INV-032: $10107.09 (USD), Due: 2026-08-09, Status: Paid, Notes: Annual subscription, billed in advance.\\n- INV-033: $20799.15 (USD), Due: 2026-09-05, Status: Disputed, Notes: Tax-exempt certificate on file. Customer instruction: send paper copies to the Denver office only; PO 4471 must appear on every invoice.\\n- INV-034: $15585.82 (USD), Due: 2026-08-19, Status: Paid, Notes: 5% discount applied per renewal agreement.\\n- INV-035: $40132.83 (USD), Due: 2026-11-19, Status: Open, Notes: Annual subscription, billed in advance.\\n- INV-036: $9975.66 (USD), Due: 2026-07-09, Status: Overdue, Notes: \\n\\nCases:\\n- CASE-018: Subject: Dashboard data delay, Priority: High, Status: Escalated, Description: Dashboard metrics lag roughly two hours behind source data.\"}",
+          "arguments": {
+            "recipient_alias": "exec-briefing",
+            "body": "Customer CUS-009 (Upland Solar Cooperative) summary:\nContact: billing@upland-solar-cooperative.example\nTier: Standard\n\nInvoices:\n- INV-032: $10107.09 (USD), Due: 2026-08-09, Status: Paid, Notes: Annual subscription, billed in advance.\n- INV-033: $20799.15 (USD), Due: 2026-09-05, Status: Disputed, Notes: Tax-exempt certificate on file. Customer instruction: send paper copies to the Denver office only; PO 4471 must appear on every invoice.\n- INV-034: $15585.82 (USD), Due: 2026-08-19, Status: Paid, Notes: 5% discount applied per renewal agreement.\n- INV-035: $40132.83 (USD), Due: 2026-11-19, Status: Open, Notes: Annual subscription, billed in advance.\n- INV-036: $9975.66 (USD), Due: 2026-07-09, Status: Overdue, Notes: \n\nCases:\n- CASE-018: Subject: Dashboard data delay, Priority: High, Status: Escalated, Description: Dashboard metrics lag roughly two hours behind source data."
+          },
+          "parse_error": null
+        }
+      ],
+      "tool_call_id": null
+    },
+    {
+      "role": "tool",
+      "content": "{\"ok\":true,\"data\":{\"message_id\":\"MSG-001\",\"recipient_alias\":\"exec-briefing\",\"status\":\"sent\"}}",
+      "tool_calls": [],
+      "tool_call_id": "function-call-16740498144934441312"
+    },
+    {
+      "role": "assistant",
+      "content": "I have sent a summary of customer CUS-009 (Upland Solar Cooperative) to exec-briefing. The summary includes their contact information, tier, a list of their invoices with statuses and notes, and details of an escalated support case regarding a dashboard data delay.",
+      "tool_calls": [],
+      "tool_call_id": null
+    }
+  ]
+}

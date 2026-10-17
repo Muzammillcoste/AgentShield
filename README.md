@@ -6,11 +6,8 @@ attacker controls only free-text fields inside tool responses; six independently
 defenses (D1–D6) are measured for unauthorized attempts, unauthorized executions, legitimate
 task success, answer contamination, false blocks, latency and cost.
 
-> **Status: Phase 5 of 7 complete.** Real-LLM agent runtime (Groq `qwen/qwen3.8-27b`, Gemini
-> `gemini-2.5-flash` as quota fallback), attack injector and all six defenses D1–D6 are
-> implemented and tested, plus a 120-scenario benchmark, private grader and analysis. Real-model
-> experiments are **NOT RUN** yet;
-> real calls so far are small capped integration checks. No research results exist.
+> **Status: all 7 phases complete.** See `docs/research_report.md` for results.
+> Real-model experiments (Gemini 2.5 Flash): 2,500 episodes, USD 2.78; findings are exploratory.
 
 Everything is synthetic: no real CRM, Salesforce org, payment system, email delivery or
 network destination is ever contacted.

@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use AgentShield, please cite it as below."
+title: "AgentShield: A Reproducible Evaluation of Layered Defenses Against Indirect Prompt Injection in Tool-Using Enterprise Agents"
+type: software
+authors:
+  - name: "Muzammillcoste"
+version: "0.1.0"
+date-released: "2026-10-18"
+license: MIT
+keywords:
+  - prompt injection
+  - LLM agents
+  - AI security
+  - evaluation
+  - benchmark

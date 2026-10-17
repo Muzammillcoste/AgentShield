@@ -1,5 +1,19 @@
 # Development Log
 
+## 2026-10-18 — Phase 7: held-out evaluation, report, reproducibility (complete)
+
+- Held-out labels human-verified by the owner (D-059); held-out runs only via frozen selection
+  (D-060).
+- Held-out run: C00/C11/C14 x 40 x 3 = 360 episodes from clean commit 6eefb68; 0 errors; 100%
+  delivery; 965,826 tokens; USD 0.457.
+- Results: UER C00 6/60, C11 1/60, C14 0/60; AGSR reductions exclude zero (cluster bootstrap);
+  D2 held-out recall 4/18 vs dev 29/37; contamination 10/12, 6/12, 6/12.
+- Reproducibility: fresh clone without API keys passes 414 tests, regenerates fixture and dataset
+  identically, and re-derives all 16 dev screening summaries exactly from stored artifacts.
+- Report: docs/research_report.md (all numbers from committed artifacts).
+- Total real-model usage (Phases 6-7): 2,500 episodes, 5,986,816 tokens, USD 2.78 at list price.
+
+
 ## 2026-10-17 — Phase 6 (in progress): real-model dev experiments on Gemini 2.5 Flash
 
 - Pre-registered plan and finalist rule committed before any screening result (D-052..D-054).
