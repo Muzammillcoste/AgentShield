@@ -44,12 +44,16 @@ class LLMError(Exception):
         *,
         status_code: int | None = None,
         retryable: bool | None = None,
+        retry_after_s: float | None = None,
+        headers: dict[str, str] | None = None,
     ) -> None:
         super().__init__(f"{kind}: {message}")
         self.kind = kind
         self.message = message
         self.status_code = status_code
         self.retryable = kind in RETRYABLE_KINDS if retryable is None else retryable
+        self.retry_after_s = retry_after_s
+        self.headers = dict(headers or {})
 
 
 @runtime_checkable

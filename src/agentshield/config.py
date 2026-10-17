@@ -50,16 +50,33 @@ class BaseConfig(StrictModel):
     results_dir: str = "results"
 
 
+class DocumentedRateLimits(StrictModel):
+    """Provider-published limits, used only for planning messages (headers are authoritative)."""
+
+    rpm: int | None = None
+    rpd: int | None = None
+    tpm: int | None = None
+    tpd: int | None = None
+    source: str = ""
+    retrieved_on: date | None = None
+
+
 class ModelConfig(StrictModel):
     provider: Literal["fake", "openai_compatible"]
-    # Exactly one of model_id / model_env should identify the model; never assumed.
+    # The model is identified by model_id or by the first set variable among model_env and
+    # model_env_aliases; it is never assumed.
     model_id: str | None = None
     model_env: str | None = None
+    model_env_aliases: tuple[str, ...] = ()
     api_key_env: str | None = None
     base_url: str | None = None
     base_url_env: str | None = None
+    max_tokens_param: Literal["max_tokens", "max_completion_tokens"] = "max_completion_tokens"
     generation: GenerationConfig = GenerationConfig()
     extra_body: dict[str, Any] = Field(default_factory=dict)
+    # Longest client-side wait for a rate-limit window before failing (e.g. daily quota).
+    max_rate_limit_wait_s: Annotated[float, Field(gt=0)] = 90.0
+    documented_limits: DocumentedRateLimits | None = None
 
 
 class ModelPrice(StrictModel):

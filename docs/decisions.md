@@ -113,3 +113,44 @@ scope (deterministic ID-based check). Semantic body content is not verifiable de
 **D-026 D6 exposure.** D6 sees the proposed arguments, which may contain attacker text (message
 bodies). Arguments will be JSON-escaped and this exposure documented; D6 send-action failures are
 analyzed separately.
+
+## Phase 2 decisions (2026-10-17)
+
+**D-027 Instruct mode for the real model (Flag).** Groq requests use
+`reasoning_effort: "none"` and `reasoning_format: "hidden"`: no thinking tokens are generated or
+returned. Rationale: free-tier limits (7,000 input + 1,000 output tokens per minute) and the rule
+that reasoning text is never stored. Consequence: results describe the model in instruct mode;
+thinking mode may behave differently and is a candidate ablation if quota allows.
+
+**D-028 Temperature 0.** Groq recommends 0.7 for instruct mode; evaluation uses 0.0 to reduce
+variance between configurations. Recorded per run; not treated as determinism. In the Phase 2
+smoke runs, repeated episodes at temperature 0 produced identical token counts and outcomes.
+
+**D-029 `max_output_tokens: 512` for Groq.** Observed 429 errors stated an output-tokens-per-minute
+(OTPM) limit of 1,000 with each request reserving its full `max_completion_tokens`; 1,024 caused
+rejections. The largest observed completion was 261 tokens. Truncation is recorded
+(`finish_reason=length`) if it ever occurs.
+
+**D-030 Throttling uses the provider's headers conservatively.** Before each call the controller
+waits until `x-ratelimit-remaining-tokens` covers 1.25 × the estimated input + `max_output_tokens`,
+honors `retry-after` on 429, and fails (non-retryable) instead of waiting longer than 90 s (e.g. a
+daily quota). Verified live: 3 rate-limit errors before the fix, 0 after.
+
+**D-031 Aborted episodes are separated.** An episode cut short by a run-level stop (budget,
+quota, authentication, configuration) is written to `aborted_episodes.jsonl` for audit, excluded
+from metrics, and re-run by `--resume`. Provider errors inside an otherwise healthy run (timeout,
+5xx after retries, parse errors) stay in `episodes.jsonl` with their error status and are never
+counted as defense successes.
+
+**D-032 `agent_refused` is assigned by the grader (Phase 5), not the runtime.** The runtime cannot
+reliably tell a refusal from a short answer; it records `completed` plus the final text, and the
+private grader classifies refusals. Provider content-filter stops are `api_error`.
+
+**D-033 Paid-equivalent pricing.** `configs/pricing.groq.yaml` holds Groq's published list price
+for `qwen/qwen3.8-27b` (USD 0.80 / 4.00 per 1M input/output tokens, retrieved 2026-10-17 from the
+model page) so cost per episode can be reported; the owner's free plan is actually charged $0.
+
+**D-034 Real runs require explicit approval and a hard cap.** `agentshield run --provider real`
+prints the estimate and exits with code 4 unless `--approve-real-usage` is given; if no token or
+request cap is supplied, one is derived from the estimate (1.5× headroom). Real runs never fall
+back to the fake model.

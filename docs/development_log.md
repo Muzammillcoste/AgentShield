@@ -1,5 +1,51 @@
 # Development Log
 
+## 2026-10-17 — Phase 2: real LLM integration and agent runtime (complete, awaiting review)
+
+### Completed
+- Real provider: `OpenAICompatibleClient` over the official `openai` SDK (v3.33, SDK retries
+  off) against Groq `qwen/qwen3.8-27b`; key held as `SecretStr` and redacted from errors;
+  `<think>` blocks and `reasoning` fields stripped (only their size is logged); error mapping to
+  normalized kinds (rate limit, auth, tool_use_failed → parse error, 5xx, timeout, connection).
+- Settings from `configs/model.groq.yaml` + environment (`MODEL_NAME` alias, `LLM_API_KEY`);
+  missing settings fail loudly; real never degrades to fake.
+- `CallController`: hard token/request/USD budget, header-driven throttling, retries with
+  exponential backoff and `retry-after`, every attempt traced.
+- Agent runtime loop with observation pipeline hooks (Phase 3 injector/D2/D3 plug in here),
+  status taxonomy, unique trace call ids, wall-clock/step/tool-call limits.
+- Base system prompt `base-v1` (no evaluation cues). Heuristic offline fake agent.
+- Runner (fresh store per episode, Phase-2 guard rails: baseline configs and clean scenarios
+  only), artifacts (`episodes.jsonl`, `aborted_episodes.jsonl`, transcripts, manifest with
+  environment/git/dataset/config/prompt hashes), `--resume`, estimator.
+- CLI: `check-provider`, `estimate`, `run` (exit 4 without `--approve-real-usage`).
+- Decisions D-027…D-034; docs updated.
+
+### Real-model checks (actual results; integration smoke, not research data)
+- `check-provider`: model `qwen/qwen3.8-27b` listed and active (context 131,072; max completion
+  16,384); key valid.
+- Smoke run 1 (5 clean scenarios, C00): 5/5 completed with correct tool calls, legitimate writes
+  (INV-003 → Paid, OPP-004 → 185000.00, INV-012 → Paid), a send to `sales-review`, a 3-call
+  parallel turn; 18,103 tokens, 12 successful + 3 rate-limited requests (all retried OK).
+  Paid-equivalent $0.0180 (free plan: $0).
+- 429 analysis: free-plan limits are 7,000 input + 1,000 output tokens/min and 1,000
+  requests/day; `max_output_tokens=1024` exceeded the output limit. Fixed (D-029, D-030).
+- Smoke run 2 (3 clean scenarios): 3/3 completed, 0 rate-limit errors (one proactive 48 s wait),
+  12,817 tokens, 8 requests; identical outcomes/token counts to run 1 at temperature 0.
+- Estimator accuracy: predicted 21,296 vs actual 18,103 tokens (run 1); 13,825 vs 12,817 (run 2).
+- Artifacts in `results/phase2-smoke*` (git-ignored); no API key found in any artifact.
+
+### Verification
+- `uv run pytest -q` → 300 passed, 2 skipped (opt-in live tests).
+- `ruff check`, `ruff format --check`, `mypy --strict` (43 files) → clean.
+
+### Open issue for the owner
+- Free-tier throughput: ~3.9K tokens per baseline episode; if the daily token cap is ~200K
+  (documented, unverified for this plan) that is ~40–50 episodes/day, so the planned ~960
+  episodes would take ~3 weeks. Options to decide before Phase 6: reduce scope, run over
+  multiple days with `--resume`, or a paid Groq tier (list-price estimate ≈ $4–6 for ~960
+  episodes, to be re-estimated with defenses enabled).
+
+
 ## 2026-10-17 — Phase 1: foundations (complete, awaiting review)
 
 ### Completed
@@ -39,8 +85,7 @@
   legitimate-write requests per split (D-021).
 
 ### Pending / blocked
-- Phase 2 (real provider, agent runtime, rate-limit/token budget) awaits the owner's go-ahead.
-- No real-model call has been made.
+- Superseded by the Phase 2 entry above.
 
 ### Reproduce
 ```bash

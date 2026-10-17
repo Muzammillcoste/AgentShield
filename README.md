@@ -6,10 +6,10 @@ attacker controls only free-text fields inside tool responses; six independently
 defenses (D1–D6) are measured for unauthorized attempts, unauthorized executions, legitimate
 task success, answer contamination, false blocks, latency and cost.
 
-> **Status: Phase 1 of 7 complete.** Foundations (schemas, synthetic CRM, central dispatcher,
-> trusted scope grammar, fake model, defense registry, dataset validator) are implemented and
-> tested. The real-model runtime, defenses, benchmark dataset and experiments are **NOT RUN**
-> yet. No research results exist at this stage.
+> **Status: Phase 2 of 7 complete.** Foundations plus a working real-LLM agent runtime (Groq,
+> `qwen/qwen3.8-27b`, native tool calling, retries, rate limiting, hard budgets). Defenses,
+> the attack injector, the benchmark dataset and experiments are **NOT RUN** yet; the only real
+> calls so far are capped integration smoke runs on clean tasks. No research results exist.
 
 Everything is synthetic: no real CRM, Salesforce org, payment system, email delivery or
 network destination is ever contacted.
@@ -25,7 +25,23 @@ uv run agentshield show-config C14                 # one configuration (also M00
 uv run agentshield resolve-scope "Change invoice INV-007 status to Paid."
 uv run agentshield fixture-info
 uv run python scripts/generate_fixtures.py --check # fixture regenerates byte-identically
+
+# Offline end-to-end run with the rule-based fake agent (pipeline test, not evidence)
+uv run agentshield run --provider fake --public data/public/examples.jsonl --scenarios ex-clean-invoice-summary-001 --configs C00 --output results/fake-demo
 ```
+
+## Real model (Groq)
+
+Put `LLM_API_KEY` and `MODEL_NAME` (or `AGENTSHIELD_MODEL`) in a local `.env` (never commit it).
+
+```bash
+uv run agentshield check-provider                  # free: confirms the model is available
+uv run agentshield estimate --provider real --public data/public/examples.jsonl --scenarios ...
+uv run agentshield run --provider real --public data/public/examples.jsonl --scenarios ... --configs C00 --output results/my-run --approve-real-usage --max-total-tokens 40000
+uv run agentshield run ... --output results/my-run --resume   # continue after a quota stop
+```
+Real runs refuse to start without `--approve-real-usage`, always run under a hard token/request
+cap, and never fall back to the fake model.
 
 ## Defenses
 
@@ -47,13 +63,6 @@ ablations are registered; see `docs/experiment_protocol.md`.
 scenarios, **private** labels, manifest) · `scripts/` (generators) · `tests/` (unit,
 integration) · `docs/` (plan, methodology, threat model, architecture, decisions, protocol,
 limitations, development log).
-
-## Real models
-
-Real providers arrive in Phase 2 via an OpenAI-compatible adapter. Configure credentials only in
-a local `.env` (see `.env.example`); never commit keys. Paid experiments run only after explicit
-approval, with token/cost estimates and hard budget caps. The fake model is for testing only and
-is never presented as research evidence.
 
 ## License
 MIT (see `LICENSE`).

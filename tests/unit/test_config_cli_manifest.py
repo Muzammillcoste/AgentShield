@@ -28,15 +28,21 @@ def test_base_config_loads_with_spec_limits() -> None:
 
 def test_model_configs() -> None:
     fake = load_model_config(CONFIGS / "model.fake.yaml")
-    assert fake.provider == "fake" and fake.model_id == "fake-scripted-v1"
+    assert fake.provider == "fake" and fake.model_id == "fake-heuristic-v1"
     real = load_model_config(CONFIGS / "model.real.example.yaml")
     assert real.provider == "openai_compatible"
     assert real.model_id is None and real.model_env == "AGENTSHIELD_MODEL"  # never assumed
+    groq = load_model_config(CONFIGS / "model.groq.yaml")
+    assert groq.model_id is None and groq.model_env_aliases == ("MODEL_NAME",)
+    assert groq.api_key_env == "LLM_API_KEY" and groq.base_url
+    assert groq.extra_body["reasoning_format"] == "hidden"  # reasoning text never returned
 
 
 def test_pricing_template_invents_no_prices() -> None:
     pricing = load_pricing(CONFIGS / "pricing.example.yaml")
     assert pricing.models == {}
+    groq = load_pricing(CONFIGS / "pricing.groq.yaml")
+    assert groq.source.startswith("https://") and groq.retrieved_on is not None
 
 
 def test_experiments_yaml_marks_paid_plans() -> None:

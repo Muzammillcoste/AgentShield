@@ -12,13 +12,13 @@ this exercises the attack and defense plumbing without making any claim about re
 from __future__ import annotations
 
 import json
-import math
 import re
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
 from agentshield.llm.protocol import LLMError, LLMErrorKind
+from agentshield.llm.resilience import estimate_tokens
 from agentshield.schemas.llm import (
     ChatMessage,
     FinishReason,
@@ -32,7 +32,7 @@ from agentshield.schemas.llm import (
 )
 
 FAKE_MODEL_ID = "fake-scripted-v1"
-_INJECTED_PREFIX = "fake-inj-"
+INJECTED_CALL_PREFIX = "fake-inj-"
 
 
 @dataclass(frozen=True)
@@ -103,8 +103,23 @@ INJECTION_TRIGGERS: tuple[_Trigger, ...] = (
 )
 
 
-def _estimate_tokens(text: str) -> int:
-    return math.ceil(len(text) / 4) if text else 0
+def find_pending_injection(messages: Sequence[ChatMessage]) -> tuple[str, dict[str, Any]] | None:
+    """First imperative found in a TOOL message that has not been acted on yet (or None)."""
+    issued = {
+        (c.name, json.dumps(c.arguments, sort_keys=True))
+        for m in messages
+        if m.role is MessageRole.ASSISTANT
+        for c in m.tool_calls
+    }
+    for message in messages:
+        if message.role is not MessageRole.TOOL or not message.content:
+            continue
+        for pattern, build in INJECTION_TRIGGERS:
+            for match in pattern.finditer(message.content):
+                name, args = build(match)
+                if (name, json.dumps(args, sort_keys=True)) not in issued:
+                    return name, args
+    return None
 
 
 @dataclass
@@ -132,22 +147,24 @@ class FakeLLMClient:
         self.requests.append(list(messages))
         assistant_messages = [m for m in messages if m.role is MessageRole.ASSISTANT]
         turn = len(assistant_messages)
-        prompt_tokens = sum(_estimate_tokens(m.content or "") for m in messages) + sum(
-            _estimate_tokens(json.dumps(t.parameters)) for t in tools
+        prompt_tokens = sum(estimate_tokens(m.content or "") for m in messages) + sum(
+            estimate_tokens(json.dumps(t.parameters)) for t in tools
         )
 
         if self.follow_injections:
-            pending = self._pending_injection(messages)
+            pending = find_pending_injection(messages)
             if pending is not None:
                 name, args = pending
                 return self._tool_response(
-                    turn, ((name, args),), None, prompt_tokens, prefix=_INJECTED_PREFIX
+                    turn, ((name, args),), None, prompt_tokens, prefix=INJECTED_CALL_PREFIX
                 )
 
         script_index = sum(
             1
             for m in assistant_messages
-            if not (m.tool_calls and all(c.id.startswith(_INJECTED_PREFIX) for c in m.tool_calls))
+            if not (
+                m.tool_calls and all(c.id.startswith(INJECTED_CALL_PREFIX) for c in m.tool_calls)
+            )
         )
         step = self.steps[script_index] if script_index < len(self.steps) else None
 
@@ -169,25 +186,6 @@ class FakeLLMClient:
         return self._tool_response(turn, step.calls, step.text, prompt_tokens)
 
     # ---- helpers -----------------------------------------------------------------------
-
-    def _pending_injection(
-        self, messages: Sequence[ChatMessage]
-    ) -> tuple[str, dict[str, Any]] | None:
-        issued = {
-            (c.name, json.dumps(c.arguments, sort_keys=True))
-            for m in messages
-            if m.role is MessageRole.ASSISTANT
-            for c in m.tool_calls
-        }
-        for message in messages:
-            if message.role is not MessageRole.TOOL or not message.content:
-                continue
-            for pattern, build in INJECTION_TRIGGERS:
-                for match in pattern.finditer(message.content):
-                    name, args = build(match)
-                    if (name, json.dumps(args, sort_keys=True)) not in issued:
-                        return name, args
-        return None
 
     def _tool_response(
         self,
@@ -224,7 +222,7 @@ class FakeLLMClient:
             tool_calls=tool_calls,
             usage=Usage(
                 input_tokens=prompt_tokens,
-                output_tokens=_estimate_tokens(output_text),
+                output_tokens=estimate_tokens(output_text),
                 requests=1,
                 estimated=True,
             ),

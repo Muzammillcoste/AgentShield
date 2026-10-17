@@ -1,0 +1,10 @@
+# Paid-equivalent list prices for reporting cost per episode. The project owner uses the Groq
+# FREE plan, so the actual charge is $0; these figures only make costs comparable/reportable.
+version: "groq-2026-10-17"
+source: "https://console.groq.com/docs/model/qwen/qwen3.8-27b (USD per 1M tokens)"
+retrieved_on: 2026-10-17
+currency: USD
+models:
+  qwen/qwen3.8-27b:
+    input_usd_per_mtok: 0.80
+    output_usd_per_mtok: 4.00

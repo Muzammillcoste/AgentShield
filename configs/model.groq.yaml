@@ -1,0 +1,27 @@
+# Real provider: Groq (OpenAI-compatible chat completions) with native tool calling.
+# The model id comes from the environment (AGENTSHIELD_MODEL, or MODEL_NAME as in the local
+# .env); the API key from LLM_API_KEY. No secret belongs in this file.
+provider: openai_compatible
+base_url: https://api.groq.com/openai/v1
+model_env: AGENTSHIELD_MODEL
+model_env_aliases: [MODEL_NAME]
+api_key_env: LLM_API_KEY
+max_tokens_param: max_completion_tokens
+generation:
+  temperature: 0.0          # recorded; not a determinism guarantee (D-028)
+  max_output_tokens: 512     # free tier OTPM is 1000; requests reserve max output (D-029)
+  timeout_s: 60
+  tool_choice: auto
+extra_body:
+  reasoning_effort: "none"  # instruct mode: no thinking tokens (D-027)
+  reasoning_format: "hidden" # never return reasoning text
+max_rate_limit_wait_s: 90
+# Observed on the owner's free plan (2026-10-17): 1000 requests/day, 8000 tokens/min combined,
+# split as 7000 input (ITPM) + 1000 output (OTPM) per minute (from 429 messages).
+documented_limits:          # planning only; x-ratelimit-* headers are authoritative
+  rpm: 30
+  rpd: 1000
+  tpm: 8000
+  tpd: 200000
+  source: "https://console.groq.com/docs/rate-limits (table for qwen/qwen3.8-27b; plan label unclear)"
+  retrieved_on: 2026-10-17

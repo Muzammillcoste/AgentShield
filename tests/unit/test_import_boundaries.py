@@ -19,6 +19,8 @@ SRC = ROOT / "src" / "agentshield"
 RUNTIME_PACKAGES = ("crm", "auth", "llm", "defenses", "injection", "agent")
 FORBIDDEN_FOR_RUNTIME = ("agentshield.schemas.truth", "agentshield.benchmark")
 FORBIDDEN_FOR_DEFENSES = ("agentshield.schemas.scenario",)
+# The agent loop and model clients never see scenario objects (labels stay in the harness).
+LABEL_FREE_PACKAGES = ("defenses", "agent", "llm")
 
 
 def _imports(path: Path) -> set[str]:
@@ -52,8 +54,9 @@ def test_runtime_never_imports_private_truth_or_harness(package: str) -> None:
     assert _violations(_modules(package), FORBIDDEN_FOR_RUNTIME) == []
 
 
-def test_defenses_never_import_scenario_labels() -> None:
-    assert _violations(_modules("defenses"), FORBIDDEN_FOR_DEFENSES) == []
+@pytest.mark.parametrize("package", LABEL_FREE_PACKAGES)
+def test_label_free_packages_never_import_scenarios(package: str) -> None:
+    assert _violations(_modules(package), FORBIDDEN_FOR_DEFENSES) == []
 
 
 def test_only_harness_modules_import_private_truth() -> None:

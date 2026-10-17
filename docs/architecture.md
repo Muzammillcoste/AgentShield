@@ -1,6 +1,6 @@
 # Architecture
 
-Status reflects Phase 1. Components marked *(Phase n)* are designed but not yet implemented.
+Status reflects Phase 2. Components marked *(Phase n)* are designed but not yet implemented.
 
 ## Package layout
 
@@ -20,16 +20,26 @@ Status reflects Phase 1. Components marked *(Phase n)* are designed but not yet 
 | `auth/principals.py` | Role → general capability table; principal directory |
 | `auth/scope_resolver.py` | Trusted deterministic request grammar → `TaskScope` |
 | `llm/protocol.py` | `LLMClient` protocol, normalized `LLMError` |
-| `llm/fake.py` | Deterministic scripted client (tests/CI only) |
+| `llm/fake.py` | Deterministic scripted client (unit tests) |
+| `llm/fake_agent.py` | Rule-based offline agent for end-to-end fake runs (never evidence) |
+| `llm/settings.py` | Model config + environment → resolved settings (key as `SecretStr`) |
+| `llm/openai_compatible.py` | Real client (official `openai` SDK → Groq), reasoning stripping, error mapping |
+| `llm/resilience.py` | Retries/backoff, header-driven rate limiting, hard token/request/USD budget |
+| `llm/prompts.py` | Versioned base system prompt (`base-v1`) |
+| `llm/provider.py` | Client factory (real never degrades to fake) |
+| `agent/runtime.py` | The agent loop: model ↔ dispatcher, observation pipeline, traces |
+| `agent/observation.py` | Payload transformers (injection/D2 hooks) and serializer (D3 hook) |
 | `defenses/registry.py` | 16 primary configs, 64 bitmask configs, leave-one-out, D5 granularity, oracle diagnostics |
 | `benchmark/loader.py`, `truth_store.py` | Public loader (runtime-safe) / private truth loader (harness-only) |
 | `benchmark/validation.py` | Dataset validator |
 | `benchmark/manifest.py` | Content-hash manifest |
+| `benchmark/runner.py` | Episode orchestration (fresh store per episode, resume, abort handling) |
+| `benchmark/artifacts.py` | `episodes.jsonl`, aborted episodes, transcripts, run manifest |
+| `benchmark/estimate.py` | Pre-run usage estimate (offline dry run) |
 | `cli.py` | `agentshield` CLI |
-| *(Phase 2)* `llm/provider.py`, `agent/runtime.py`, `llm/budget.py` | Real provider, agent loop, cost/budget |
 | *(Phase 3)* `injection/`, `defenses/d1–d3` | Injector, security prompt, inspector, provenance |
 | *(Phase 4)* `defenses/d4–d6`, `auth/policy.py` | Allowlist, policy gateway, verifier |
-| *(Phase 5)* `benchmark/{runner,grader,metrics}.py` | Orchestration, private scoring, metrics |
+| *(Phase 5)* `benchmark/{grader,metrics,statistics}.py` | Private scoring, metrics, uncertainty |
 
 ## Dispatcher pipeline (implemented)
 
@@ -42,6 +52,20 @@ Status reflects Phase 1. Components marked *(Phase n)* are designed but not yet 
 6. Handler executes against the in-memory store → `ExecutionEvent` with field-level changes.
 7. The structured payload returns to the runtime, where (Phase 3) injection, D2 and D3 transform
    a *copy* before it reaches the model; `ToolResultEvent` records exactly what the model saw.
+
+## Agent loop (implemented, Phase 2)
+
+1. Log the trusted scope (never shown to the model); build `[system, user]` messages and the
+   visible tool schemas.
+2. Each turn: the `CallController` checks the budget, waits for the rate-limit window, calls the
+   model, retries transient errors and logs every attempt as a `ModelCallEvent`.
+3. Tool calls go one by one through the dispatcher; the payload copy passes the transformers and
+   serializer; a `ToolResultEvent` records exactly what the model saw; one tool message answers
+   each provider call id.
+4. Stop on a final answer (`completed`), provider error (`timeout`/`api_error`/`parse_error`),
+   budget/quota/auth stop (`infrastructure_error`, run aborted), step or tool-call limit
+   (`max_steps`) or wall-clock timeout.
+5. Snapshot the final state and compute the diff against the initial snapshot.
 
 ## Information flow guarantees
 

@@ -24,3 +24,11 @@ Living list; updated each phase.
     (`label_verified=false`).
 11. **Fake model.** Its "susceptibility" is a regex simulation used to test plumbing; it says
     nothing about real LLM behavior.
+12. **Instruct mode only.** The real model runs without thinking tokens (D-027); conclusions do
+    not automatically transfer to its thinking mode.
+13. **Free-tier throughput.** Groq free-plan limits (7K input / 1K output tokens per minute,
+    1K requests/day, daily token cap unverified) make the full ~960-episode plan slow; run
+    scope may need reduction or a paid tier, decided before Phase 6 and reported honestly.
+14. **Rough estimates.** Pre-run token estimates use characters/4 and an offline call path;
+    in Phase 2 they over-estimated actual usage by 8–18%. Recorded usage is always the
+    provider's count.

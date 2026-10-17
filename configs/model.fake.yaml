@@ -1,6 +1,7 @@
-# Offline deterministic fake model. For tests/CI/smoke runs only; never research evidence.
+# Offline deterministic fake agent (rule-based). For tests/CI/smoke runs only; its output is
+# never research evidence about real models.
 provider: fake
-model_id: fake-scripted-v1
+model_id: fake-heuristic-v1
 generation:
   temperature: 0.0
   max_output_tokens: 1024

@@ -73,7 +73,11 @@ class ModelCallEvent(_Event):
     raw_response_id: str | None = None
     n_tool_calls: int = 0
     error_kind: str | None = None
+    error_message: str | None = None
     attempt: int = 1
+    waited_s: float = 0.0
+    reasoning_chars_removed: int = 0
+    rate_limit_headers: dict[str, str] = Field(default_factory=dict)
 
 
 class ProposalEvent(_Event):

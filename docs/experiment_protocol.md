@@ -38,6 +38,20 @@ Planned core ≈ 960 episodes (not API calls; calls per episode vary). Before ea
 estimator reports expected requests/tokens/cost (cost only with user-supplied prices), the run
 enforces token/USD/request caps, and actual usage is logged per episode.
 
+## Real-model workflow (implemented, Phase 2)
+
+```bash
+uv run agentshield check-provider                 # free: lists models, confirms the configured one
+uv run agentshield estimate --provider real ...   # no API calls; tokens, calls, paid-equivalent USD
+uv run agentshield run --provider real ... --approve-real-usage --max-total-tokens N --output DIR
+uv run agentshield run ... --resume --output DIR  # continue after a quota/budget stop
+```
+
+Measured free-plan limits for `qwen/qwen3.8-27b` (owner's account, 2026-10-17, from headers and 429
+messages): 1,000 requests/day; 8,000 tokens/min combined = 7,000 input + 1,000 output tokens/min.
+The daily token limit is not reported in headers (documentation lists 200K/day; unverified for
+this plan). Baseline clean episodes used 2.6K–5.7K tokens (mean ≈ 3.9K over 8 episodes).
+
 ## Freeze rules
 No change to prompts, rules, grammar, policy, model or dataset after any held-out outcome is
 seen. New ideas inspired by held-out results require a new evaluation set.

@@ -92,6 +92,10 @@ class ModelResponse(StrictModel):
     provider_kind: ProviderKind
     raw_response_id: str | None = None
     latency_ms: Annotated[float, Field(ge=0)] = 0.0
+    # Non-secret provider rate-limit headers (x-ratelimit-*, retry-after) for throttling.
+    rate_limit_headers: dict[str, str] = Field(default_factory=dict)
+    # Characters of model reasoning removed before the text entered the transcript.
+    reasoning_chars_removed: Annotated[int, Field(ge=0)] = 0
 
 
 class GenerationConfig(StrictModel):
@@ -103,4 +107,5 @@ class GenerationConfig(StrictModel):
     seed: int | None = None
     timeout_s: Annotated[float, Field(gt=0, le=600)] = 60.0
     tool_choice: Literal["auto", "none", "required"] = "auto"
-    parallel_tool_calls: bool = False
+    # None = do not send the parameter (not every model/provider supports it).
+    parallel_tool_calls: bool | None = None
