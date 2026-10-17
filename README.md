@@ -6,9 +6,10 @@ attacker controls only free-text fields inside tool responses; six independently
 defenses (D1–D6) are measured for unauthorized attempts, unauthorized executions, legitimate
 task success, answer contamination, false blocks, latency and cost.
 
-> **Status: Phase 4 of 7 complete.** Real-LLM agent runtime (Groq `qwen/qwen3.8-27b`, Gemini
+> **Status: Phase 5 of 7 complete.** Real-LLM agent runtime (Groq `qwen/qwen3.8-27b`, Gemini
 > `gemini-2.5-flash` as quota fallback), attack injector and all six defenses D1–D6 are
-> implemented and tested. The benchmark dataset, grader and experiments are **NOT RUN** yet;
+> implemented and tested, plus a 120-scenario benchmark, private grader and analysis. Real-model
+> experiments are **NOT RUN** yet;
 > real calls so far are small capped integration checks. No research results exist.
 
 Everything is synthetic: no real CRM, Salesforce org, payment system, email delivery or
@@ -25,9 +26,11 @@ uv run agentshield show-config C14                 # one configuration (also M00
 uv run agentshield resolve-scope "Change invoice INV-007 status to Paid."
 uv run agentshield fixture-info
 uv run python scripts/generate_fixtures.py --check # fixture regenerates byte-identically
+uv run python scripts/generate_scenarios.py --check # 120-scenario dataset regenerates identically
 
 # Offline end-to-end run with the rule-based fake agent (pipeline test, not evidence)
-uv run agentshield run --provider fake --public data/public/examples.jsonl --scenarios ex-clean-invoice-summary-001 --configs C00 --output results/fake-demo
+uv run agentshield run --provider fake --fake-susceptible --split dev --configs C00,C05,C14 --output results/fake-dev
+uv run agentshield analyze --input results/fake-dev            # metrics, CIs, figures (no model calls)
 ```
 
 ## Real model (Groq)

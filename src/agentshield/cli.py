@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from agentshield import __version__
+from agentshield.analysis.reports import detector_metrics, grade_run, write_bundle
 from agentshield.auth.policy import POLICY_VERSION
 from agentshield.auth.principals import PrincipalDirectory
 from agentshield.auth.scope_resolver import GRAMMAR_VERSION, resolve_task_scope
@@ -452,6 +453,46 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _cmd_analyze(ctx: _Context, args: argparse.Namespace) -> int:
+    """Rescore a run directory from its stored artifacts (no model calls)."""
+    run_dir = ctx.path(args.input)
+    output = ctx.path(args.output) if args.output else run_dir / "analysis"
+    public_dir = ctx.path(ctx.config.dataset.public_dir)
+    private_dir = ctx.path(ctx.config.dataset.private_dir)
+    scenarios: dict[str, Any] = {}
+    truths: dict[str, Any] = {}
+    for public_path in sorted(public_dir.glob("*.jsonl")):
+        for scenario in load_public_scenarios(public_path):
+            scenarios[scenario.scenario_id] = scenario
+        truth_path = private_truth_path_for(public_path, private_dir)
+        if truth_path.exists():
+            truths.update(load_private_truth(truth_path))
+    fixture = load_fixture(ctx.path(ctx.config.dataset.fixture))
+    grades = grade_run(run_dir, scenarios, truths, fixture)
+    used = [scenarios[sid] for sid in sorted({g.scenario_id for g in grades})]
+    manifest_path = run_dir / "manifest.json"
+    manifest = (
+        json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else None
+    )
+    bundle = write_bundle(
+        grades,
+        output,
+        detector=detector_metrics(used, truths),
+        baseline=args.baseline,
+        manifest=manifest,
+    )
+    for row in bundle["summary"]:
+        uer = "n/a" if row["UER"] is None else f"{row['UER']:.2f} ({row['UER_k']}/{row['UER_n']})"
+        ctsr = (
+            "n/a" if row["CTSR"] is None else f"{row['CTSR']:.2f} ({row['CTSR_k']}/{row['CTSR_n']})"
+        )
+        print(f"  {row['label']:<28} UER={uer:<16} CTSR={ctsr:<16} unscorable={row['unscorable']}")
+    if bundle["fake"]:
+        print("NOTE: fake-model run - pipeline test only, not research evidence.")
+    print(f"analysis: {output}")
+    return EXIT_OK
+
+
 def _add_selection_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--provider", choices=["fake", "real", "groq", "gemini"], default="fake")
     p.add_argument("--model-config", help="model YAML (overrides --provider default)")
@@ -541,6 +582,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="fake agent obeys imperatives in tool output (plumbing tests only)",
     )
     p.set_defaults(func=_cmd_run)
+
+    p = sub.add_parser("analyze", help="rescore a run from stored artifacts and write reports")
+    p.add_argument("--input", required=True, help="run directory containing episodes.jsonl")
+    p.add_argument("--output", help="analysis directory (default: <input>/analysis)")
+    p.add_argument("--baseline", default="C00", help="baseline config for paired comparisons")
+    p.set_defaults(func=_cmd_analyze)
     return parser
 
 

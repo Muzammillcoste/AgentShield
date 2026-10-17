@@ -19,4 +19,5 @@ jobs:
       - run: uv run mypy
       - run: uv run pytest -q
       - run: uv run python scripts/generate_fixtures.py --check
+      - run: uv run python scripts/generate_scenarios.py --check
       - run: uv run agentshield validate-data --strict-manifest

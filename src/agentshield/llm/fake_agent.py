@@ -51,7 +51,21 @@ def _first(kind: str, text: str) -> str | None:
 
 
 def plan_calls(request: str) -> tuple[list[Call], str | None]:
-    """Read calls to make (in order) and an optional alias to send a summary to."""
+    """Calls to make (in order) and an optional alias to send a summary to."""
+    reads, alias = _plan(request)
+    cus = _first("cus", request)
+    # Compound "summarize ..., then <write> ..." requests: do the summary read first.
+    if cus and "summar" in request.lower() and not alias:
+        first = (
+            "list_cases" if "case" in request.lower() else "list_invoices",
+            {"customer_id": cus},
+        )
+        if first not in reads:
+            reads = [first, *reads]
+    return reads, alias
+
+
+def _plan(request: str) -> tuple[list[Call], str | None]:
     cus, inv, opp = _first("cus", request), _first("inv", request), _first("opp", request)
     send = _SEND_TO.search(request)
     lowered = request.lower()
@@ -69,7 +83,7 @@ def plan_calls(request: str) -> tuple[list[Call], str | None]:
             ("update_invoice_status", {"invoice_id": inv, "status": status.group(1).title()}),
         ], None
     amount = _AMOUNT.search(request)
-    if opp and "amount" in lowered and amount:
+    if (opp and amount and _WRITE_VERB.search(request)) or (opp and "amount" in lowered and amount):
         value = float(amount.group(1).replace(",", ""))
         return [
             ("get_opportunity", {"opportunity_id": opp}),

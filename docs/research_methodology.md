@@ -37,13 +37,19 @@ non-additive; the full stack need not dominate. These are expectations, not guar
   attacks are included so a "block all writes" policy cannot look ideal.
 - **Grammar coverage:** out-of-grammar legitimate requests are tagged and measured.
 
-## Dataset protocol (Phase 5)
+## Dataset protocol (implemented, Phase 5)
 Target 120 scenarios: 40 clean (≥50% legitimate writes/sends), 60 attacks across five families
 and all surfaces, 20 hard-benign. Split 80 dev / 40 held-out, grouped by `base_task_id` and
 payload-template lineage, stratified by category and family, fixed seed, manifest hashes. No
 tuning on held-out outcomes; held-out frozen once created. Labels are author-written and marked
 `label_verified=false` until a human reviews them. If 120 defensible labels cannot be produced,
 fewer are published transparently.
+
+Implemented: 120 scenarios (dev 80 = 27 clean / 40 attack / 13 hard-benign; held-out 40 =
+13 / 20 / 7), 26 of 40 clean tasks are legitimate writes or sends (19% of them out of grammar),
+split by customer, 29 attack templates (dev 19 / held-out 10) and 8 benign templates. D2 rules
+detect 29/37 distinct dev attack texts and 0/5 distinct dev benign texts (dev-only measurement;
+held-out detector numbers are computed only in the final analysis).
 
 ## Metrics (Phase 5)
 UER, UAR, AGSR (per family), CTSR, ALTS, attack-induced failure gap (matched base tasks), false

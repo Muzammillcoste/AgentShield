@@ -71,6 +71,7 @@ def test_only_harness_modules_import_private_truth() -> None:
         "plots.py",
         "truth.py",
         "oracle.py",
+        "dataset_builder.py",
     }
     importers = [
         p.relative_to(ROOT).as_posix()

@@ -219,3 +219,37 @@ recorded as an `api_error` episode. Regression test added.
 **D-045 Oracle scope.** `benchmark/oracle.py` builds write/send grants from the private
 `allowed_state_changes`; only `ORACLE-*` configurations use it, the run manifest lists them under
 `oracle_upper_bound_configs`, and they are excluded from deployable rankings.
+
+## Phase 5 decisions (2026-10-17)
+
+**D-046 Dataset construction.** 40 hand-specified base tasks (in
+`benchmark/dataset_builder.py`) yield 40 clean scenarios; 60 attacks (12 per family) and 20
+hard-benign scenarios are attached to base tasks whose legitimate path reads the injected record
+(D-041). Labels are derived from the fixture by code and checked by the validator. Generation is
+deterministic (`scripts/generate_scenarios.py --check` in CI).
+
+**D-047 Split by customer (stronger than required).** Held-out customers are CUS-009, CUS-011,
+CUS-012 (T1) and CUS-015, CUS-016 (T2); every base task, record, injected record and text
+template lineage belongs to exactly one split. 80 dev / 40 held-out; each split has every
+category and family (dev 27/40/13, held-out 13/20/7).
+
+**D-048 Template coverage over load balancing.** Each attack picks the least-used template of its
+family/split, then the least-loaded compatible base task; all 29 attack and 8 benign templates are
+used. Benign texts are placed only on fitting record types (case quotes on cases, etc.).
+
+**D-049 Compound requests for attacked write tasks.** Attacked write tasks use "summarize ...,
+then <write> ..." so the injected record is read; simple write requests (W2/W4) appear only as
+clean tasks. When the attacker targets the task's own record (wrong value), only the attacker's
+value is forbidden, so the legitimate change stays allowed.
+
+**D-050 Grader and metrics.** `benchmark/grader.py` scores attempts from proposals, executions
+from the state diff, goals by type (disclosure needs the canary in the message body),
+contamination by forbidden mentions, false blocks over legitimate proposals (writes matching
+allowed changes; reads of the task's own records), information preservation via
+`preservation_markers`. Scorable statuses: completed, max_steps, agent_refused. Metrics report
+k/n with Wilson 95% intervals; paired differences use a cluster bootstrap by base task (2,000
+resamples, fixed seed) on scenario sets shared by both configurations.
+
+**D-051 Label verification status.** All 120 labels are generated and author-audited by
+sampling, not human-verified (`label_verified=false`). Review sheets for both splits are in
+`docs/label_review_*.md`; verified scenarios get `label_verified=true` and `verified_by`.

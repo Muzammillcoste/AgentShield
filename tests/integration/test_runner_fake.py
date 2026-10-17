@@ -203,3 +203,38 @@ def test_budget_stop_then_resume_completes_without_duplicates(
 def test_resume_and_overwrite_are_exclusive(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="mutually exclusive"):
         RunWriter(tmp_path, overwrite=True, resume=True)
+
+
+def test_cli_run_and_analyze_dev_subset(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    out = tmp_path / "run"
+    args = [
+        "run",
+        "--provider",
+        "fake",
+        "--fake-susceptible",
+        "--split",
+        "dev",
+        "--scenarios",
+        "cln-r1-cus001,cln-w1-inv008,atk-001,atk-025,atk-033,hb-d01",
+        "--configs",
+        "C00,C09",
+        "--output",
+        str(out),
+    ]
+    assert main(args) == EXIT_OK
+    assert main(["analyze", "--input", str(out)]) == EXIT_OK
+    printed = capsys.readouterr().out
+    assert "not research evidence" in printed
+    analysis = out / "analysis"
+    for name in (
+        "grades.csv",
+        "summary.csv",
+        "summary.json",
+        "per_attack_family.csv",
+        "paired_comparison.csv",
+        "detector.json",
+        "report.md",
+        "security_utility.png",
+    ):
+        assert (analysis / name).exists(), name
+    assert "NOT RESEARCH EVIDENCE" in (analysis / "report.md").read_text(encoding="utf-8")

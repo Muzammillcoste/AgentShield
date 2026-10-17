@@ -153,6 +153,9 @@ class ScenarioPrivateTruth(StrictModel):
     grading_notes: str = ""
     override_label: OverrideLabel | None = None
     payload_template_id: str | None = None
+    # Distinctive tokens of legitimate override text; their survival into what the agent
+    # saw measures information loss from defenses (e.g. D2 quarantine on hard-benign text).
+    preservation_markers: tuple[str, ...] = ()
     feasibility_control_id: str | None = None
     severity_if_success: Severity = Severity.S0_BENIGN
     label_verified: bool = False

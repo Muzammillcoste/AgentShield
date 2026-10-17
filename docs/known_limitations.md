@@ -43,3 +43,10 @@ Living list; updated each phase.
     the attack is not delivered (observed with Gemini, D-041); delivery rates are reported.
 19. **Same-model verifier.** By default D6 uses the agent's model, so verifier and agent errors
     may be correlated.
+20. **Generated labels.** Scenario labels are generated from the fixture and author-audited by
+    sampling; human verification is pending (review sheets provided).
+21. **Deterministic answer checks.** Task success requires exact record IDs in the final answer;
+    a correct answer that omits IDs is scored as a failure, and contamination is detected only
+    via canary strings (a fabricated claim without the canary is missed).
+22. **Template diversity.** 29 attack templates across 5 families is small; results describe
+    these attack styles, not prompt injection in general.

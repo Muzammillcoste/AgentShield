@@ -1,6 +1,6 @@
 # Architecture
 
-Status reflects Phase 4. Components marked *(Phase n)* are designed but not yet implemented.
+Status reflects Phase 5. Components marked *(Phase n)* are designed but not yet implemented.
 
 ## Package layout
 
@@ -48,7 +48,11 @@ Status reflects Phase 4. Components marked *(Phase n)* are designed but not yet 
 | `defenses/d6_action_verifier.py` | D6 independent LLM verifier for writes/sends (`d6-v1`) |
 | `llm/fake_verifier.py` | Deterministic offline verifier (never evidence) |
 | `benchmark/oracle.py` | ORACLE UPPER BOUND scopes from private labels (diagnostic) |
-| *(Phase 5)* `benchmark/{grader,metrics,statistics}.py` | Private scoring, metrics, uncertainty |
+| `injection/templates.py` | Attack (29) and hard-benign (8) text templates with split-exclusive lineages |
+| `benchmark/dataset_builder.py` | Deterministic 120-scenario generator (labels from the fixture) |
+| `benchmark/grader.py` | PRIVATE episode grader (attempts, executions, goals, task success) |
+| `benchmark/metrics.py`, `statistics.py` | Rates with Wilson CIs, per-family, paired cluster bootstrap |
+| `analysis/reports.py`, `plots.py` | Rescore runs from artifacts; CSV/JSON/Markdown + figures |
 
 ## Dispatcher pipeline (implemented)
 

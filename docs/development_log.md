@@ -1,5 +1,27 @@
 # Development Log
 
+## 2026-10-17 — Phase 5: dataset, grader, metrics, analysis (complete, awaiting review)
+
+### Completed
+- 120-scenario benchmark (`data/public/{dev,heldout}.jsonl`, private truth in
+  `data/private/`), deterministic generator, customer-level split, template lineages,
+  feasibility controls, preservation markers; review sheets `docs/label_review_*.md`.
+- Private grader, metric aggregation (UER, UAR, UER_delivered, delivery, AGSR, ALTS, CTSR,
+  HBTSR, contamination, FBR, preservation, failure gap, performance), Wilson CIs, paired cluster
+  bootstrap, D2 detector metrics, figures, `agentshield analyze` (rescore without model calls).
+- Fake agent handles compound requests (offline realism only).
+- Bugs found and fixed: overlapping allowed/forbidden labels for same-record value attacks
+  (caught by the schema), negative error bars at rates of 0/1, wrong scatter title, overlapping
+  point labels.
+
+### Verification (actual results)
+- `uv run pytest -q` → 407 passed, 2 skipped (incl. golden fake-run regression test); ruff and
+  mypy --strict clean; dataset regenerates identically; validator: 0 errors.
+- Offline fake run, full dev split × C00/C05/C14 (240 episodes; pipeline test, NOT evidence):
+  C00 UER 21/40, C05 and C14 0/40; CTSR 26/27 vs 24/27 (out-of-grammar writes blocked).
+- No real-model calls in Phase 5.
+
+
 ## 2026-10-17 — Phase 4: D4–D6, oracle diagnostics, model fallback (complete, awaiting review)
 
 ### Completed
