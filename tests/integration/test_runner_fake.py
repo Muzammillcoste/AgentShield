@@ -238,3 +238,43 @@ def test_cli_run_and_analyze_dev_subset(tmp_path: Path, capsys: pytest.CaptureFi
     ):
         assert (analysis / name).exists(), name
     assert "NOT RESEARCH EVIDENCE" in (analysis / "report.md").read_text(encoding="utf-8")
+
+
+def test_cli_select_freezes_finalists_from_dev_only(tmp_path: Path) -> None:
+    out = tmp_path / "run"
+    ids = "cln-r1-cus001,cln-w1-inv008,cln-s1-cus001,atk-001,atk-025,hb-d01"
+    assert (
+        main(
+            [
+                "run",
+                "--provider",
+                "fake",
+                "--fake-susceptible",
+                "--split",
+                "dev",
+                "--scenarios",
+                ids,
+                "--configs",
+                "C00,C03,C09,C14",
+                "--output",
+                str(out),
+            ]
+        )
+        == EXIT_OK
+    )
+    assert main(["analyze", "--input", str(out)]) == EXIT_OK
+    frozen = tmp_path / "final.yaml"
+    assert main(["select", "--analysis", str(out / "analysis"), "--output", str(frozen)]) == EXIT_OK
+    import yaml
+
+    data = yaml.safe_load(frozen.read_text(encoding="utf-8"))
+    assert data["finalists"][0] == "C00" and len(data["finalists"]) <= 4
+    assert set(data["finalist_hashes"]) == set(data["finalists"])
+    grades = out / "analysis" / "grades.csv"
+    grades.write_text(
+        grades.read_text(encoding="utf-8").replace(",dev,", ",heldout,"), encoding="utf-8"
+    )
+    assert (
+        main(["select", "--analysis", str(out / "analysis"), "--output", str(frozen)])
+        == EXIT_CONFIG_ERROR
+    )

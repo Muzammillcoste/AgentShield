@@ -16,6 +16,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 from agentshield import __version__
 from agentshield.analysis.reports import detector_metrics, grade_run, write_bundle
 from agentshield.auth.policy import POLICY_VERSION
@@ -43,6 +45,7 @@ from agentshield.benchmark.runner import (
     new_run_id,
     run_episodes,
 )
+from agentshield.benchmark.selection import select_finalists
 from agentshield.benchmark.session import (
     DEFAULT_MODEL_CONFIGS,
     dataset_version,
@@ -493,6 +496,50 @@ def _cmd_analyze(ctx: _Context, args: argparse.Namespace) -> int:
     return EXIT_OK
 
 
+def _cmd_select(ctx: _Context, args: argparse.Namespace) -> int:
+    """Freeze finalists from dev results only (pre-registered rule, D-053)."""
+    analysis = ctx.path(args.analysis)
+    summary = json.loads((analysis / "summary.json").read_text(encoding="utf-8"))
+    models = {row["model_id"] for row in summary}
+    if len(models) != 1:
+        print(f"error: selection needs a single-model run, found {sorted(models)}", file=sys.stderr)
+        return EXIT_CONFIG_ERROR
+    grades = (analysis / "grades.csv").read_text(encoding="utf-8")
+    if ",heldout," in grades:
+        print("error: held-out results must never inform selection", file=sys.stderr)
+        return EXIT_CONFIG_ERROR
+    registry = load_registry(ctx.path(ctx.config.defenses_registry))
+    configs = {c.id: c for c in registry.configs()}
+    result = select_finalists(summary, configs)
+    run_manifest = json.loads((analysis.parent / "manifest.json").read_text(encoding="utf-8"))
+    frozen = {
+        "frozen_at": datetime.now(UTC).isoformat(),
+        "selection": result,
+        "finalists": result["finalists"],
+        "finalist_hashes": {c: configs[c].config_hash() for c in result["finalists"]},
+        "model": next(iter(models)),
+        "source_dev_run": run_manifest.get("run_id"),
+        "dataset_version": run_manifest.get("dataset", {}).get("dataset_version"),
+        "prompts": run_manifest.get("prompts"),
+        "defense_versions": run_manifest.get("defense_versions"),
+        "grammar_version": run_manifest.get("grammar_version"),
+        "generation": run_manifest.get("model", {}).get("generation"),
+        "rule": "benchmark/selection.py " + result["selection_version"],
+    }
+    out = ctx.path(args.output)
+    out.write_text(
+        "# FROZEN finalist selection (dev results only). Do not edit after held-out runs start.\n"
+        + yaml.safe_dump(frozen, sort_keys=False),
+        encoding="utf-8",
+    )
+    print(f"finalists: {result['finalists']}")
+    for cid, reason in result["reasons"].items():
+        print(f"  {cid}: {reason}")
+    print(f"rejected: {result['rejected']}")
+    print(f"wrote {out}")
+    return EXIT_OK
+
+
 def _add_selection_args(p: argparse.ArgumentParser) -> None:
     p.add_argument("--provider", choices=["fake", "real", "groq", "gemini"], default="fake")
     p.add_argument("--model-config", help="model YAML (overrides --provider default)")
@@ -588,6 +635,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--output", help="analysis directory (default: <input>/analysis)")
     p.add_argument("--baseline", default="C00", help="baseline config for paired comparisons")
     p.set_defaults(func=_cmd_analyze)
+
+    p = sub.add_parser("select", help="apply the pre-registered finalist rule to DEV results")
+    p.add_argument("--analysis", required=True, help="analysis dir of a dev run (summary.json)")
+    p.add_argument("--output", default="configs/final_selection.yaml")
+    p.set_defaults(func=_cmd_select)
     return parser
 
 
