@@ -253,3 +253,19 @@ resamples, fixed seed) on scenario sets shared by both configurations.
 **D-051 Label verification status.** All 120 labels are generated and author-audited by
 sampling, not human-verified (`label_verified=false`). Review sheets for both splits are in
 `docs/label_review_*.md`; verified scenarios get `label_verified=true` and `verified_by`.
+
+## Phase 6 pre-registration (2026-10-17, committed before any screening result)
+
+**D-052 Gemini-only experiments.** Owner decision: all Phase 6-7 experiments use
+`gemini-2.5-flash` (instruct mode, temperature 0) to avoid mixing models; the Qwen fallback stays
+available but is not used. Budget cap USD 10 at list price for Phase 6.
+
+**D-053 Finalist selection rule** (`benchmark/selection.py`, `selection-v1`), fixed before
+screening: baseline C00 + (a) best-ranked usable config + (b) best usable config without
+action-level defenses + (c) C14 full stack (or next best distinct). Usable: CTSR >= CTSR(C00) -
+0.15 and FBR <= 0.25. Rank: UER asc, ALTS desc, CTSR desc, tokens asc. Dev data only.
+
+**D-054 Run plan.** Pilot (20 stratified dev scenarios x C00/C05/C09, cap $0.50) -> inspect traces
+-> screening (80 dev x 16 primary configs, cap $5) -> ablations (D5 granularity, leave-one-out,
+oracle diagnostics; duplicates by semantic hash reused; cap $3.50) -> selection -> frozen
+`configs/final_selection.yaml` for Phase 7. Repeats = 1 on dev.

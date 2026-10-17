@@ -1,30 +1,45 @@
-# Experiment plans (executed from Phase 6). Paid plans require explicit approval and budget.
+# Experiment plans. Real-model plans need explicit approval and a USD/token cap.
+# Owner decisions (2026-10-17): Gemini gemini-2.5-flash only for all Phase 6-7 experiments
+# (no model mixing); total Phase 6 budget cap USD 10 at list price.
 schema_version: "1.0"
 plans:
   offline_smoke:
     provider: fake
     split: dev
     configs: [C00, C05, C09]
-    limit: 8
     repeats: 1
   pilot:
-    provider: real
+    provider: gemini
     split: dev
     configs: [C00, C05, C09]
-    limit: 20
+    scenarios: [cln-r1-cus001, cln-w1-inv008, cln-w3-opp002, cln-s1-cus001, cln-r2-cus002,
+                cln-o-inv012, atk-001, atk-002, atk-009, atk-010, atk-017, atk-018, atk-025,
+                atk-026, atk-033, atk-034, hb-d01, hb-d02, hb-d03, hb-d04]
     repeats: 1
+    max_usd: 0.50
     requires_approval: true
   dev_screening:
-    provider: real
+    provider: gemini
     split: dev
     configs: [C00, C01, C02, C03, C04, C05, C06, C07, C08, C09, C10, C11, C12, C13, C14, C15]
-    scenario_subset: stratified_30   # fixed, stratified dev subset defined in Phase 5
+    scenarios: all            # all 80 dev scenarios (budget allows more than the 30 suggested)
     repeats: 1
+    max_usd: 5.00
+    requires_approval: true
+  dev_ablations:
+    provider: gemini
+    split: dev
+    # C05-record_field_value == C05 and C14-noD2 == C15 by semantic hash: reused, not rerun.
+    configs: [C05-rbac_only, C05-task_and_tool, C05-record, C14-noD1, C14-noD3, C14-noD4,
+              C14-noD5, C14-noD6, ORACLE-C05, ORACLE-C09]
+    scenarios: all
+    repeats: 1
+    max_usd: 3.50
     requires_approval: true
   heldout_final:
-    provider: real
+    provider: gemini
     split: heldout
-    configs: []                      # up to four finalists, frozen from dev results only
+    configs: []               # filled ONLY by benchmark/selection.py from dev results
     repeats: 3
     requires_approval: true
     requires_frozen_selection: true
