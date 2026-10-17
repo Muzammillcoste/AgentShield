@@ -1,7 +1,7 @@
 # AgentShield — Implementation Plan
 
 Status: Phases 1–7 complete (2026-10-18). This plan follows the user's seven-phase order and maps it
-onto the specification's day-gates (`AgentShield_Codex_Master_Prompt.md` §14).
+onto the specification's day-gates (the private project specification, §14, kept out of the repository).
 
 ## 1. Architecture synopsis
 

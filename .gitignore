@@ -27,3 +27,6 @@ results/*
 !results/phase6-*.log
 !results/phase7-heldout/
 !results/phase7-*.log
+
+# Private project specification (kept local, not published)
+AgentShield_Codex_Master_Prompt.md
