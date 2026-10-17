@@ -52,6 +52,9 @@ from agentshield.config import (
     load_base_config,
 )
 from agentshield.crm.fixtures import load_fixture
+from agentshield.defenses.d1_system_prompt import D1_VERSION, d1_hash
+from agentshield.defenses.d2_inspector import D2_RULESET_VERSION
+from agentshield.defenses.d3_provenance import D3_VERSION
 from agentshield.defenses.registry import UnknownConfigError, load_registry
 from agentshield.llm.openai_compatible import OpenAICompatibleClient
 from agentshield.llm.prompts import BASE_PROMPT_VERSION, base_template_hash
@@ -210,7 +213,8 @@ def _cmd_check_provider(ctx: _Context, args: argparse.Namespace) -> int:
         return EXIT_OK
     client = OpenAICompatibleClient(settings)
     models = client.list_models()
-    match = next((m for m in models if m.get("id") == settings.model_id), None)
+    wanted = {settings.model_id, f"models/{settings.model_id}"}  # Gemini lists "models/<id>"
+    match = next((m for m in models if m.get("id") in wanted), None)
     keep = ("id", "owned_by", "active", "context_window", "max_completion_tokens")
     print(
         json.dumps(
@@ -324,7 +328,7 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
         run_id=run_id,
         fixture=fixture,
         principals=PrincipalDirectory(fixture.principals),
-        client=build_client(settings),
+        client=build_client(settings, fake_follows_injections=args.fake_susceptible),
         controller=controller,
         generation=settings.generation,
         limits=runtime_limits,
@@ -342,7 +346,7 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
     budget = controller.budget.snapshot() if controller.budget else None
     manifest = {
         "run_id": run_id,
-        "phase": 2,
+        "phase": 3,
         "started_at": started.isoformat(),
         "finished_at": datetime.now(UTC).isoformat(),
         "provider_kind": settings.provider,
@@ -361,6 +365,13 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
         "configs": {c.id: {"hash": c.config_hash(), **c.semantic_payload()} for c in configs},
         "repeats": args.repeats,
         "resumed": args.resume,
+        "defense_versions": {
+            "d1": D1_VERSION,
+            "d1_sha256": d1_hash(),
+            "d2": D2_RULESET_VERSION,
+            "d3": D3_VERSION,
+        },
+        "fake_susceptible": args.fake_susceptible,
         "prompts": {
             "base_version": BASE_PROMPT_VERSION,
             "base_template_sha256": base_template_hash(),
@@ -463,6 +474,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--max-total-tokens", type=int, help="hard token cap for the run")
     p.add_argument("--max-requests", type=int, help="hard request cap for the run")
     p.add_argument("--max-usd", type=float, help="hard paid-equivalent USD cap (needs pricing)")
+    p.add_argument(
+        "--fake-susceptible",
+        action="store_true",
+        help="fake agent obeys imperatives in tool output (plumbing tests only)",
+    )
     p.set_defaults(func=_cmd_run)
     return parser
 

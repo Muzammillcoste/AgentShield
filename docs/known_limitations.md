@@ -32,3 +32,8 @@ Living list; updated each phase.
 14. **Rough estimates.** Pre-run token estimates use characters/4 and an offline call path;
     in Phase 2 they over-estimated actual usage by 8–18%. Recorded usage is always the
     provider's count.
+15. **D2 rules are dev-derived.** They detect all 5 development attack payloads and none of the
+    35 benign fixture texts, which is optimistic by construction; held-out detection is the
+    meaningful number. Paraphrased, multilingual and encoded payloads are missed (tested).
+16. **D3 cannot be validated with the fake agent.** Provenance marking only matters to a model
+    that reads it; its effect is measurable only in real-model runs.

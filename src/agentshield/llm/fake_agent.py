@@ -99,8 +99,12 @@ def _tool_payloads(messages: Sequence[ChatMessage]) -> list[tuple[str, dict[str,
     for message in messages:
         if message.role is not MessageRole.TOOL or not message.content:
             continue
+        content = message.content
+        start, end = content.find("{"), content.rfind("}")  # tolerate provenance wrappers
+        if start < 0 or end < start:
+            continue
         try:
-            payload = json.loads(message.content)
+            payload = json.loads(content[start : end + 1])
         except json.JSONDecodeError:
             continue
         if isinstance(payload, dict):

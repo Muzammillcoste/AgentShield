@@ -12,8 +12,6 @@ from agentshield.benchmark.estimate import estimate_run
 from agentshield.benchmark.loader import load_public_scenarios
 from agentshield.benchmark.runner import (
     RunContext,
-    UnsupportedInPhaseError,
-    check_supported,
     run_episodes,
 )
 from agentshield.cli import EXIT_APPROVAL_REQUIRED, EXIT_CONFIG_ERROR, EXIT_OK, main
@@ -74,17 +72,6 @@ def test_legitimate_writes_executed_in_run(
     write = episodes["ex-clean-invoice-status-update-001"]
     assert [(c.record_id, c.after) for c in write.state_diff] == [("INV-003", "Paid")]
     assert write.executed_calls and write.proposed_calls
-
-
-def test_phase2_guard_rails() -> None:
-    attacks = [s for s in load_public_scenarios(EXAMPLES_PUBLIC) if s.injection is not None]
-    with pytest.raises(UnsupportedInPhaseError, match="injector"):
-        check_supported(attacks[:1], [REGISTRY.get("C00")])
-    with pytest.raises(UnsupportedInPhaseError, match="Phases 3-4"):
-        check_supported(CLEAN[:1], [REGISTRY.get("C05")])
-    with pytest.raises(UnsupportedInPhaseError):
-        check_supported(CLEAN[:1], [REGISTRY.get("ORACLE-C05")])
-    check_supported(CLEAN, [REGISTRY.get("C00"), REGISTRY.get("M00")])
 
 
 def test_writer_refuses_to_mix_runs(tmp_path: Path) -> None:

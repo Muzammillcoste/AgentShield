@@ -154,3 +154,29 @@ model page) so cost per episode can be reported; the owner's free plan is actual
 prints the estimate and exits with code 4 unless `--approve-real-usage` is given; if no token or
 request cap is supplied, one is derived from the estimate (1.5× headroom). Real runs never fall
 back to the fake model.
+
+## Phase 3 decisions (2026-10-17)
+
+**D-035 Gemini added as a second provider configuration (Flag).** The owner added a Gemini
+(tier 2) key. `configs/model.gemini.yaml` uses Google's OpenAI-compatible endpoint; the model id
+must be set explicitly (`GEMINI_MODEL`). Whether Gemini becomes the primary evaluation model, a
+second model for external validity, or the D6 verifier is an owner decision; models are never
+pooled in analysis. Gemini 3 models cannot fully disable thinking, so reasoning settings are
+chosen per model and recorded.
+
+**D-036 Pipeline order is fixed:** injector → D2 → serializer (plain JSON, or D3). The attacker
+text is present before any defense sees it, and D2/D3 can never alter IDs, statuses or amounts.
+
+**D-037 D2 works at sentence level.** Quarantine replaces only flagged sentences inside untrusted
+free-text fields (`notes`, `description`, `subject`) with a placeholder and adds a notice; benign
+sentences in the same field survive. Rule set `d2-rules-v1` (7 rule families) was written using
+development examples only, so its dev detection rate is optimistic; held-out payload templates
+are never seen during rule development (D-022). Known misses (other languages, encodings,
+paraphrase) are pinned by tests.
+
+**D-038 D3 nonce and escaping.** Each tool result gets a fresh random 48-bit nonce in its opening
+and closing markers; the JSON body escapes `<`/`>` as `<`/`>`, so attacker text can
+neither close nor forge a container. D3 changes presentation only.
+
+**D-039 Injector instances are per episode** (delivery counting for `apply_on_nth`), and the
+trace records `injection_applied` per tool result, enabling delivery-conditional metrics.

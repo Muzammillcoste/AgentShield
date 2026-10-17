@@ -1,6 +1,6 @@
 # Architecture
 
-Status reflects Phase 2. Components marked *(Phase n)* are designed but not yet implemented.
+Status reflects Phase 3. Components marked *(Phase n)* are designed but not yet implemented.
 
 ## Package layout
 
@@ -37,7 +37,10 @@ Status reflects Phase 2. Components marked *(Phase n)* are designed but not yet 
 | `benchmark/artifacts.py` | `episodes.jsonl`, aborted episodes, transcripts, run manifest |
 | `benchmark/estimate.py` | Pre-run usage estimate (offline dry run) |
 | `cli.py` | `agentshield` CLI |
-| *(Phase 3)* `injection/`, `defenses/d1–d3` | Injector, security prompt, inspector, provenance |
+| `injection/injector.py` | Text override on tool responses (attack or hard-benign text), per episode |
+| `defenses/d1_system_prompt.py` | D1 versioned security instruction (`d1-v1`) |
+| `defenses/d2_inspector.py` | D2 rule-based inspection, flag/quarantine (`d2-rules-v1`) |
+| `defenses/d3_provenance.py` | D3 nonce-marked provenance wrapper with escaping (`d3-v1`) |
 | *(Phase 4)* `defenses/d4–d6`, `auth/policy.py` | Allowlist, policy gateway, verifier |
 | *(Phase 5)* `benchmark/{grader,metrics,statistics}.py` | Private scoring, metrics, uncertainty |
 

@@ -15,6 +15,7 @@ from typing import Any, Protocol
 from pydantic import Field
 
 from agentshield.schemas.common import StrictModel
+from agentshield.schemas.events import DecisionKind
 
 
 class ObservationContext(StrictModel):
@@ -29,9 +30,15 @@ class TransformOutcome(StrictModel):
     payload: dict[str, Any]
     applied: bool = False
     details: dict[str, Any] = Field(default_factory=dict)
+    # Set by defense transformers (e.g. D2) so the runtime logs a DecisionEvent.
+    decision: DecisionKind | None = None
+    reason_code: str | None = None
 
 
 class PayloadTransformer(Protocol):
+    """Optional attributes: `defense_id` (str) for defenses; `is_override = True` for the
+    harness's text-override injector (marks `ToolResultEvent.injection_applied`)."""
+
     name: str
 
     def transform(

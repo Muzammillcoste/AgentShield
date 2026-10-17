@@ -33,6 +33,7 @@ from agentshield.llm.resilience import AttemptRecord, CallController
 from agentshield.schemas.common import StrictModel
 from agentshield.schemas.domain import Principal
 from agentshield.schemas.events import (
+    DecisionEvent,
     EventLog,
     FinalAnswerEvent,
     ModelCallEvent,
@@ -279,7 +280,16 @@ class AgentRuntime:
             payload = result.payload
             if result.applied:
                 applied.append(transformer.name)
-                injected = injected or bool(getattr(transformer, "is_attack", False))
+                injected = injected or bool(getattr(transformer, "is_override", False))
+            if result.decision is not None:
+                log.emit(
+                    DecisionEvent,
+                    defense_id=str(getattr(transformer, "defense_id", transformer.name)),
+                    decision=result.decision,
+                    reason_code=result.reason_code or "",
+                    call_id=trace_id,
+                    details=result.details,
+                )
         content = hooks.serializer.serialize(context, payload)
         log.emit(
             ToolResultEvent,

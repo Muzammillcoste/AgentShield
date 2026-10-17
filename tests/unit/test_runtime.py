@@ -203,7 +203,7 @@ def test_episode_wall_clock_timeout(store: CRMStore, manager: Principal) -> None
 
 class TagNotes:
     name = "test-tagger"
-    is_attack = True
+    is_override = True
 
     def transform(self, context: ObservationContext, payload: dict[str, Any]) -> TransformOutcome:
         if context.tool_name != "list_invoices" or not context.ok:

@@ -1,5 +1,29 @@
 # Development Log
 
+## 2026-10-17 — Phase 3: attack injection and defenses D1–D3 (complete, awaiting review)
+
+### Completed
+- `TextOverrideInjector`: edits one allowlisted free-text field of one record in a copy of the
+  tool payload; persistent or nth delivery across all surfaces of the entity; never touches the
+  store; per-tool-result delivery flag in traces.
+- D1 security instruction (`d1-v1`), D2 sentence-level inspector with flag/quarantine and
+  logged `DecisionEvent`s (`d2-rules-v1`), D3 nonce-marked provenance serializer (`d3-v1`).
+- Runner builds hooks per configuration (injector → D2 → serializer); D1–D3 configurations and
+  injected scenarios now run; D4–D6 and oracle configurations are still rejected (Phase 4).
+- CLI `--fake-susceptible` for offline attack plumbing tests; manifests record defense versions.
+- Gemini: key verified via the free model list (63 models); `configs/model.gemini.yaml` added;
+  role pending owner decision (D-035).
+
+### Verification (actual results)
+- `uv run pytest -q` → 341 passed, 2 skipped (opt-in live tests); ruff and mypy --strict clean.
+- D2 on development data: 5/5 attack payloads flagged; 0/1 hard-benign and 0/35 benign fixture
+  texts flagged (optimistic: rules written from these examples).
+- Offline demo (susceptible fake, 6 injected scenarios × C00–C03, 24 episodes): baseline,
+  D1 and D3 runs executed the injected actions (the regex fake cannot read instructions);
+  D2 quarantine prevented them. Plumbing evidence only, not research data.
+- No real-model calls in Phase 3.
+
+
 ## 2026-10-17 — Phase 2: real LLM integration and agent runtime (complete, awaiting review)
 
 ### Completed

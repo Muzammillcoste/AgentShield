@@ -1,0 +1,18 @@
+# Real provider: Google Gemini via its OpenAI-compatible endpoint (native tool calling).
+# Key: GEMINI_KEY in the local .env. The model id must be set explicitly via GEMINI_MODEL
+# (e.g. in .env) -- it is never assumed. List available ids with:
+#   uv run agentshield check-provider --model-config configs/model.gemini.yaml
+provider: openai_compatible
+base_url: https://generativelanguage.googleapis.com/v1beta/openai/
+model_env: GEMINI_MODEL
+api_key_env: GEMINI_KEY
+max_tokens_param: max_tokens
+generation:
+  temperature: 0.0
+  max_output_tokens: 1024
+  timeout_s: 90
+  tool_choice: auto
+# Reasoning settings are model-specific (Gemini 3 thinking cannot be fully disabled; 2.5 Flash
+# accepts reasoning_effort "none"). Set once the evaluation model is chosen (D-035).
+extra_body: {}
+max_rate_limit_wait_s: 90

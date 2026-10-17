@@ -1,13 +1,12 @@
-"""Benchmark runner (Phase 2 scope: baseline configuration, clean scenarios).
+"""Benchmark runner (Phase 3 scope: D1-D3, attack injection; D4-D6 pending).
 
 For each (scenario, config, repetition): a fresh CRM store from the immutable fixture, the
 trusted task scope from the verbatim request, hooks for the configuration, one agent episode,
 and an `EpisodeResult` appended to `episodes.jsonl`. The runner sees the public scenario
 (including its category) but passes only the request, principal and hooks to the runtime.
 
-Phase-2 guard rails: configurations enabling D1-D6 and scenarios carrying an injection are
-rejected (defenses and the injector arrive in Phases 3-4), so nothing is silently run
-without the component its label promises.
+Guard rail: configurations enabling D4-D6 (or oracle scope) are rejected until Phase 4, so
+nothing is silently run without the component its label promises.
 """
 
 from __future__ import annotations
@@ -18,6 +17,11 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from datetime import UTC, datetime
 
+from agentshield.agent.observation import (
+    JsonObservationSerializer,
+    ObservationSerializer,
+    PayloadTransformer,
+)
 from agentshield.agent.runtime import AgentRuntime, EpisodeHooks, EpisodeTrace
 from agentshield.auth.principals import PrincipalDirectory
 from agentshield.auth.scope_resolver import resolve_task_scope
@@ -25,6 +29,10 @@ from agentshield.benchmark.artifacts import RunWriter, episode_key
 from agentshield.config import RuntimeLimits
 from agentshield.crm.fixtures import CRMFixture
 from agentshield.crm.store import CRMStore
+from agentshield.defenses.d1_system_prompt import apply_d1
+from agentshield.defenses.d2_inspector import ToolOutputInspector
+from agentshield.defenses.d3_provenance import ProvenanceSerializer
+from agentshield.injection.injector import TextOverrideInjector
 from agentshield.llm.prompts import render_base_prompt
 from agentshield.llm.protocol import LLMClient
 from agentshield.llm.resilience import CallController
@@ -36,7 +44,7 @@ from agentshield.schemas.events import (
     SchemaValidationEvent,
     TenantCheckEvent,
 )
-from agentshield.schemas.experiment import DefenseConfig, EpisodeResult
+from agentshield.schemas.experiment import DefenseConfig, DefenseId, EpisodeResult
 from agentshield.schemas.llm import GenerationConfig, Usage
 from agentshield.schemas.scenario import ScenarioPublic
 
@@ -45,18 +53,18 @@ class UnsupportedInPhaseError(ValueError):
     pass
 
 
+PENDING_DEFENSES = frozenset({DefenseId.D4, DefenseId.D5, DefenseId.D6})
+
+
 def check_supported(scenarios: Sequence[ScenarioPublic], configs: Sequence[DefenseConfig]) -> None:
+    """Phase-3 guard: D1-D3 and injections run; action-level defenses arrive in Phase 4."""
+    del scenarios  # all scenario kinds are supported from Phase 3
     for config in configs:
-        if config.enabled or config.is_oracle:
+        pending = [d for d in config.enabled if d in PENDING_DEFENSES]
+        if pending or config.is_oracle:
             raise UnsupportedInPhaseError(
-                f"{config.id} enables {config.label}; defense modules are implemented in "
-                "Phases 3-4. Only baseline configurations (e.g. C00, M00) can run now."
-            )
-    for scenario in scenarios:
-        if scenario.injection is not None:
-            raise UnsupportedInPhaseError(
-                f"{scenario.scenario_id} carries an injection; the injector is implemented in "
-                "Phase 3. Select scenarios without injections (clean)."
+                f"{config.id} enables {'+'.join(pending) or config.label}; D4-D6 and oracle "
+                "configurations are implemented in Phase 4."
             )
 
 
@@ -66,9 +74,24 @@ def build_hooks(
     fixture: CRMFixture,
     directory: PrincipalDirectory,
 ) -> EpisodeHooks:
+    """Assemble one episode's plumbing. Only the injector sees the scenario's injection spec;
+    defenses are built from the configuration alone."""
     principal = directory.get(scenario.principal_id)
+    prompt = render_base_prompt(principal, fixture.as_of_date)
+    if config.d1:
+        prompt = apply_d1(prompt)
+    transformers: list[PayloadTransformer] = []
+    if scenario.injection is not None:  # attacker text enters before any defense sees it
+        transformers.append(TextOverrideInjector(scenario.injection))
+    if config.d2:
+        transformers.append(ToolOutputInspector(config.d2_mode))
+    serializer: ObservationSerializer = (
+        ProvenanceSerializer() if config.d3 else JsonObservationSerializer()
+    )
     return EpisodeHooks(
-        system_prompt=render_base_prompt(principal, fixture.as_of_date),
+        system_prompt=prompt,
+        transformers=tuple(transformers),
+        serializer=serializer,
         scope=resolve_task_scope(scenario.user_request),
     )
 
