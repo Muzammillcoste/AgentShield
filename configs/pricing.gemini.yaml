@@ -1,0 +1,9 @@
+# Paid list prices (Gemini API, standard paid tier) for cost reporting and USD budgets.
+version: "gemini-2026-10-17"
+source: "https://ai.google.dev/gemini-api/docs/pricing (USD per 1M tokens; output includes thinking)"
+retrieved_on: 2026-10-17
+currency: USD
+models:
+  gemini-2.5-flash:
+    input_usd_per_mtok: 0.30
+    output_usd_per_mtok: 2.50

@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any
 
 from agentshield import __version__
+from agentshield.auth.policy import POLICY_VERSION
 from agentshield.auth.principals import PrincipalDirectory
 from agentshield.auth.scope_resolver import GRAMMAR_VERSION, resolve_task_scope
 from agentshield.benchmark.artifacts import RunExistsError, RunWriter, environment_info
@@ -33,11 +34,18 @@ from agentshield.benchmark.manifest import (
     verify_manifest,
     write_manifest,
 )
-from agentshield.benchmark.runner import RunContext, check_supported, new_run_id, run_episodes
+from agentshield.benchmark.oracle import oracle_scope
+from agentshield.benchmark.runner import (
+    ModelSlot,
+    RunContext,
+    check_supported,
+    new_run_id,
+    run_episodes,
+)
 from agentshield.benchmark.session import (
     DEFAULT_MODEL_CONFIGS,
-    DEFAULT_PRICING,
     dataset_version,
+    default_pricing_for,
     load_model,
     load_price,
     select_scenarios,
@@ -55,6 +63,8 @@ from agentshield.crm.fixtures import load_fixture
 from agentshield.defenses.d1_system_prompt import D1_VERSION, d1_hash
 from agentshield.defenses.d2_inspector import D2_RULESET_VERSION
 from agentshield.defenses.d3_provenance import D3_VERSION
+from agentshield.defenses.d4_allowlist import D4_VERSION
+from agentshield.defenses.d6_action_verifier import D6_VERSION, verifier_prompt_hash
 from agentshield.defenses.registry import UnknownConfigError, load_registry
 from agentshield.llm.openai_compatible import OpenAICompatibleClient
 from agentshield.llm.prompts import BASE_PROMPT_VERSION, base_template_hash
@@ -198,11 +208,35 @@ def _model_config_path(ctx: _Context, args: argparse.Namespace) -> Path:
     return ctx.path(DEFAULT_MODEL_CONFIGS[args.provider])
 
 
-def _pricing_path(ctx: _Context, args: argparse.Namespace, provider: str) -> Path | None:
+def _pricing_path(ctx: _Context, args: argparse.Namespace, model_config: Path) -> Path | None:
     if getattr(args, "pricing", None):
         return ctx.path(args.pricing)
-    default = DEFAULT_PRICING.get(provider)
-    return ctx.path(default) if default else None
+    return default_pricing_for(model_config)
+
+
+def _controller(ctx: _Context, limits: BudgetLimits, price: Any, max_wait: float) -> CallController:
+    runtime_limits = ctx.config.runtime
+    return CallController(
+        retry=RetryPolicy(
+            max_retries=runtime_limits.max_retries,
+            backoff_initial_s=runtime_limits.backoff_initial_s,
+            backoff_max_s=runtime_limits.backoff_max_s,
+        ),
+        budget=BudgetGuard(limits, price),
+        max_rate_wait_s=max_wait,
+    )
+
+
+def _oracle_scopes(
+    ctx: _Context, public_path: Path, scenarios: list[Any], configs: list[Any]
+) -> dict[str, Any]:
+    """PRIVATE truth -> ORACLE UPPER BOUND scopes, loaded only if an oracle config is selected."""
+    if not any(c.is_oracle for c in configs):
+        return {}
+    truths = load_private_truth(
+        private_truth_path_for(public_path, ctx.path(ctx.config.dataset.private_dir))
+    )
+    return {s.scenario_id: oracle_scope(s.user_request, truths[s.scenario_id]) for s in scenarios}
 
 
 def _cmd_check_provider(ctx: _Context, args: argparse.Namespace) -> int:
@@ -262,9 +296,9 @@ def _print_estimate(estimate: RunEstimate) -> None:
 def _estimate_for(
     ctx: _Context, args: argparse.Namespace, scenarios: list[Any], configs: list[Any]
 ) -> tuple[RunEstimate, Any, Any, Any, str | None]:
-    model_config, settings = load_model(ctx.root, _model_config_path(ctx, args))
-    provider = "fake" if settings.provider == "fake" else "real"
-    price, pricing_version = load_price(_pricing_path(ctx, args, provider), settings.model_id)
+    model_path = _model_config_path(ctx, args)
+    model_config, settings = load_model(ctx.root, model_path)
+    price, pricing_version = load_price(_pricing_path(ctx, args, model_path), settings.model_id)
     fixture = load_fixture(ctx.path(ctx.config.dataset.fixture))
     estimate = estimate_run(
         scenarios,
@@ -291,7 +325,8 @@ def _cmd_estimate(ctx: _Context, args: argparse.Namespace) -> int:
 
 def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
     public_path, scenarios, configs = _selection(ctx, args)
-    check_supported(scenarios, configs)
+    oracle_scopes = _oracle_scopes(ctx, public_path, scenarios, configs)
+    check_supported(scenarios, configs, oracle_scopes)
     estimate, settings, price, fixture, pricing_version = _estimate_for(
         ctx, args, scenarios, configs
     )
@@ -312,15 +347,22 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
     if real and limits.max_total_tokens is None and limits.max_requests is None:
         limits = budget_for_estimate(estimate)  # never run a real model without a hard cap
     runtime_limits = ctx.config.runtime
-    controller = CallController(
-        retry=RetryPolicy(
-            max_retries=runtime_limits.max_retries,
-            backoff_initial_s=runtime_limits.backoff_initial_s,
-            backoff_max_s=runtime_limits.backoff_max_s,
-        ),
-        budget=BudgetGuard(limits, price),
-        max_rate_wait_s=settings.max_rate_limit_wait_s,
-    )
+    controller = _controller(ctx, limits, price, settings.max_rate_limit_wait_s)
+    fallback = None
+    fallback_settings = None
+    if args.fallback_provider or args.fallback_model_config:
+        fb_path = ctx.path(
+            args.fallback_model_config or DEFAULT_MODEL_CONFIGS[args.fallback_provider]
+        )
+        _, fallback_settings = load_model(ctx.root, fb_path)
+        fb_price, _ = load_price(default_pricing_for(fb_path), fallback_settings.model_id)
+        fb_limits = limits if fb_price is not None else limits.model_copy(update={"max_usd": None})
+        fallback = ModelSlot(
+            "fallback",
+            build_client(fallback_settings),
+            _controller(ctx, fb_limits, fb_price, fallback_settings.max_rate_limit_wait_s),
+            fallback_settings.generation,
+        )
     output = ctx.path(args.output)
     writer = RunWriter(output, overwrite=args.overwrite, resume=args.resume)
     run_id = new_run_id("real" if real else "fake")
@@ -333,6 +375,8 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
         generation=settings.generation,
         limits=runtime_limits,
         dataset_version=dataset_version(ctx.path(ctx.config.dataset.manifest), public_path),
+        fallback=fallback,
+        oracle_scopes=oracle_scopes,
     )
     started = datetime.now(UTC)
 
@@ -346,7 +390,7 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
     budget = controller.budget.snapshot() if controller.budget else None
     manifest = {
         "run_id": run_id,
-        "phase": 3,
+        "phase": 4,
         "started_at": started.isoformat(),
         "finished_at": datetime.now(UTC).isoformat(),
         "provider_kind": settings.provider,
@@ -354,6 +398,12 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
         "note": None if real else "FAKE MODEL OUTPUT: pipeline test only, not research evidence",
         "environment": environment_info(ctx.root),
         "model": settings.public_view(),
+        "fallback_model": fallback_settings.public_view() if fallback_settings else None,
+        "fallback_budget": (
+            fallback.controller.budget.snapshot().model_dump()
+            if fallback and fallback.controller.budget
+            else None
+        ),
         "dataset": {
             "public_file": public_path.name,
             "public_sha256": content_hash(public_path),
@@ -370,7 +420,12 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
             "d1_sha256": d1_hash(),
             "d2": D2_RULESET_VERSION,
             "d3": D3_VERSION,
+            "d4": D4_VERSION,
+            "d5": POLICY_VERSION,
+            "d6": D6_VERSION,
+            "d6_prompt_sha256": verifier_prompt_hash(),
         },
+        "oracle_upper_bound_configs": [c.id for c in configs if c.is_oracle],
         "fake_susceptible": args.fake_susceptible,
         "prompts": {
             "base_version": BASE_PROMPT_VERSION,
@@ -398,9 +453,9 @@ def _cmd_run(ctx: _Context, args: argparse.Namespace) -> int:
 
 
 def _add_selection_args(p: argparse.ArgumentParser) -> None:
-    p.add_argument("--provider", choices=["fake", "real"], default="fake")
+    p.add_argument("--provider", choices=["fake", "real", "groq", "gemini"], default="fake")
     p.add_argument("--model-config", help="model YAML (overrides --provider default)")
-    p.add_argument("--pricing", help="pricing YAML (default for real: configs/pricing.groq.yaml)")
+    p.add_argument("--pricing", help="pricing YAML (default: configs/pricing.<model name>.yaml)")
     p.add_argument("--split", choices=["dev", "heldout"], default="dev")
     p.add_argument("--public", help="public scenario JSONL (overrides --split)")
     p.add_argument("--scenarios", help="comma-separated scenario ids")
@@ -454,7 +509,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=_cmd_build_manifest)
 
     p = sub.add_parser("check-provider", help="list provider models; confirm the configured one")
-    p.add_argument("--provider", choices=["fake", "real"], default="real")
+    p.add_argument("--provider", choices=["fake", "real", "groq", "gemini"], default="real")
     p.add_argument("--model-config", help="model YAML (overrides --provider default)")
     p.set_defaults(func=_cmd_check_provider)
 
@@ -474,6 +529,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--max-total-tokens", type=int, help="hard token cap for the run")
     p.add_argument("--max-requests", type=int, help="hard request cap for the run")
     p.add_argument("--max-usd", type=float, help="hard paid-equivalent USD cap (needs pricing)")
+    p.add_argument(
+        "--fallback-provider",
+        choices=["groq", "gemini"],
+        help="switch to this model (scenario-block granularity) if the primary quota runs out",
+    )
+    p.add_argument("--fallback-model-config", help="fallback model YAML")
     p.add_argument(
         "--fake-susceptible",
         action="store_true",

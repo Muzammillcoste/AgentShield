@@ -264,3 +264,15 @@ def test_backoff_is_reported_and_throttle_reserves_max_output() -> None:
     # 200 remaining < ceil(1.25 * 104) + 100 max output = 230 -> wait for the window
     c.call(client, MSGS, [], CFG)
     assert t.sleeps == [2.0, pytest.approx(9.0)]
+
+
+def test_long_retry_after_stops_run_even_without_retries_left() -> None:
+    # Regression: a daily-quota 429 must abort the run, not become an api_error episode.
+    t = FakeTime()
+    client = ScriptedClient([LLMError(LLMErrorKind.RATE_LIMIT, "TPD", retry_after_s=40000)])
+    with pytest.raises(LLMError) as info:
+        controller(t, retry=RetryPolicy(max_retries=0), max_rate_wait_s=90).call(
+            client, MSGS, [], CFG
+        )
+    assert info.value.kind is LLMErrorKind.RATE_LIMIT and not info.value.retryable
+    assert "quota" in info.value.message

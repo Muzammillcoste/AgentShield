@@ -82,6 +82,7 @@ class EpisodeTrace(StrictModel):
     final_answer: str | None
     errors: tuple[str, ...]
     abort_run: bool
+    abort_kind: str | None = None  # LLMErrorKind that stopped the run, if any
     events: tuple[TraceEvent, ...]
     messages: tuple[ChatMessage, ...]
     usage: Usage
@@ -155,6 +156,7 @@ class AgentRuntime:
         final_answer: str | None = None
         status: EpisodeStatus | None = None
         abort_run = False
+        abort_kind: str | None = None
         model_calls = 0
         seen_call_ids: set[str] = set()
         turns = min(max_turns or self._limits.max_agent_steps, self._limits.max_agent_steps)
@@ -178,6 +180,7 @@ class AgentRuntime:
                 abort_run = exc.kind in _ABORT_KINDS or (
                     exc.kind is LLMErrorKind.RATE_LIMIT and not exc.retryable
                 )
+                abort_kind = exc.kind.value if abort_run else None
                 break
 
             model_calls += 1
@@ -220,12 +223,18 @@ class AgentRuntime:
             status = EpisodeStatus.MAX_STEPS
             errors.append("max agent steps reached without a final answer")
 
+        for gate in hooks.gates:  # e.g. D6 verifier calls are part of the episode's cost
+            gate_usage = getattr(gate, "usage", None)
+            if isinstance(gate_usage, Usage):
+                usage = usage + gate_usage
+
         final = store.snapshot()
         return EpisodeTrace(
             status=status,
             final_answer=final_answer,
             errors=tuple(errors),
             abort_run=abort_run,
+            abort_kind=abort_kind,
             events=log.events,
             messages=tuple(messages),
             usage=usage,

@@ -45,6 +45,7 @@ uv run agentshield check-provider                 # free: lists models, confirms
 uv run agentshield estimate --provider real ...   # no API calls; tokens, calls, paid-equivalent USD
 uv run agentshield run --provider real ... --approve-real-usage --max-total-tokens N --output DIR
 uv run agentshield run ... --resume --output DIR  # continue after a quota/budget stop
+uv run agentshield run --provider groq --fallback-provider gemini ...  # D-040 fallback
 ```
 
 Measured free-plan limits for `qwen/qwen3.8-27b` (owner's account, 2026-10-17, from headers and 429

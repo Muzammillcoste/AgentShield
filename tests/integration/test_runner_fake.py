@@ -151,25 +151,9 @@ def test_cli_fake_run_and_estimate(tmp_path: Path, capsys: pytest.CaptureFixture
     )  # refuses to overwrite silently
 
 
-def test_cli_rejects_unsupported_and_requires_real_approval(
+def test_cli_requires_real_approval(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    assert (
-        main(
-            [
-                "run",
-                "--public",
-                str(EXAMPLES_PUBLIC),
-                "--configs",
-                "C05",
-                "--scenarios",
-                "ex-clean-invoice-summary-001",
-                "--output",
-                str(tmp_path / "x"),
-            ]
-        )
-        == EXIT_CONFIG_ERROR
-    )
     monkeypatch.setenv("AGENTSHIELD_MODEL", "qwen/qwen3.8-27b")
     monkeypatch.setenv("LLM_API_KEY", "gsk_placeholder_for_test_only_000000")
     code = main(

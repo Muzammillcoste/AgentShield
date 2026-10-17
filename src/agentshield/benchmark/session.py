@@ -10,8 +10,21 @@ from agentshield.config import ModelConfig, ModelPrice, load_model_config, load_
 from agentshield.llm.settings import ResolvedModelSettings, load_environment, resolve_model_settings
 from agentshield.schemas.scenario import ScenarioPublic
 
-DEFAULT_MODEL_CONFIGS = {"fake": "configs/model.fake.yaml", "real": "configs/model.groq.yaml"}
-DEFAULT_PRICING = {"real": "configs/pricing.groq.yaml"}
+DEFAULT_MODEL_CONFIGS = {
+    "fake": "configs/model.fake.yaml",
+    "real": "configs/model.groq.yaml",
+    "groq": "configs/model.groq.yaml",
+    "gemini": "configs/model.gemini.yaml",
+}
+
+
+def default_pricing_for(model_config_path: Path) -> Path | None:
+    """configs/model.<name>.yaml -> configs/pricing.<name>.yaml, if that file exists."""
+    name = model_config_path.name
+    if not name.startswith("model."):
+        return None
+    candidate = model_config_path.with_name("pricing." + name.removeprefix("model."))
+    return candidate if candidate.exists() else None
 
 
 class SelectionError(ValueError):

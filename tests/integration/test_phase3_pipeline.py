@@ -139,11 +139,8 @@ def test_non_susceptible_fake_ignores_injection(
     assert proposed(e) == ["list_invoices"] and e.state_diff == ()
 
 
-def test_action_level_defenses_still_blocked_until_phase4() -> None:
-    for config_id in ("C04", "C05", "C06", "C09", "C14", "ORACLE-C09"):
-        with pytest.raises(UnsupportedInPhaseError):
-            check_supported([SCENARIOS[HIJACK]], [REGISTRY.get(config_id)])
-    check_supported(
-        list(SCENARIOS.values()),
-        [REGISTRY.get(c) for c in ("C00", "C01", "C02", "C03", "C07", "C08", "C11")],
-    )
+def test_oracle_requires_private_scopes() -> None:
+    with pytest.raises(UnsupportedInPhaseError, match="ORACLE UPPER BOUND"):
+        check_supported([SCENARIOS[HIJACK]], [REGISTRY.get("ORACLE-C09")])
+    all_ids = ("C00", "C01", "C02", "C03", "C04", "C05", "C06", "C09", "C14", "C15")
+    check_supported(list(SCENARIOS.values()), [REGISTRY.get(c) for c in all_ids])

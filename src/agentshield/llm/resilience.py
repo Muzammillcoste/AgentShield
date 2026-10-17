@@ -283,15 +283,19 @@ class CallController:
                             error_message=exc.message,
                         )
                     )
-                if not exc.retryable or attempt > self.retry.max_retries:
+                if not exc.retryable:
                     raise
                 delay = self.retry.delay(attempt, exc.retry_after_s)
                 if delay > self.max_rate_wait_s:
+                    # e.g. a daily quota: stop the run (non-retryable) instead of failing episodes
                     raise LLMError(
                         LLMErrorKind.RATE_LIMIT,
-                        f"provider asked to wait {delay:.0f}s (> {self.max_rate_wait_s:.0f}s)",
+                        f"provider asked to wait {delay:.0f}s (> {self.max_rate_wait_s:.0f}s); "
+                        f"quota likely exhausted: {exc.message[:200]}",
                         retryable=False,
                     ) from exc
+                if attempt > self.retry.max_retries:
+                    raise
                 self._sleep(delay)
                 backoff = delay
                 continue

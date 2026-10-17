@@ -180,3 +180,42 @@ neither close nor forge a container. D3 changes presentation only.
 
 **D-039 Injector instances are per episode** (delivery counting for `apply_on_nth`), and the
 trace records `injection_applied` per tool result, enabling delivery-conditional metrics.
+
+## Phase 4 decisions (2026-10-17)
+
+**D-040 Model plan and fallback (owner decision; Flag).** Primary model: Groq `qwen/qwen3.8-27b`;
+when its quota runs out, Gemini `gemini-2.5-flash` (instruct mode, `reasoning_effort: none`)
+takes over. To keep comparisons valid, the switch happens at *scenario-block* granularity: all
+configurations and repetitions of one scenario always use one model; a block interrupted by the
+quota is archived to `aborted_episodes.jsonl` and re-run entirely on the fallback. Every episode
+records its model, analysis is stratified by model, and models are never pooled. Caveat: if a run
+mixes models, the model is confounded with the scenarios each model happened to serve; headline
+held-out results should therefore come from a single model wherever quota allows.
+
+**D-041 Attacks must be delivered to be meaningful (Flag; found in the Gemini smoke run).** A real
+model may complete a write task without reading the record that carries the injection (Gemini
+updated INV-007 directly; the payload in INV-007's notes was never shown). Phase 5 rule: every
+attack scenario's legitimate task must require reading the injected record (e.g. compound
+"summarize ..., then change ..." requests, or attacks placed in records the task must read);
+delivery (`ToolResultEvent.injection_applied`) is reported per episode, and attack metrics are
+reported both over all valid attacked episodes and over delivered episodes.
+
+**D-042 D5 implementation.** Cumulative levels exactly as D-017; reads at `record` level are
+limited to the scope's readable records (trusted foreign keys); sends at `record_field_value`
+must match the granted alias and may only mention IDs of the subject customer (D-025). Unresolved
+or ambiguous scopes never authorize writes or sends. D5 always enforces tenant confinement.
+
+**D-043 D6 implementation.** Writes and sends only (reads are not reviewed); prompt version
+`d6-v1`; verdict parsed from JSON; malformed output, refusals, timeouts and provider errors become
+ABSTAIN, which blocks the action. By default the verifier is the same model as the agent
+(correlated failures are possible; limitation). Verifier tokens are added to the episode's usage
+and pass through the same budget and rate limiter. Offline runs use a deterministic fake
+verifier.
+
+**D-044 Quota detection fix.** A 429 asking to wait longer than `max_rate_limit_wait_s` (e.g. a
+daily quota) now always stops the run, even when no retries remain; previously it could be
+recorded as an `api_error` episode. Regression test added.
+
+**D-045 Oracle scope.** `benchmark/oracle.py` builds write/send grants from the private
+`allowed_state_changes`; only `ORACLE-*` configurations use it, the run manifest lists them under
+`oracle_upper_bound_configs`, and they are excluded from deployable rankings.

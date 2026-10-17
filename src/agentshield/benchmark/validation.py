@@ -13,9 +13,9 @@ from enum import StrEnum
 
 from agentshield import __version__
 from agentshield.auth.principals import PrincipalDirectory
+from agentshield.auth.reach import ReadScopeIndex
 from agentshield.auth.scope_resolver import (
     GRAMMAR_VERSION,
-    ReadRelation,
     ScopeResolution,
     TaskScope,
     resolve_task_scope,
@@ -103,26 +103,8 @@ class _Collector:
 
 def reachable_records(scope: TaskScope, store: CRMStore) -> tuple[set[str], set[str]]:
     """(customer ids, record ids) a correctly behaving agent can read within `scope`."""
-    customers: set[str] = set()
-    records: set[str] = set()
-    for grant in scope.read_grants:
-        if store.get(grant.record_id) is None:
-            continue
-        records.add(grant.record_id)
-        if (
-            grant.relation is ReadRelation.CHILDREN
-            and entity_type_of(grant.record_id) is EntityType.CUSTOMER
-        ):
-            customers.add(grant.record_id)
-        elif grant.relation is ReadRelation.PARENT:
-            parent = store.customer_of(grant.record_id)
-            if parent:
-                customers.add(parent)
-    for customer_id in customers:
-        records.add(customer_id)
-        for entity in (EntityType.INVOICE, EntityType.OPPORTUNITY, EntityType.CASE):
-            records.update(r.id for r in store.children_of(customer_id, entity))
-    return customers, records
+    index = ReadScopeIndex.build(scope, store)
+    return set(index.customers), set(index.records)
 
 
 def validate_dataset(

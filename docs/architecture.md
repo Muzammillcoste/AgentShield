@@ -1,6 +1,6 @@
 # Architecture
 
-Status reflects Phase 3. Components marked *(Phase n)* are designed but not yet implemented.
+Status reflects Phase 4. Components marked *(Phase n)* are designed but not yet implemented.
 
 ## Package layout
 
@@ -41,7 +41,13 @@ Status reflects Phase 3. Components marked *(Phase n)* are designed but not yet 
 | `defenses/d1_system_prompt.py` | D1 versioned security instruction (`d1-v1`) |
 | `defenses/d2_inspector.py` | D2 rule-based inspection, flag/quarantine (`d2-rules-v1`) |
 | `defenses/d3_provenance.py` | D3 nonce-marked provenance wrapper with escaping (`d3-v1`) |
-| *(Phase 4)* `defenses/d4–d6`, `auth/policy.py` | Allowlist, policy gateway, verifier |
+| `auth/reach.py` | Readable records of a scope via trusted foreign keys |
+| `auth/policy.py` | D5 policy engine, 4 cumulative granularity levels (`d5-policy-v1`) |
+| `defenses/d4_allowlist.py` | D4 task-scoped tool visibility + name gate (`d4-v1`) |
+| `defenses/d5_policy.py` | D5 gate wrapper (enforces tenant confinement) |
+| `defenses/d6_action_verifier.py` | D6 independent LLM verifier for writes/sends (`d6-v1`) |
+| `llm/fake_verifier.py` | Deterministic offline verifier (never evidence) |
+| `benchmark/oracle.py` | ORACLE UPPER BOUND scopes from private labels (diagnostic) |
 | *(Phase 5)* `benchmark/{grader,metrics,statistics}.py` | Private scoring, metrics, uncertainty |
 
 ## Dispatcher pipeline (implemented)

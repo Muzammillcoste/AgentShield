@@ -1,6 +1,6 @@
 # AgentShield — Implementation Plan
 
-Status: Phases 1–3 complete (2026-10-17). This plan follows the user's seven-phase order and maps it
+Status: Phases 1–4 complete (2026-10-17). This plan follows the user's seven-phase order and maps it
 onto the specification's day-gates (`AgentShield_Codex_Master_Prompt.md` §14).
 
 ## 1. Architecture synopsis
@@ -52,7 +52,7 @@ Runtime packages (`crm`, `auth`, `llm`, `defenses`, later `injection`, `agent`) 
 | 1 | Repo, schemas, config, mock CRM, fixtures, scope grammar, dispatcher, fake LLM, validator, tests | Schema/scope/dispatcher tests pass; examples validate; fixture regenerates byte-identically; no LLM needed | **Done** |
 | 2 | Real OpenAI-compatible provider, agent runtime loop, retries/backoff, token+cost accounting, budget guard, cost estimator, traces | Fake clean read/write episodes run through runtime; no state persists; real provider fails loudly without key; free `/models` check; capped real smoke run | **Done** |
 | 3 | Injector, D1 prompt, D2 inspector (off/flag/quarantine), D3 provenance wrapper | Injection never changes trusted metadata/state; D2 positive/negative/adversarial tests; D3 delimiter-forging tests | **Done** |
-| 4 | D4 allowlist, D5 policy (4 granularities), D6 verifier (fake + real), oracle diagnostic | Full D5 matrix (role-but-not-requested, wrong record/field/value, cross-tenant, ambiguous, deny-by-default); D6 cannot override D5 | Pending |
+| 4 | D4 allowlist, D5 policy (4 granularities), D6 verifier (fake + real), oracle diagnostic | Full D5 matrix (role-but-not-requested, wrong record/field/value, cross-tenant, ambiguous, deny-by-default); D6 cannot override D5 | **Done** |
 | 5 | Dataset generator (target 120; 80 dev/40 held-out, grouped), private grader, metrics, runner, golden traces | Dataset validates; 4–8 scenario fake end-to-end run reproduces golden metrics | Pending |
 | 6 | Real-model pilot (approved), dev screening of 16 configs, finalist selection, D5/LOO ablations | Reproducible artifacts; paired analyses; honest denominators | Pending (paid) |
 | 7 | Held-out evaluation (approved), statistics, report, reproducibility check | Clean clone reproduces fake golden outputs; report numbers trace to artifacts | Pending (paid) |

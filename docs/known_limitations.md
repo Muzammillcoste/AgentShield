@@ -37,3 +37,9 @@ Living list; updated each phase.
     meaningful number. Paraphrased, multilingual and encoded payloads are missed (tested).
 16. **D3 cannot be validated with the fake agent.** Provenance marking only matters to a model
     that reads it; its effect is measurable only in real-model runs.
+17. **Mixed-model runs.** With quota fallback (D-040) different scenarios may be served by different
+    models; results are stratified by model, but per-model subsets may be unbalanced.
+18. **Attack delivery depends on the agent's path.** If the model never reads the injected record,
+    the attack is not delivered (observed with Gemini, D-041); delivery rates are reported.
+19. **Same-model verifier.** By default D6 uses the agent's model, so verifier and agent errors
+    may be correlated.
