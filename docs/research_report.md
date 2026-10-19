@@ -218,7 +218,6 @@ agent; dev labels are not human-verified. Zero observed executions is not zero r
 fixture and dataset byte-identically; `agentshield analyze --input results/<run>` recomputes every
 number here from stored traces (verified on a fresh clone: all 16 screening summaries identical).
 Run manifests record code commit, model, prompts, defense versions, dataset hash and budget.
-Decisions and deviations are logged in `docs/decisions.md` (D-001 … D-060).
 
 ## 11. Ethics
 

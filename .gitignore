@@ -30,3 +30,10 @@ results/*
 
 # Private project specification (kept local, not published)
 AgentShield_Codex_Master_Prompt.md
+
+# Internal working notes (kept locally, not part of the published project)
+docs/START_HERE.md
+docs/implementation_plan.md
+docs/development_log.md
+docs/decisions.md
+docs/label_review_dev.md
